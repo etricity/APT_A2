@@ -2,6 +2,9 @@
 
 all: qwirkle
 
+run: 
+	./qwirkle
+
 clean:
 	rm -rf qwirkle *.o *.dSYM
 
