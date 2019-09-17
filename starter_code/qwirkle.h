@@ -1,4 +1,6 @@
 #include "LinkedList.h"
+#include "Player.h"
+#include "Types.h"
 #include <iostream>
 
 #define EXIT_SUCCESS    0
@@ -16,3 +18,7 @@ void showInfo();
 //void quit();
 
 string userInput;
+
+Player * player1;
+Player * player2;
+Board board;

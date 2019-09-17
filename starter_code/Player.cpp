@@ -1,9 +1,9 @@
 #include "Player.h"
 
-Player::Player(string name, string studentId) {
+Player::Player(string name) {
     this->name = name;
-    this->studentId = studentId;
-    this->email = studentId + "@student.rmit.edu.au";
+    this->score = 0;
+    this->hand = new LinkedList();
 }
 
 Player::~Player() {
@@ -14,15 +14,15 @@ string Player::getName() {
     return name;
 }
 
-string Player::getStudentId() {
-    return studentId;
+int Player::getScore() {
+    return score;
 }
 
-string Player::getEmail() {
-    return email;
+void Player::addToScore(int points) {
+    this->score += points;
 }
 
-LinkedList Player::getHand() {
+LinkedList * Player::getHand() {
     return hand;
 }
 
