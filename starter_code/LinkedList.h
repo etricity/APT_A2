@@ -21,6 +21,7 @@ public:
     
     void remove_front();
     void remove(char colour, int shape);
+    Node* getHead();
     //containTile
     
     void clear();

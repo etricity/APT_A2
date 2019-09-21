@@ -53,12 +53,13 @@ void newGame() {
     //Allow user to create new players
     
     cout << "Enter the number of players (Max Players: 4)" << endl;
+    cout << "> ";
     cin >> userInput;
     
     int numPlayers = std::stoi(userInput);
     for(int i = 0; i < numPlayers; i++) {
         cout << "Enter a name for player " << i + 1 << " (uppercase characters only)" << endl;
-        cout << "<";
+        cout << "> ";
         cin >> userInput;
         std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
         players.push_back(new Player(userInput));
@@ -66,15 +67,26 @@ void newGame() {
     
     cout << endl << "Let's Play" << endl;
     
-    //Create new qwirkle game
-        //Create bag
+//Create new qwirkle game
+    //Create bag
     bag = generateBag();
 
-        //Fill player hands from bag
+    cout << endl << endl << endl;
     
-        //Create board
+    //Fill player hands from bag
+    for(Player* p: players) {
+        
+        for(int i = 0; i < 6; i++) {
+            p->getHand()->add_back(new Node(*bag->getHead()));
+            bag->remove_front();
+        }
+    }
     
     
+    //Generate board
+    
+    //Player turns- gameplay
+    gamePlay();
         /*Show all details
             - names of players
             - scores of players
@@ -149,13 +161,12 @@ LinkedList* generateBag() {
     Node* newNode = new Node(tilesInBag.front(), nullptr);
     bag->add_back(newNode);
     
-    //Addingg the remaining tiles to the Bag (all times - firstTile)
+    //Adding the remaining tiles to the Bag (all times - firstTile)
     for(int i = 1; i < tilesInBag.size(); i++)
     {
         newNode = new Node(tilesInBag.at(i), nullptr);
         bag->add_back(newNode);
     }
-    
     //Clean-up
     newTile = nullptr;
     newNode = nullptr;
@@ -163,4 +174,26 @@ LinkedList* generateBag() {
     delete newNode;
     
     return bag;
+}
+
+//Loops which alternates through player turns until someone wins or gameplay is saved/quit
+void gamePlay() {
+    for(Player* currentPlayer: players) {
+        //Current player
+        cout << currentPlayer->getName() << "'s turn." << endl;
+        //Printing scores of all players
+        for(Player* p: players) {
+            cout << p->getName() << " score: " << p->getScore() << endl;
+        }
+        //Printing board
+        cout << endl << "---------------------"<< "PLACEHOLDER FOR BOARD" << "---------------------" << endl << endl;
+        //Current player's hand
+        cout << "Your hand is..." << endl;
+        currentPlayer->getHand()->printList();
+        //Waiting for player input
+        cout << "> ";
+        
+        //Player takes an action
+        cout << "[PLAYER TAKES ACTION]" << endl << endl;
+    }
 }

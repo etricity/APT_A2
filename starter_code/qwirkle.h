@@ -21,6 +21,7 @@ void showInfo();
 //void quit();
 
 LinkedList* generateBag();
+void gamePlay();
 
 string userInput;
 

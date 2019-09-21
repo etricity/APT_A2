@@ -10,5 +10,16 @@ Node::Node(Tile* tile, Node* next)
 Node::Node(Node& other)
 {
     this->tile = other.tile;
-    this->next = other.next;
+    this->next = nullptr;
+}
+
+Node::~Node() {
+    clear();
+}
+
+void Node::clear() {
+    tile = nullptr;
+    //Attempting to either set next to nullptr or delete it causes a Seg Fault
+    //Needs to be further looked at for memmory deallocation 
+    delete tile;
 }

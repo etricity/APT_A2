@@ -17,16 +17,17 @@ int LinkedList::size(){
 }
 
 //Adds a node to the end of the list
-void LinkedList::add_back(Node* newNode){
+void LinkedList::add_back(Node* node){
     
     if(head == nullptr)
     {
-        head = newNode;
-        tail = newNode;
+        head = node;
+        tail = head;
     } else {
-        tail->next = newNode;
-        tail = newNode;
+        tail->next = node;
+        tail = node;
     }
+    //FIX THIS --> tail->next must be nullptr
     numNodes++;
 }
 
@@ -34,6 +35,7 @@ void LinkedList::add_back(Node* newNode){
 void LinkedList::remove_front(){
     
     if(head != nullptr){
+        delete head;
         head = head->next;
         numNodes--;
     }
@@ -61,6 +63,10 @@ void LinkedList::remove(char colour, int shape){
     numNodes--;
 }
 
+Node* LinkedList::getHead() {
+    return head;
+}
+
 //Deallocated all memmory for all nodes in the list
 void LinkedList::clear(){
     Node* current = head;
@@ -81,8 +87,12 @@ void LinkedList::printList(){
     Node* temp = head;
     cout << "Bag Size: " << size() << endl;
     for(int i = 0; i < numNodes; i++){
-        cout << temp->tile->colour
-                << temp->tile->shape <<endl;
+        cout << temp->tile->colour << temp->tile->shape;
+        
+        if(temp->next != nullptr) {
+            cout << ", ";
+        }
         temp = temp->next;
     }
+    cout << endl;
 }
