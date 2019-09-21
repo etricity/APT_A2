@@ -2,6 +2,9 @@
 #include "Player.h"
 #include "Types.h"
 #include <iostream>
+#include <vector>
+#include <random>
+#include <chrono>  
 
 #define EXIT_SUCCESS    0
 
@@ -17,8 +20,11 @@ void loadGame();
 void showInfo();
 //void quit();
 
+LinkedList* generateBag();
+void gamePlay();
+
 string userInput;
 
-Player * player1;
-Player * player2;
+vector<Player *> players;
 Board board;
+LinkedList* bag; 

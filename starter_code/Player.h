@@ -9,14 +9,16 @@ public:
     Player(string name);
     ~Player();
     
-    string name;
-    int score;
-    LinkedList * hand;
     
     string getName();
     int getScore();
     void addToScore(int points);
     LinkedList * getHand();
+    
+private:
+    string name;
+    int score;
+    LinkedList * hand;
     
     void clear();
 };
