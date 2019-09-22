@@ -197,3 +197,15 @@ void gamePlay() {
         cout << "[PLAYER TAKES ACTION]" << endl << endl;
     }
 }
+
+void setPlayer(string line){
+}
+
+void setBoard(string line){
+}
+
+void setBag(string line){
+}
+
+void setCurrentPlayer(string line){
+}

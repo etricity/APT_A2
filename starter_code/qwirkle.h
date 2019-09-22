@@ -5,6 +5,7 @@
 #include <vector>
 #include <random>
 #include <chrono>  
+#include <string>
 
 #define EXIT_SUCCESS    0
 
@@ -19,6 +20,10 @@ void newGame();
 void loadGame();
 void showInfo();
 //void quit();
+void setPlayer(string line);
+void setBoard(string line);
+void setBag(string line);
+void setCurrentPlayer(string line);
 
 LinkedList* generateBag();
 void gamePlay();
