@@ -1,7 +1,12 @@
+
+#include "Types.h"
 #include "LinkedList.h"
 #include "Player.h"
-#include "Types.h"
+#include "FileIO.h"
 #include <iostream>
+#include <vector>
+#include <random>
+#include <chrono>  
 
 #define EXIT_SUCCESS    0
 
@@ -9,6 +14,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+using std::vector;
 
 void printMenu();
 
@@ -17,8 +23,11 @@ void loadGame();
 void showInfo();
 //void quit();
 
+LinkedList* generateBag();
+void gamePlay();
+
 string userInput;
 
-Player * player1;
-Player * player2;
+vector<Player *> players;
 Board board;
+LinkedList* bag; 
