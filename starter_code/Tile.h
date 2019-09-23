@@ -10,7 +10,7 @@ typedef int Shape;
 class Tile {
 public:
    Tile(Colour colour, Shape shape);
-   Tile(Tile& tile);
+   Tile(const Tile& tile);
 
    char getColour();
    int getShape();
