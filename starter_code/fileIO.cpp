@@ -1,68 +1,70 @@
-#include "fileIO.h"
+#include "FileIO.h"
 
-fileIO::fileIO(string filename, bool save)
+FileIO::FileIO(string filename, bool save)
 {
-	if(save)
-	{
-		myFile.open(filename+".save");
-	}
-	else
-	{
-		file.open(filename);
-	}	
+    outputFile.open("saveData.txt");
 }
 
-fileIO::~fileIO()
+FileIO::~FileIO()
 {
-
+    outputFile.close();
 }
 
-string fileIO::save(std::vector<Player *> & players, std::vector< std::vector<string> > & board, LinkedList* bag, int current)
+string FileIO::save(std::vector<Player *> & players, std::vector< std::vector<char> > & board, LinkedList* bag, int current)
 {
-	savePlayers(players);
+	savePlayers(players, current);
 	saveBoard(board);
 	saveBag(bag);
-	saveCurrentPlayer(players, current);
-	myFile.close();
 	return "Game Successfully Saved";
 }
 
-void fileIO::savePlayers(const std::vector<Player *> & players)
+void FileIO::savePlayers(const std::vector<Player *> & players, int current)
 {
 	for(int i=0; i<players.size() ; i++)
 	{
-		myFile<<players[i]->getName()<<endl;
-		myFile<<players[i]->getScore()<<endl;
-		myFile<<players[i]->getHand()->toString()<<endl;
+        outputFile<<players[i]->getName() << ":" << players[i]->getScore()
+        << ":" << players[i]->getHand()->toString();
 	}
-	myFile<<endl;
+    outputFile<<players[current]->getName() << endl;
 }
 
-void fileIO::saveBoard(const std::vector< std::vector<string> > & board)
+void FileIO::saveBoard(const std::vector< std::vector<char> > & board)
 {
 	for (int i = 0; i < board.size(); i++) 
 	{ 
         for (int j = 0; j < board[i].size(); j++) 
         {
-            myFile<<board[i][j]; 
+        outputFile <<board[i][j];
         }
-        myFile<<endl; 
-    } 
-    myFile<<endl;
+        outputFile<<endl;
+    }
+    outputFile << "-----BAG TO BE SAVED HERE-----" << endl;
+    outputFile<<endl;
 }
 
-void fileIO::saveBag(LinkedList* bag)
+void FileIO::saveBag(LinkedList* bag)
 {
-	myFile<<bag->toString();
-	myFile<<endl;
+	outputFile<<bag->toString();
+	outputFile<<endl;
 }
 
-void fileIO::saveCurrentPlayer(const std::vector<Player *> & players, int current)
-{
-	myFile<<players[current]->getName();
-}
+// void FileIO::load(qwirkle* game)
+// {
+// 	if(file.is_open())
+// 	{
+// 		loadPlayers();
+// 		loadBoard();
+// 		loadBag();
+// 		loadCurrentPlayer();
+// 	}
+// 	else
+// 	{
+// 		throw std::runtime_error("Sorry file does not exist, please try again.");
+// 	}
+// 	file.close();
+// }
 
-// void fileIO::loadPlayers()
+// void FileIO::loadPlayers(qwirkle* game)
 // {
 // 	bool exit = false;
 // 	while(!exit && !file.eof())
@@ -85,7 +87,7 @@ void fileIO::saveCurrentPlayer(const std::vector<Player *> & players, int curren
 // 	}
 // }
 
-// void fileIO::loadBoard()
+// void FileIO::loadBoard(qwirkle* game)
 // {
 // 	bool exit = false;
 // 	string lineContents = "";
@@ -103,7 +105,7 @@ void fileIO::saveCurrentPlayer(const std::vector<Player *> & players, int curren
 // 	}
 // }
 
-// void fileIO::loadBag()
+// void FileIO::loadBag(qwirkle* game)
 // {
 // 	bool exit = false;
 // 	string lineContents = "";
@@ -121,7 +123,7 @@ void fileIO::saveCurrentPlayer(const std::vector<Player *> & players, int curren
 // 	}
 
 // }
-// void fileIO::loadCurrentPlayer()
+// void FileIO::loadCurrentPlayer(qwirkle* game)
 // {
 // 	bool exit = false;
 // 	string lineContents = "";
@@ -138,20 +140,3 @@ void fileIO::saveCurrentPlayer(const std::vector<Player *> & players, int curren
 // 		}
 // 	}
 // }
-
-bool fileIO::checkFile()
-{
-	if(file.is_open())
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-void fileIO::closeFile()
-{
-	file.close();
-}

@@ -1,6 +1,7 @@
-#ifndef ASSIGN2_PLAYER_H
-#define ASSIGN2_PLAYER_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
+#include "Tile.h"
 #include "LinkedList.h"
 #include <string>
 
@@ -26,4 +27,4 @@ private:
     void clear();
 };
 
-#endif // ASSIGN2_PLAYER_H
+#endif

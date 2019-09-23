@@ -1,10 +1,7 @@
 #include "qwirkle.h"
 
 int main(void) {
-    LinkedList* list = new LinkedList();
-    list->add_back(new Node(new Tile(GREEN, CIRCLE), nullptr));
-    list->remove(GREEN, CIRCLE);
-    delete list;
+    
 
     //TODO Menu Interface
     cout << endl<< "Welcome to Qwirkle!" << endl;
@@ -28,6 +25,8 @@ int main(void) {
         } else if(userInput == "3") {
             showInfo();
         } else if(userInput == "4") {
+            FileIO * saver = new FileIO("test", false);
+            saver->save(players, board, bag, 0);
             cout << "Goodbye!" << endl << endl;;
         } else {
             cout << "Invalid Input" << endl;
@@ -98,36 +97,14 @@ void newGame() {
     //Proceed to gameplay
 }
 
-void saveGame()
-{
-    string filename = ""; 
-    cout<<"Please enter a filename"<<endl;
-    cin>>filename;
-    fileIO myFile(filename, true);
-    cout<<file.saveGame(players, board, bag, current)<<endl;
-}
-
-void loadGame() 
-{
-
-    string filename = ""; 
-    cout<<"Please enter a filename"<<endl;
-    cin>>filename;
-    fileIO *myFile = new fileIO(filename, false);
-    if(file->checkFile())
-    {
-        cout << "Loading Game...." << endl;
-        loadPlayers(myFile);
-        loadBoard(myFile);
-        loadBag(myFile);
-        loadCurrentPlayer(myFile);
-        myFile->closeFile();
-        cout << "Game Succesfully Loaded" << endl;
-    }
-    else
-    {
-        cout<<"Sorry the file does not exist"<<endl;
-    }
+void loadGame() {
+     cout << "Loading game...." << endl;
+    
+    //Let user enter filename
+    
+    //Check that file exists
+    
+    //Check format of file is correct
 }
 
 void showInfo() {
@@ -211,23 +188,12 @@ void gamePlay() {
         cout << endl << "---------------------"<< "PLACEHOLDER FOR BOARD" << "---------------------" << endl << endl;
         //Current player's hand
         cout << "Your hand is..." << endl;
-        currentPlayer->getHand()->printList();
+        cout << "Bag Size: " << currentPlayer->getHand()->size() << endl;
+        cout << currentPlayer->getHand()->toString();
         //Waiting for player input
         cout << "> ";
         
         //Player takes an action
         cout << "[PLAYER TAKES ACTION]" << endl << endl;
     }
-}
-
-void loadPlayers(fileIO* myFile){
-}
-
-void loadBoard(fileIO* myFile){
-}
-
-void loadBag(fileIO* myFile){
-}
-
-void loadCurrentPlayer(fileIO* myFile){
 }

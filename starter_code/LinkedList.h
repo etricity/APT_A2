@@ -1,13 +1,15 @@
-
-#ifndef ASSIGN2_LINKEDLIST_H
-#define ASSIGN2_LINKEDLIST_H
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
 
 #include "Node.h"
 #include "TileCodes.h"
 #include <iostream>
+#include <string>
+#include <sstream>
 
 using std::cout;
 using std::endl;
+using std::string;
 
 class LinkedList {
 public:
@@ -26,7 +28,7 @@ public:
     
     void clear();
     //testing only
-    void printList();
+    string toString();
 
 private:
     Node* head;
@@ -34,4 +36,4 @@ private:
     int numNodes; 
 };
 
-#endif // ASSIGN2_LINKEDLIST_H
+#endif 

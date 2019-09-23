@@ -82,17 +82,19 @@ void LinkedList::clear(){
 }
 
 //Test purposes only (delete for final submission)
-void LinkedList::printList(){
+string LinkedList::toString(){
+    std::ostringstream oss;
     
     Node* temp = head;
-    cout << "Bag Size: " << size() << endl;
     for(int i = 0; i < numNodes; i++){
-        cout << temp->tile->colour << temp->tile->shape;
-        
+        oss << temp->tile->colour << temp->tile->shape;
+
         if(temp->next != nullptr) {
-            cout << ", ";
+            oss << ", ";
         }
         temp = temp->next;
     }
-    cout << endl;
+    oss << endl;
+    string listString = oss.str();
+    return listString;
 }

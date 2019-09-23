@@ -1,6 +1,5 @@
-
-#ifndef ASSIGN2_TILE_H
-#define ASSIGN2_TILE_H
+#ifndef TILE_H
+#define TILE_H
 
 // Define a Colour type
 typedef char Colour;
@@ -18,4 +17,4 @@ public:
     Shape  shape;
 };
 
-#endif // ASSIGN2_TILE_H
+#endif 

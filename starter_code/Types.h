@@ -1,5 +1,9 @@
+#ifndef QWIRKLE_H
+#define QWIRKLE_H
 #include <vector>
 
 using std::vector;
 
-typedef vector<vector<int>> Board;
+typedef vector<vector<char>> Board;
+
+#endif

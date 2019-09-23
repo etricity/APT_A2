@@ -1,6 +1,5 @@
-
-#ifndef ASSIGN2_NODE_H
-#define ASSIGN2_NODE_H
+#ifndef NODE_H
+#define NODE_H
 
 #include "Tile.h"
 
@@ -16,4 +15,4 @@ public:
    Node*    next;
 };
 
-#endif // ASSIGN2_NODE_H
+#endif 
