@@ -1,7 +1,3 @@
-//
-// Created by Andrew Ellis on 2019-09-21.
-//
-
 #include "GameMechanics.h"
 
 #define     COORD_SIZE   2
