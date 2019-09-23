@@ -2,4 +2,4 @@
 
 using std::vector;
 
-typedef vector<vector<int>> Board;
+typedef vector<vector<char>> Board;
