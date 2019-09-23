@@ -1,3 +1,6 @@
+#ifndef ASSIGN2_PLAYER_H
+#define ASSIGN2_PLAYER_H
+
 #include "LinkedList.h"
 #include <string>
 
@@ -22,3 +25,5 @@ private:
     
     void clear();
 };
+
+#endif // ASSIGN2_PLAYER_H

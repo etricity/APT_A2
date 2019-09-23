@@ -1,6 +1,7 @@
 #include "LinkedList.h"
 #include "Player.h"
 #include "Types.h"
+#include "fileIO.h"
 #include <iostream>
 #include <vector>
 #include <random>
@@ -18,12 +19,13 @@ void printMenu();
 
 void newGame();
 void loadGame();
+void saveGame();
 void showInfo();
 //void quit();
-void setPlayer(string line);
-void setBoard(string line);
-void setBag(string line);
-void setCurrentPlayer(string line);
+void loadPlayers(fileIO* myFile);
+void loadBoard(fileIO* myFile);
+void loadBag(fileIO* myFile);
+void loadCurrentPlayer(fileIO* myFile);
 
 LinkedList* generateBag();
 void gamePlay();
@@ -33,3 +35,4 @@ string userInput;
 vector<Player *> players;
 Board board;
 LinkedList* bag; 
+int current;

@@ -62,23 +62,7 @@ void fileIO::saveCurrentPlayer(const std::vector<Player *> & players, int curren
 	myFile<<players[current]->getName();
 }
 
-// void fileIO::load(qwirkle* game)
-// {
-// 	if(file.is_open())
-// 	{
-// 		loadPlayers();
-// 		loadBoard();
-// 		loadBag();
-// 		loadCurrentPlayer();
-// 	}
-// 	else
-// 	{
-// 		throw std::runtime_error("Sorry file does not exist, please try again.");
-// 	}
-// 	file.close();
-// }
-
-// void fileIO::loadPlayers(qwirkle* game)
+// void fileIO::loadPlayers()
 // {
 // 	bool exit = false;
 // 	while(!exit && !file.eof())
@@ -101,7 +85,7 @@ void fileIO::saveCurrentPlayer(const std::vector<Player *> & players, int curren
 // 	}
 // }
 
-// void fileIO::loadBoard(qwirkle* game)
+// void fileIO::loadBoard()
 // {
 // 	bool exit = false;
 // 	string lineContents = "";
@@ -119,7 +103,7 @@ void fileIO::saveCurrentPlayer(const std::vector<Player *> & players, int curren
 // 	}
 // }
 
-// void fileIO::loadBag(qwirkle* game)
+// void fileIO::loadBag()
 // {
 // 	bool exit = false;
 // 	string lineContents = "";
@@ -137,7 +121,7 @@ void fileIO::saveCurrentPlayer(const std::vector<Player *> & players, int curren
 // 	}
 
 // }
-// void fileIO::loadCurrentPlayer(qwirkle* game)
+// void fileIO::loadCurrentPlayer()
 // {
 // 	bool exit = false;
 // 	string lineContents = "";
@@ -154,3 +138,20 @@ void fileIO::saveCurrentPlayer(const std::vector<Player *> & players, int curren
 // 		}
 // 	}
 // }
+
+bool fileIO::checkFile()
+{
+	if(file.is_open())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void fileIO::closeFile()
+{
+	file.close();
+}

@@ -3,7 +3,6 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <stdexcept>
 
 using std::string;
 using std::ifstream;
@@ -19,11 +18,12 @@ public:
 	void saveBoard(const std::vector< std::vector<string> > & board);
 	void saveBag(LinkedList* bag);
 	void saveCurrentPlayer(const std::vector<Player *> & players, int current);
-	// void load(qwirkle* game);
-	// void loadPlayers(qwirkle* game);
-	// void loadBoard(qwirkle* game);   
-	// void loadBag(qwirkle* game);
-	// void loadCurrentPlayer(qwirkle* game);
+	// std::vector<Player *> loadPlayers();
+	// std::vector< std:vector<string> > loadBoard();   
+	// LinkedList* loadBag();
+	// int loadCurrentPlayer();
+	bool checkFile();
+	void closeFile();
 
 private:
 	ifstream file;

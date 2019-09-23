@@ -98,14 +98,36 @@ void newGame() {
     //Proceed to gameplay
 }
 
-void loadGame() {
-     cout << "Loading game...." << endl;
-    
-    //Let user enter filename
-    
-    //Check that file exists
-    
-    //Check format of file is correct
+void saveGame()
+{
+    string filename = ""; 
+    cout<<"Please enter a filename"<<endl;
+    cin>>filename;
+    fileIO myFile(filename, true);
+    cout<<file.saveGame(players, board, bag, current)<<endl;
+}
+
+void loadGame() 
+{
+
+    string filename = ""; 
+    cout<<"Please enter a filename"<<endl;
+    cin>>filename;
+    fileIO *myFile = new fileIO(filename, false);
+    if(file->checkFile())
+    {
+        cout << "Loading Game...." << endl;
+        loadPlayers(myFile);
+        loadBoard(myFile);
+        loadBag(myFile);
+        loadCurrentPlayer(myFile);
+        myFile->closeFile();
+        cout << "Game Succesfully Loaded" << endl;
+    }
+    else
+    {
+        cout<<"Sorry the file does not exist"<<endl;
+    }
 }
 
 void showInfo() {
@@ -198,14 +220,14 @@ void gamePlay() {
     }
 }
 
-void setPlayer(string line){
+void loadPlayers(fileIO* myFile){
 }
 
-void setBoard(string line){
+void loadBoard(fileIO* myFile){
 }
 
-void setBag(string line){
+void loadBag(fileIO* myFile){
 }
 
-void setCurrentPlayer(string line){
+void loadCurrentPlayer(fileIO* myFile){
 }
