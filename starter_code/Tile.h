@@ -12,8 +12,8 @@ public:
    Tile(Colour colour, Shape shape);
    Tile(const Tile& tile);
 
-   char getColour();
-   int getShape();
+   Colour getColour();
+   Shape getShape();
 
 private:
     Colour colour;
