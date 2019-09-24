@@ -87,11 +87,11 @@ void Board::initBoard(){
 void Board::print(){
     for (int i=0;i<board.size();i++) {
         for (int j=0;j<board [i].size();j++) {
-            std::cout<<board[i][j];
+            std::cout << board[i][j];
         }
         std::cout<<std::endl;
-        std::cout<<std::endl;
     }
+    std::cout<<std::endl;
 }
 
 //add a tile (provides no validation, invalid coords (eg (1,1)/(1,A)) must not be passed)
