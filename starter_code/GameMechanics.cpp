@@ -29,27 +29,30 @@ bool GameMechanics::checkPosition(Tile newTile, PosPtr newPos, PosVec list){
 
 bool GameMechanics::isQwirkle(Tile newTile, PosPtr newPos, PosVec list){
     bool response = false;
-    bool canBePlaced = false;
-
-    if(checkPosition(newTile, newPos, list)) {
-        canBePlaced = true;
-    }
-
-    for(PosPtr checkPos : list){
-        if(areTilesNeighbours(newPos, checkPos)
-           && !isTileTheSame(newTile, checkPos->getTile()) ) {
-
-            PosVec tempList = getTilesInRow(newPos, checkPos, list);
-
-            if (canBePlaced && tempList.size() == QWIRKLE-1 && !doesTileExistInLine(newTile, newPos, list)) {
-                response = true;
-            }
-            tempList.clear();
-        }
+    if(numberOfQwirkles(newTile, newPos, list) > 0){
+        response = true;
     }
     return response;
 };
-//int GameMechanics::getPoints(Tile newTile, PosPtr newPos, PosVec list);
+int GameMechanics::getPoints(Tile newTile, PosPtr newPos, PosVec list){
+    int points = 0;
+
+    if(checkPosition(newTile, newPos, list)){
+        for(PosPtr checkPos : list){
+            if(areTilesNeighbours(newPos, checkPos)
+                && !isTileTheSame(newTile, checkPos->getTile())) {
+
+                PosVec tempList = getTilesInRow(newPos, checkPos, list);
+                //The +1 is to account for the tile being placed
+                points += tempList.size()+1;
+            }
+        }
+    }
+    //Counts the number of possible Qwikles and multiplies by 6
+    points += isQwirkle(newTile, newPos, list) * QWIRKLE;
+
+    return points;
+}
 
 bool GameMechanics::areTilesNeighbours(PosPtr newPos, PosPtr checkPos){
     if(newPos == nullptr || checkPos == nullptr){throw std::runtime_error("A tile is set to nullptr");}
@@ -89,6 +92,7 @@ bool GameMechanics::isTileTheSame(Tile newTile, Tile checkTile){
     }
     return response;
 }
+//Looks for all tiles in a laid line
 bool GameMechanics::doesTileExistInLine(Tile checkTile, PosPtr newPos, PosVec list){
     bool response = false;
     bool itExists = false;
@@ -118,7 +122,7 @@ bool GameMechanics::doesTileExistInLine(Tile checkTile, PosPtr newPos, PosVec li
     }
     return response;
     }
-
+//Get the total amount of tiles in a legal laid down row
 PosVec GameMechanics::getTilesInRow(PosPtr newPos, PosPtr checkPos, PosVec list){
     PosVec tempList;
     //Finds the linear regression of the connections
@@ -140,6 +144,7 @@ PosVec GameMechanics::getTilesInRow(PosPtr newPos, PosPtr checkPos, PosVec list)
     return tempList;
 }
 
+//Check the possible row for any repeats of the same tile
 bool GameMechanics::canTileBePlaced(Tile newTile, PosPtr newPos, PosVec list){
     bool response = false;
     bool sameNeighbour = false;
@@ -161,4 +166,25 @@ bool GameMechanics::canTileBePlaced(Tile newTile, PosPtr newPos, PosVec list){
         response = false;
     }
     return response;
+}
+int GameMechanics::numberOfQwirkles(Tile newTile, PosPtr newPos, PosVec list){
+    int count = 0;
+    bool canBePlaced = false;
+
+    if(checkPosition(newTile, newPos, list)) {
+        canBePlaced = true;
+    }
+    for(PosPtr checkPos : list){
+        if(areTilesNeighbours(newPos, checkPos)
+           && !isTileTheSame(newTile, checkPos->getTile()) ) {
+
+            PosVec tempList = getTilesInRow(newPos, checkPos, list);
+
+            if (canBePlaced && tempList.size() == QWIRKLE-1) {
+                count++;
+            }
+            tempList.clear();
+        }
+    }
+    return count;
 }
