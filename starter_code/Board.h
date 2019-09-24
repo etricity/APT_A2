@@ -4,6 +4,7 @@
 #endif //APT_A2_BOARD_H
 
 #include "TileCodes.h"
+#include "Tile.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -17,11 +18,14 @@ public:
     ~Board();
 
     void initBoard();
-    void addTile();
+    void print();
+    void addTile(int xCoord, int yCoord
+    //        , Tile tile
+            );
 
 private:
 
- //   std::vector<std::vector<std::string> > vec;
+    std::vector<std::vector<std::string> > board;
 
     int xSize;
     int ySize;

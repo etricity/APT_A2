@@ -11,10 +11,8 @@ Board::~Board(){
 }
 
 void Board::initBoard(){
-// The board:
-    std::vector <std::vector <std::string> > board ;
 
-// The initial row containers:
+    // The initial row containers:
     std::vector <std::string> rowOne;
     std::vector <std::string> rowTwo;
 
@@ -70,7 +68,11 @@ void Board::initBoard(){
     }
     board.emplace_back(rowTwo);
 
-// Print the matrix
+// Print the board
+    print();
+}
+
+void Board::print(){
     for (int i=0;i<board.size();i++) {
         for (int j=0;j<board [i].size();j++) {
             std::cout<<board[i][j];
@@ -80,3 +82,15 @@ void Board::initBoard(){
     }
 }
 
+void Board::addTile(int xCoord, int yCoord
+//        , Tile tile
+        ){
+    //tile.getCode() or similar to get tile code as a string
+    //use a dummy string for now
+    std::string tileCode = "R2";
+    std::string newTile = " " + tileCode;
+    board[yCoord+2][xCoord+1]= newTile;
+
+    std::cout<<std::endl;
+    print();
+}
