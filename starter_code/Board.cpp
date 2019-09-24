@@ -4,7 +4,6 @@ Board::Board(int xSize, int ySize){
     this->xSize = xSize;
     this->ySize = ySize;
     initBoard();
-//    print();
 }
 
 Board::~Board(){
@@ -21,12 +20,20 @@ void Board::initBoard(){
 
 // The creation of the initial rows:
     for(int i = 0;i<xSize;i++){
-        std::string row1 = " " + std::to_string(i) + " ";
+        std::string row1;
+        if(i==0){
+            rowOne.emplace_back(" ");
+        }
+        if(i<10) {
+            row1 = " " + std::to_string(i) + " ";
+        }else{
+            row1 = " " + std::to_string(i);
+        }
         rowOne.emplace_back(row1);
 
         std::string row2;
         if(i==0){
-            row2 = " --";
+            row2 = "  --";
         }else{
             row2 = "---";
         }

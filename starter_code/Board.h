@@ -17,7 +17,7 @@ public:
     ~Board();
 
     void initBoard();
-    void print();
+    void addTile();
 
 private:
 
