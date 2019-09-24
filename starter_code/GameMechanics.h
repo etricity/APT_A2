@@ -20,6 +20,8 @@ class GameMechanics {
 
 public:
     bool checkPosition(Tile newTile, PosPtr newPos, PosVec list);
+    bool isQwirkle(Tile newTile, PosPtr newPos, PosVec list);
+    //int getPoints(Tile newTile, PosPtr newPos, PosVec list);
 
 private:
     bool areTilesNeighbours(PosPtr newPos, PosPtr checkPos);
@@ -28,6 +30,7 @@ private:
     bool doTilesMatchShape(Tile newTile, Tile checkTile);
     bool isTileTheSame(Tile newTile, Tile checkTile);
     bool doesTileExistInLine(Tile checkTile, PosPtr newPos, PosVec list);
+    PosVec getTilesInRow(PosPtr newPos, PosPtr checkPos, PosVec list);
     bool canTileBePlaced(Tile newTile, PosPtr newPos, PosVec list);
 
 };

@@ -1,8 +1,10 @@
 #include "GameMechanics.h"
+#include <stdexcept>
 
 #define     COORD_SIZE   2
 #define     COORD_POST   1
 #define     COORD_NEG    -1
+#define     QWIRKLE      6
 
 /*
  Check if the position is available for placement,
@@ -24,6 +26,30 @@ bool GameMechanics::checkPosition(Tile newTile, PosPtr newPos, PosVec list){
     }
     return response;
 }
+
+bool GameMechanics::isQwirkle(Tile newTile, PosPtr newPos, PosVec list){
+    bool response = false;
+    bool canBePlaced = false;
+
+    if(checkPosition(newTile, newPos, list)) {
+        canBePlaced = true;
+    }
+
+    for(PosPtr checkPos : list){
+        if(areTilesNeighbours(newPos, checkPos)
+           && !isTileTheSame(newTile, checkPos->getTile()) ) {
+
+            PosVec tempList = getTilesInRow(newPos, checkPos, list);
+
+            if (canBePlaced && tempList.size() == QWIRKLE-1 && !doesTileExistInLine(newTile, newPos, list)) {
+                response = true;
+            }
+            tempList.clear();
+        }
+    }
+    return response;
+};
+//int GameMechanics::getPoints(Tile newTile, PosPtr newPos, PosVec list);
 
 bool GameMechanics::areTilesNeighbours(PosPtr newPos, PosPtr checkPos){
     if(newPos == nullptr || checkPos == nullptr){throw std::runtime_error("A tile is set to nullptr");}
@@ -66,27 +92,14 @@ bool GameMechanics::isTileTheSame(Tile newTile, Tile checkTile){
 bool GameMechanics::doesTileExistInLine(Tile checkTile, PosPtr newPos, PosVec list){
     bool response = false;
     bool itExists = false;
-    PosVec tempList;
 
     for(PosPtr pos: list){
         if(areTilesNeighbours(newPos, pos)
          && !isTileTheSame(checkTile, pos->getTile()) ){
-            //Finds the linear regression of the connections
-            int x = pos->getX() - newPos->getX();
-            int y = pos->getY() - newPos->getY();
-            tempList.push_back(pos);
 
-            bool searchExhausted = false;
-            do {
-                searchExhausted = true;
-                for (PosPtr row: list) {
-                    if (row->getX() == tempList.back()->getX() + x
-                        && row->getY() == tempList.back()->getY() + y) {
-                        tempList.push_back(row);
-                        searchExhausted = false;
-                    }
-                }
-            }while(!searchExhausted);
+            //Call a method that creates a list of all tiles in a single line
+            PosVec tempList = getTilesInRow(newPos, pos, list);
+
             for(PosPtr temp : tempList){
                 if(isTileTheSame(checkTile, temp->getTile())){
                     itExists = true;
@@ -106,11 +119,31 @@ bool GameMechanics::doesTileExistInLine(Tile checkTile, PosPtr newPos, PosVec li
     return response;
     }
 
+PosVec GameMechanics::getTilesInRow(PosPtr newPos, PosPtr checkPos, PosVec list){
+    PosVec tempList;
+    //Finds the linear regression of the connections
+    int x = checkPos->getX() - newPos->getX();
+    int y = checkPos->getY() - newPos->getY();
+    tempList.push_back(checkPos);
+
+    bool searchExhausted = false;
+    do {
+        searchExhausted = true;
+        for (PosPtr row: list) {
+            if (row->getX() == tempList.back()->getX() + x
+                && row->getY() == tempList.back()->getY() + y) {
+                tempList.push_back(row);
+                searchExhausted = false;
+            }
+        }
+    }while(!searchExhausted);
+    return tempList;
+}
+
 bool GameMechanics::canTileBePlaced(Tile newTile, PosPtr newPos, PosVec list){
     bool response = false;
     bool sameNeighbour = false;
     //posDif assists checking all
-    int posDif[COORD_SIZE] = {COORD_POST,COORD_NEG};
     for(PosPtr pos : list){
         if(areTilesNeighbours(newPos, pos)
             && ( doTilesMatchColour(newTile, pos->getTile())
