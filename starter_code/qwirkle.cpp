@@ -1,7 +1,37 @@
 #include "qwirkle.h"
 
-int main(void) {
-    
+int main(int argc, char* argv[]) {
+
+    /*
+     * Start of GameMechanics Test
+     * To run test just type <GameMechanicsTest>
+     */
+    std::ifstream fileInput;
+    std::ofstream fileOutput;
+
+    if(argv[1] != nullptr && std::string(argv[1]) == "GameMechanicsTest"){
+        std::string filename = std::string(argv[1]);
+        filename = TESTCASES + filename + ".in";
+
+        std::string outputFile = std::string(argv[1]);
+        outputFile = TESTCASES + outputFile + ".gameout";
+
+        fileInput.open(filename);
+        fileOutput.open(outputFile);
+
+        if (!fileInput) {
+            throw std::runtime_error("File does not exist");
+        }
+        testGameMechanics(fileInput, fileOutput);
+        //will remove later
+        return 0;
+    }
+    if(argc < 1){
+        std::cout << '\n' << "To run the GameMechanics Test you must enter a file name eg. <filename.in>" << std::endl;
+    }
+    /*
+     * End of GameMechanics Test
+     */    
 
     //TODO Menu Interface
     cout << endl<< "Welcome to Qwirkle!" << endl;
@@ -230,4 +260,57 @@ void loadBag(FileIO* myFile){
 }
 
 void loadCurrentPlayer(FileIO* myFile){
+}
+
+void testGameMechanics(std::ifstream& fileInput, std::ofstream& fileOutput){
+    PosVec board;
+    GameMechanics rules;
+
+    while(!fileInput.eof()) {
+        std::string word = "";
+        fileInput >> word;
+        if(word == "load"){
+            fileInput >> word;
+            while(!fileInput.eof() && word != "play") {
+                PosPtr pos = new BoardPosition(word.at(1)-'0', word.at(0)-65);
+                fileInput >> word;
+                pos->setTile(new Tile(word.at(0), word.at(1)-'0'));
+                board.push_back(pos);
+                fileInput >> word;
+            }
+        }
+        if(word == "play"){
+            fileInput >> word;
+            while(!fileInput.eof()){
+                PosPtr pos = new BoardPosition(word.at(1)-'0', word.at(0)-65);
+                fileInput >> word;
+                Tile* tile = new Tile(word.at(0), word.at(1)-'0');
+                if(!rules.checkPosition(*tile, pos, board)){
+                    fileOutput << "Invalid Move\n";
+                }
+                else{
+                    fileOutput << "Valid Move\n";
+                }
+                if(rules.isQwirkle(*tile, pos, board)){
+                    fileOutput << "Qwirkle!!\n";
+                }
+                else{
+                    fileOutput << "Not Qwirkle\n";
+                }
+                fileOutput << rules.getPoints(*tile, pos, board) << std::endl;
+
+                if(rules.checkPosition(*tile, pos, board)){
+                    pos->setTile(tile);
+                    board.push_back(pos);
+                }
+                fileInput >> word;
+            }
+        }
+    }
+    for(PosPtr pos : board){
+        delete pos;
+        pos = nullptr;
+    }
+    fileInput.close();
+    fileOutput.close();
 }

@@ -4,15 +4,18 @@
 #include "Board.h"
 #include "LinkedList.h"
 #include "Player.h"
-#include "FileIO.h"
+#include "fileIO.h"
 #include "GameMechanics.h"
 #include "BoardPosition.h"
 
 #include <iostream>
 #include <vector>
 #include <random>
-#include <chrono>  
+#include <chrono>
+#include <stdexcept>
+#include <fstream>  
 
+#define TESTCASES       "./TestCases/"
 #define EXIT_SUCCESS    0
 
 using std::cout;
@@ -21,6 +24,7 @@ using std::endl;
 using std::string;
 using std::vector;
 
+    void testGameMechanics(std::ifstream& input, std::ofstream& fileOutput);
 
     void printMenu();
 
