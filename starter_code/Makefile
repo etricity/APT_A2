@@ -8,7 +8,7 @@ run:
 clean:
 	rm -rf qwirkle *.o *.dSYM
 
-qwirkle: Tile.o Node.o LinkedList.o qwirkle.o
+qwirkle: Tile.o Node.o LinkedList.o qwirkle.o GameMechanics.o BoardPosition.o Board.o fileIO.o Player.o
 	g++ -Wall -Werror -std=c++14 -g -O -o $@ $^
 
 %.o: %.cpp
