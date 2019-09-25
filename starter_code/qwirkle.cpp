@@ -26,7 +26,8 @@ int main(void) {
             showInfo();
         } else if(userInput == "4") {
             FileIO * saver = new FileIO("test", false);
-            saver->save(players, board, bag, 0);
+            //remove magic number using a currentPlayerIndex
+            saver->save(players, board, bag, currentPlayer);
             cout << "Goodbye!" << endl << endl;;
         } else {
             cout << "Invalid Input" << endl;
@@ -83,6 +84,7 @@ void newGame() {
     
     
     //Generate board
+    board = new Board(26,26);
     
     //Player turns- gameplay
     gamePlay();
@@ -177,7 +179,8 @@ LinkedList* generateBag() {
 
 //Loops which alternates through player turns until someone wins or gameplay is saved/quit
 void gamePlay() {
-    for(Player* currentPlayer: players) {
+    for(int i = 0; i < players.size(); i++) {
+        currentPlayer = players[i];
         //Current player
         cout << currentPlayer->getName() << "'s turn." << endl;
         //Printing scores of all players

@@ -10,7 +10,7 @@ FileIO::~FileIO()
     outputFile.close();
 }
 
-string FileIO::save(std::vector<Player *> & players, std::vector< std::vector<char> > & board, LinkedList* bag, int current)
+string FileIO::save(std::vector<Player *> & players, Board* board, LinkedList* bag, Player* current)
 {
 	savePlayers(players, current);
 	saveBoard(board);
@@ -18,34 +18,30 @@ string FileIO::save(std::vector<Player *> & players, std::vector< std::vector<ch
 	return "Game Successfully Saved";
 }
 
-void FileIO::savePlayers(const std::vector<Player *> & players, int current)
+void FileIO::savePlayers(const std::vector<Player *> & players, Player* current)
 {
+    //Number of players
+    outputFile << players.size() << endl;
+    //Player info
 	for(int i=0; i<players.size() ; i++)
 	{
-        outputFile<<players[i]->getName() << ":" << players[i]->getScore()
-        << ":" << players[i]->getHand()->toString();
+        outputFile<<players[i]->getName() << endl << players[i]->getScore()
+        << endl << players[i]->getHand()->toString();
 	}
-    outputFile<<players[current]->getName() << endl;
+    //Current player
+    outputFile<<current->getName() << endl;
 }
 
-void FileIO::saveBoard(const std::vector< std::vector<char> > & board)
+//This will need to be refactored to use Board Class, not a vector<vector<string>>
+void FileIO::saveBoard(Board* board)
 {
-	for (int i = 0; i < board.size(); i++) 
-	{ 
-        for (int j = 0; j < board[i].size(); j++) 
-        {
-        outputFile <<board[i][j];
-        }
-        outputFile<<endl;
-    }
-    outputFile << "-----BAG TO BE SAVED HERE-----" << endl;
+    outputFile << board->print();
     outputFile<<endl;
 }
 
 void FileIO::saveBag(LinkedList* bag)
 {
 	outputFile<<bag->toString();
-	outputFile<<endl;
 }
 
 // void FileIO::load(qwirkle* game)

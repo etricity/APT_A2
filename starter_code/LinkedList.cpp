@@ -53,7 +53,7 @@ void LinkedList::remove(char colour, int shape){
         head = nullptr;
     } else {
         //Finds the first tile in hand that is to be removed
-        while(colour != current->tile->colour && shape != current->tile->shape){
+        while(colour != current->tile->getColour() && shape != current->tile->getShape()){
             previous = current;
             current = current->next;
         }
@@ -87,7 +87,7 @@ string LinkedList::toString(){
     
     Node* temp = head;
     for(int i = 0; i < numNodes; i++){
-        oss << temp->tile->colour << temp->tile->shape;
+        oss << temp->tile->getColour() << temp->tile->getShape();
 
         if(temp->next != nullptr) {
             oss << ", ";

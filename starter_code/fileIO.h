@@ -2,6 +2,7 @@
 #define FILEIO_H
 #include "LinkedList.h"
 #include "Player.h"
+#include "Board.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -17,9 +18,9 @@ class FileIO {
 public: 
 	FileIO(string filename, bool save);
 	~FileIO();
-	string save(std::vector<Player *> & players, std::vector< std::vector<char> > & board, LinkedList* bag, int current);
-	void savePlayers(const std::vector<Player *> & players, int current);
-	void saveBoard(const std::vector< std::vector<char> > & board);
+	string save(std::vector<Player *> & players, Board* board, LinkedList* bag, Player* current);
+	void savePlayers(const std::vector<Player *> & players, Player* current);
+	void saveBoard(Board* board);
 	void saveBag(LinkedList* bag);
 
 	// void load(qwirkle* game);

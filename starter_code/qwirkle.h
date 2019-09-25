@@ -1,8 +1,13 @@
+#ifndef QWIRKLE_H
+#define QWIRKLE_H
 
-#include "Types.h"
+#include "Board.h"
 #include "LinkedList.h"
 #include "Player.h"
 #include "FileIO.h"
+#include "GameMechanics.h"
+#include "BoardPosition.h"
+
 #include <iostream>
 #include <vector>
 #include <random>
@@ -16,18 +21,23 @@ using std::endl;
 using std::string;
 using std::vector;
 
-void printMenu();
 
-void newGame();
-void loadGame();
-void showInfo();
-//void quit();
+    void printMenu();
 
-LinkedList* generateBag();
-void gamePlay();
+    void newGame();
+    void loadGame();
+    void showInfo();
+    //void quit();
 
-string userInput;
+    LinkedList* generateBag();
+    void gamePlay();
 
-vector<Player *> players;
-Board board;
-LinkedList* bag; 
+    string userInput;
+
+    vector<Player *> players;
+    Player* currentPlayer;
+    Board* board;
+    LinkedList* bag;
+
+
+#endif //QWIRKLE_H
