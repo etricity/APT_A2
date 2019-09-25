@@ -26,8 +26,14 @@ using std::vector;
 
     void newGame();
     void loadGame();
+    void saveGame();
     void showInfo();
     //void quit();
+
+    void loadPlayers(FileIO* myFile);
+    void loadBoard(FileIO* myFile);
+    void loadBag(FileIO* myFile);
+    void loadCurrentPlayer(FileIO* myFile);
 
     LinkedList* generateBag();
     void gamePlay();

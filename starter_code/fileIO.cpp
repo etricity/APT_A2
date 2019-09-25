@@ -2,23 +2,49 @@
 
 FileIO::FileIO(string filename, bool save)
 {
-    outputFile.open("saveData.txt");
+    if(save)
+    {
+        outputFile.open(filename+".save");
+    }
+    else
+    {
+        inputFile.open(filename);
+    }   
 }
 
 FileIO::~FileIO()
 {
-    outputFile.close();
+   
+}
+
+bool FileIO::checkFile()
+{
+    if(inputFile.is_open())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void FileIO::closeFile()
+{
+    inputFile.close();
 }
 
 string FileIO::save(std::vector<Player *> & players, Board* board, LinkedList* bag, Player* current)
 {
-	savePlayers(players, current);
+	savePlayers(players);
 	saveBoard(board);
 	saveBag(bag);
+    saveCurrentPlayer(current);
+    outputFile.close();
 	return "Game Successfully Saved";
 }
 
-void FileIO::savePlayers(const std::vector<Player *> & players, Player* current)
+void FileIO::savePlayers(const std::vector<Player *> & players)
 {
     //Number of players
     outputFile << players.size() << endl;
@@ -28,8 +54,7 @@ void FileIO::savePlayers(const std::vector<Player *> & players, Player* current)
         outputFile<<players[i]->getName() << endl << players[i]->getScore()
         << endl << players[i]->getHand()->toString();
 	}
-    //Current player
-    outputFile<<current->getName() << endl;
+    outputFile<< endl;
 }
 
 //This will need to be refactored to use Board Class, not a vector<vector<string>>
@@ -42,6 +67,13 @@ void FileIO::saveBoard(Board* board)
 void FileIO::saveBag(LinkedList* bag)
 {
 	outputFile<<bag->toString();
+    outputFile<<endl;
+}
+
+void FileIO::saveCurrentPlayer(Player* current)
+{
+    //current player
+    outputFile<<current->getName();
 }
 
 // void FileIO::load(qwirkle* game)

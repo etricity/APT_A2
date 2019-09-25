@@ -19,15 +19,18 @@ public:
 	FileIO(string filename, bool save);
 	~FileIO();
 	string save(std::vector<Player *> & players, Board* board, LinkedList* bag, Player* current);
-	void savePlayers(const std::vector<Player *> & players, Player* current);
+	void savePlayers(const std::vector<Player *> & players);
 	void saveBoard(Board* board);
 	void saveBag(LinkedList* bag);
+	void saveCurrentPlayer(Player* current);
 
-	// void load(qwirkle* game);
-	// void loadPlayers(qwirkle* game);
-	// void loadBoard(qwirkle* game);   
-	// void loadBag(qwirkle* game);
-	// void loadCurrentPlayer(qwirkle* game);
+	// std::vector<Player *> loadPlayers();
+	// std::vector< std:vector<string> > loadBoard();   
+	// LinkedList* loadBag();
+	// Player* loadCurrentPlayer();
+
+	bool checkFile();
+	void closeFile();
 
 private:
 	ifstream inputFile;

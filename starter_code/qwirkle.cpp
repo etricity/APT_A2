@@ -25,9 +25,7 @@ int main(void) {
         } else if(userInput == "3") {
             showInfo();
         } else if(userInput == "4") {
-            FileIO * saver = new FileIO("test", false);
-            //remove magic number using a currentPlayerIndex
-            saver->save(players, board, bag, currentPlayer);
+            saveGame();
             cout << "Goodbye!" << endl << endl;;
         } else {
             cout << "Invalid Input" << endl;
@@ -99,14 +97,35 @@ void newGame() {
     //Proceed to gameplay
 }
 
-void loadGame() {
-     cout << "Loading game...." << endl;
-    
-    //Let user enter filename
-    
-    //Check that file exists
-    
-    //Check format of file is correct
+void saveGame()
+{
+    string filename = ""; 
+    cout<<"Please enter a filename"<<endl;
+    cin>>filename;
+    FileIO myFile(filename, true);
+    cout<<myFile.save(players, board, bag, currentPlayer)<<endl;
+}
+
+void loadGame() 
+{
+    string filename = ""; 
+    cout<<"Please enter a filename"<<endl;
+    cin>>filename;
+    FileIO *myFile = new FileIO(filename, false);
+    if(myFile->checkFile())
+    {
+        cout << "Loading Game...." << endl;
+        loadPlayers(myFile);
+        loadBoard(myFile);
+        loadBag(myFile);
+        loadCurrentPlayer(myFile);
+        myFile->closeFile();
+        cout << "Game Succesfully Loaded" << endl;
+    }
+    else
+    {
+        cout<<"Sorry the file does not exist"<<endl;
+    }
 }
 
 void showInfo() {
@@ -199,4 +218,16 @@ void gamePlay() {
         //Player takes an action
         cout << "[PLAYER TAKES ACTION]" << endl << endl;
     }
+}
+
+void loadPlayers(FileIO* myFile){
+}
+
+void loadBoard(FileIO* myFile){
+}
+
+void loadBag(FileIO* myFile){
+}
+
+void loadCurrentPlayer(FileIO* myFile){
 }
