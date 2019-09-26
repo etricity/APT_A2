@@ -1,4 +1,4 @@
-#include "fileIO.h"
+#include "FileIO.h"
 
 FileIO::FileIO(string filename, bool save)
 {
