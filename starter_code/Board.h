@@ -23,6 +23,7 @@ public:
     //initialise board
     void initBoard();
     //print board
+
     string toString();
     //add tile to board
     //tile parameter commented out until I  see the tile code and adapt this function appropriately

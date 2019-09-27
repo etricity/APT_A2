@@ -53,6 +53,7 @@ Node* LinkedList::remove(char colour, int shape){
         head = nullptr;
     } else {
         //Finds the first tile in hand that is to be removed
+
         while(colour != current->tile->getColour() || shape != current->tile->getShape()){
             previous = current;
             current = current->next;

@@ -37,6 +37,7 @@ using std::vector;
     void loadBoard(FileIO* myFile);
     void loadBag(FileIO* myFile);
     void loadCurrentPlayer(FileIO* myFile);
+<<<<<<< HEAD
 
     LinkedList* generateBag();
     void gamePlay();
@@ -49,6 +50,18 @@ using std::vector;
     LinkedList* bag;
 
 //    GameMechanics gameMechanics; 
+=======
+
+    LinkedList* generateBag();
+    void gamePlay();
+
+    string userInput;
+
+    vector<Player *> players;
+    Player* currentPlayer;
+    Board* board;
+    LinkedList* bag;
+>>>>>>> development
 
 
 #endif //QWIRKLE_H
