@@ -81,7 +81,6 @@ void Board::initBoard(){
 }
 
 string Board::toString(){
-
     std::ostringstream oss;
     
     for (int i=0;i<board.size();i++) {
@@ -99,7 +98,6 @@ string Board::toString(){
 //add a tile (provides no validation, invalid coords (eg (1,1)/(1,A)) must not be passed)
 //tile parameter commented out until I  see the tile code and adapt this function appropriately
 //dummy string used for now
-<<<<<<< HEAD
 void Board::addTile(int xCoord, int yCoord, string tileString){
     //std::string tileCode =tile.getCode(); or similar to get tile code as a string
     //dummy string, all tiles added will be R2
@@ -112,18 +110,4 @@ void Board::addTile(int xCoord, int yCoord, string tileString){
 
     std::cout << toString();
         
-=======
-void Board::addTile(int xCoord, int yCoord
-//        , Tile tile
-        ){
-    //std::string tileCode =tile.getCode(); or similar to get tile code as a string
-    //dummy string, all tiles added will be R2
-    std::string tileCode = "R2";
-    //add whitespace to make up the correct three character column width
-    std::string newTile = " " + tileCode;
-    //compensate for board edges
-    board[yCoord+2][xCoord+1]= newTile;
-
-    print();
->>>>>>> development
 }
