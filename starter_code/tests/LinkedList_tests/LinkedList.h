@@ -22,9 +22,9 @@ public:
     void add_back(Node* newNode);
     
     void remove_front();
-    Node* remove(char colour, int shape);
+    void remove(char colour, int shape);
     Node* getHead();
-    bool contains(char colour, int shape);
+    //containTile
     
     void clear();
     //testing only
