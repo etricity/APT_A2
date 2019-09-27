@@ -69,7 +69,7 @@ void newGame() {
     //Create bag
     bag = generateBag();
 
-    cout << endl << endl << endl;
+    cout << endl;
     
     //Fill player hands from bag
     for(Player* p: players) {
@@ -83,6 +83,10 @@ void newGame() {
     
     //Generate board
     board = new Board(26,26);
+    
+    //Initilise GameMechanics Object
+//    gameMechanics = new GameMechanics();
+
     
     //Player turns- gameplay
     gamePlay();
@@ -207,7 +211,7 @@ void gamePlay() {
             cout << p->getName() << " score: " << p->getScore() << endl;
         }
         //Printing board
-        cout << endl << "---------------------"<< "PLACEHOLDER FOR BOARD" << "---------------------" << endl << endl;
+        cout << board->toString() << endl;
         //Current player's hand
         cout << "Your hand is..." << endl;
         cout << "Bag Size: " << currentPlayer->getHand()->size() << endl;
@@ -216,7 +220,71 @@ void gamePlay() {
         cout << "> ";
         
         //Player takes an action
-        cout << "[PLAYER TAKES ACTION]" << endl << endl;
+        
+        //Getting userInput
+        //Removes remaining '\n' in cin buffer
+        cin.ignore(1, '\n');
+        std::getline(cin, userInput);
+        
+        
+        //1. Places a tile on the board
+        std::istringstream oss(userInput);
+        string action = "";
+        string tileString = "";
+        oss >> action;
+        cout << action << endl;
+        
+        
+        if(action == "place") {
+            
+            //Tile info to be placed (ie 'R6')
+            oss >> tileString;
+            
+            //ignores word "at"
+            oss.ignore(256,'t');
+            
+            //Co-ordinates for tile to be added to board
+            string position = "";
+            oss >> position;
+            
+            //Adds tile to board
+            //REMOVE HARD CODING
+            board->addTile(4, 4, tileString);
+            //gameMechanics to add BoardPosition to PosVec
+            
+        } else if (action == "replace") {
+            
+            //Tile info to be placed (ie 'R6')
+            oss >> tileString;
+            char colour = tileString[0];
+            int shape = std::stoi(tileString.substr(1,1));
+            
+            //If players hand contains the tile
+            if(currentPlayer->getHand()->contains(colour, shape)) {
+                //Removes the selected node from the player hand & adds it to back of bag
+                bag->add_back(new Node(*currentPlayer->getHand()->remove(colour, shape)));
+                //Adds head of bag to back of hand
+                currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
+                bag->remove_front();
+            }
+
+        } else if (action == "save") {
+            saveGame();
+        } else if (action == "quit") {
+            //To be done
+            cout << "QUIT..." << endl;
+        } else {
+            
+        }
+        
+        
+        
+        
+        //2. Replaces a tile from their hand
+        
+        //Saves the game
+        
+        //Quits
     }
 }
 

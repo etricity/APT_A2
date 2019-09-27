@@ -8,10 +8,13 @@
 #include "GameMechanics.h"
 #include "BoardPosition.h"
 
-#include <iostream>
 #include <vector>
 #include <random>
-#include <chrono>  
+#include <chrono>
+#include <iostream>
+#include <string>
+#include <sstream>
+
 
 #define EXIT_SUCCESS    0
 
@@ -34,6 +37,7 @@ using std::vector;
     void loadBoard(FileIO* myFile);
     void loadBag(FileIO* myFile);
     void loadCurrentPlayer(FileIO* myFile);
+<<<<<<< HEAD
 
     LinkedList* generateBag();
     void gamePlay();
@@ -44,6 +48,20 @@ using std::vector;
     Player* currentPlayer;
     Board* board;
     LinkedList* bag;
+
+//    GameMechanics gameMechanics; 
+=======
+
+    LinkedList* generateBag();
+    void gamePlay();
+
+    string userInput;
+
+    vector<Player *> players;
+    Player* currentPlayer;
+    Board* board;
+    LinkedList* bag;
+>>>>>>> development
 
 
 #endif //QWIRKLE_H

@@ -58,9 +58,6 @@ LinkedList* generateBag()
         }
     }
     
-    //Shuffling up the vector<Tile>
-    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::shuffle(tilesInBag.begin(), tilesInBag.end(), std::default_random_engine(seed));
     
     //Creating the bag
     LinkedList* bag = new LinkedList();
