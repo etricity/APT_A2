@@ -5,7 +5,7 @@ int main(void) {
 
     //TODO Menu Interface
     cout << endl<< "Welcome to Qwirkle!" << endl;
-           cout << "-------------------" << endl << endl;
+    cout << "-------------------" << endl;
     
     while(userInput != "4")
     {
@@ -25,11 +25,9 @@ int main(void) {
         } else if(userInput == "3") {
             showInfo();
         } else if(userInput == "4") {
-            saveGame();
             cout << "Goodbye!" << endl << endl;
         } else {
             cout << "Invalid Input" << endl;
-            cout << alphToNum('Z') << endl;
         }
     }
     
