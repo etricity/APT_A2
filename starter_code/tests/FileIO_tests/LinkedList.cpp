@@ -45,7 +45,7 @@ void LinkedList::remove_front(){
  *   Removes a node from the list given the tile it holds
  *   If duplicate nodes exist, will remove the first found node
  */
-Node* LinkedList::remove(char colour, int shape){
+void LinkedList::remove(char colour, int shape){
     
     Node* current = head;
     Node* previous = nullptr;
@@ -53,7 +53,7 @@ Node* LinkedList::remove(char colour, int shape){
         head = nullptr;
     } else {
         //Finds the first tile in hand that is to be removed
-        while(colour != current->tile->getColour() || shape != current->tile->getShape()){
+        while(colour != current->tile->getColour() && shape != current->tile->getShape()){
             previous = current;
             current = current->next;
         }
@@ -61,7 +61,6 @@ Node* LinkedList::remove(char colour, int shape){
         previous->next = current->next;
     }
     numNodes--;
-    return current;
 }
 
 Node* LinkedList::getHead() {
@@ -81,33 +80,6 @@ void LinkedList::clear(){
     }
     delete current;
 }
-
-bool LinkedList::contains(char colour, int shape) {
-    bool found = false;
-    
-    Node * temp = head;
-    int i = 0;
-    while(!found && i < size()) {
-        if(colour == temp->tile->getColour() && shape == temp->tile->getShape()) {
-            found = true;
-        }
-        temp = temp->next;
-        i++;
-    }
-    return found;
-    
-}
-
-Node* LinkedList::getNode(char colour, int shape){
-    
-    Node* current = head;
-    //Finds the first tile in hand that is to be removed
-    while(colour != current->tile->getColour() || shape != current->tile->getShape()){
-        current = current->next;
-    }
-    return current;
-}
-
 
 //Test purposes only (delete for final submission)
 string LinkedList::toString(){

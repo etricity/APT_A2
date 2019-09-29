@@ -16,3 +16,7 @@ qwirkle: Tile.o Node.o LinkedList.o qwirkle.o
 
 build: 
 	g++ -Wall  -std=c++14 -O -o qwirkle *.cpp
+
+test01:
+	g++ -Wall -Werror -std=c++14 -O -o test01 *.cpp
+

@@ -1,0 +1,9 @@
+push_back R1
+push_back O2
+push_back Y3
+push_back G4
+push_back B5
+push_back P6
+remove Y3
+remove G4
+remove P6
