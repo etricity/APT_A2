@@ -1,27 +1,39 @@
 #include "Board.h"
 
+//constructor
+//will not function as expected if given xSize > 99 or ySize > 26
+//no validation provided to prevent this
 Board::Board(int xSize, int ySize){
     this->xSize = xSize;
     this->ySize = ySize;
+
+    //fill alphabet vector
+    for(char c = 'A'; c <= 'Z'; ++c){
+        string s(1, c);
+        alphabet.emplace_back(s);
+    }
+
     initBoard();
 }
 
-Board::~Board(){
-
-}
+//destructor
+//Board::~Board(){
+//
+//}
 
 //initialise the board
 void Board::initBoard(){
 
     //initial row containers
-    //numerical x coordinates
-    std::vector <std::string> rowOne;
+
+    //numerical x coordinate labels
+    vector <string> rowOne;
     //top and bottom board borders
-    std::vector <std::string> borderRow;
+    vector <string> borderRow;
 
     //fill initial rows
     for(int i = 0;i<xSize;i++){
-        std::string row1;
+        string row1;
         if(i==0){
             rowOne.emplace_back(" ");
         }
@@ -33,7 +45,7 @@ void Board::initBoard(){
         }
         rowOne.emplace_back(row1);
 
-        std::string border;
+        string border;
         if(i==0){
             border = "  --";
         }else{
@@ -43,20 +55,21 @@ void Board::initBoard(){
     }
 
     //the creation of the board
+
+    //x axis labels
     board.emplace_back(rowOne);
+    //top border
     board.emplace_back(borderRow);
     for(int i=0;i<ySize;i++){
-        std::vector <std::string> row;
-        //alphabet array for y axis
-        std::string alphabet[] = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+        vector <string> row;
         for(int j = 0;j<xSize;j++){
-            //add y axis identifier
+            //add y axis label
             if(j==0){
                 row.emplace_back(alphabet[i]);
             }
             //two alternating pattern pieces
-            std::string p1 = " | ";
-            std::string p2 = "   ";
+            string p1 = " | ";
+            string p2 = "   ";
             //if row is even, start with pattern 1
             if(i%2==0){
                 //alternate between patterns each column
@@ -77,9 +90,11 @@ void Board::initBoard(){
         }
         board.emplace_back(row);
     }
+    //bottom border
     board.emplace_back(borderRow);
 }
 
+//toString entire board
 string Board::toString(){
     std::ostringstream oss;
     
@@ -96,12 +111,8 @@ string Board::toString(){
 }
 
 //add a tile (provides no validation, invalid coords (eg (1,1)/(1,A)) must not be passed)
-//tile parameter commented out until I  see the tile code and adapt this function appropriately
-//dummy string used for now
 void Board::addTile(int xCoord, int yCoord, string tileString){
-    //std::string tileCode =tile.getCode(); or similar to get tile code as a string
-    //dummy string, all tiles added will be R2
-//    std::string tileCode = "R2";
+
     //add whitespace to make up the correct three character column width
     std::string newTile = " " + tileString;
     
@@ -110,4 +121,30 @@ void Board::addTile(int xCoord, int yCoord, string tileString){
 
     std::cout << toString();
         
+}
+
+//to be called when a board is loaded in
+//accepts a string that represents an entire row in an existing board
+//passed row strings must be of the same length as the ones in the current board
+void Board:: readRow(string row){
+
+    //find row's y coordinate by reading the first character
+    int yCoordInt;
+    string yCoordString(1, row.at(0));
+    for(int i = 0;i<alphabet.size();i++){
+        if(alphabet[i]==yCoordString){
+            yCoordInt = i;
+        }
+    }
+
+    //set vector positions
+
+    //substrings of length 3 are created from the string
+    //each substring represents one position in the vector
+    int bound = 1;
+    for(int i = 0; i<xSize;i++){
+        string temp = row.substr(bound,3);
+        board[yCoordInt+2][i+1]= temp;
+        bound+=3;
+    }
 }
