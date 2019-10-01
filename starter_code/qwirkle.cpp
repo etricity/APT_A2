@@ -127,6 +127,7 @@ void loadGame()
         loadCurrentPlayer(myFile);
         myFile->closeFile();
         cout<<"Game Successfully Loaded"<<endl;
+        gamePlay();
     }
     else
     {
