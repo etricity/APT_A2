@@ -5,7 +5,7 @@ int main(void) {
 
     //TODO Menu Interface
     cout << endl<< "Welcome to Qwirkle!" << endl;
-           cout << "-------------------" << endl << endl;
+    cout << "-------------------" << endl;
     
     while(userInput != "4")
     {
@@ -25,8 +25,7 @@ int main(void) {
         } else if(userInput == "3") {
             showInfo();
         } else if(userInput == "4") {
-            saveGame();
-            cout << "Goodbye!" << endl << endl;;
+            cout << "Goodbye!" << endl << endl;
         } else {
             cout << "Invalid Input" << endl;
         }
@@ -86,7 +85,6 @@ void newGame() {
     
     //Initilise GameMechanics Object
 //    gameMechanics = new GameMechanics();
-
     
     //Player turns- gameplay
     gamePlay();
@@ -232,25 +230,39 @@ void gamePlay() {
         string action = "";
         string tileString = "";
         oss >> action;
-        cout << action << endl;
-        
         
         if(action == "place") {
             
             //Tile info to be placed (ie 'R6')
             oss >> tileString;
-            
             //ignores word "at"
             oss.ignore(256,'t');
-            
             //Co-ordinates for tile to be added to board
             string position = "";
             oss >> position;
             
-            //Adds tile to board
-            //REMOVE HARD CODING
-            board->addTile(4, 4, tileString);
-            //gameMechanics to add BoardPosition to PosVec
+            int yPos = alphToNum(position[0]);
+            int xPos = std::stoi(position.substr(1));
+
+            //IF player's hand contains tile matching tileString
+            cout << "HERE" << endl;
+            if(currentPlayer->getHand()->contains(tileString[0], tileString[1] - '0')) {
+                   cout << "AFTER" << endl;
+                //Add tile to board
+                    //  EG. addTile(5, D, G3) --> add tile G3 to position D5
+                board->addTile(xPos, yPos, tileString);
+                
+                //Add new BoardPosition to PosVec (maintains a vector of all tiles current on Board)
+                Node* node = currentPlayer->getHand()->getNode(tileString[0], tileString[1] - '0');
+                
+                PosPtr newBP = new BoardPosition(xPos, yPos);
+                newBP->setTile(node->tile);
+                
+                boardPositions.push_back(newBP);
+                cout << boardPositions.size() <<endl;
+                cout << boardPositions[0]->getTile().getColour() << boardPositions[0]->getTile().getShape() << endl;
+            }
+        
             
         } else if (action == "replace") {
             
@@ -298,4 +310,19 @@ void loadBag(FileIO* myFile){
 }
 
 void loadCurrentPlayer(FileIO* myFile){
+}
+
+int alphToNum(char letter) {
+    vector<char> alphabet;
+    for(char c = 'A'; c <= 'Z'; ++c){
+        alphabet.emplace_back(c);
+    }
+    
+    int yCoordInt;
+    for(int i = 0;i<alphabet.size();i++){
+        if(alphabet[i] == letter){
+            yCoordInt = i;
+        }
+    }
+    return yCoordInt;
 }

@@ -11,6 +11,7 @@
 #include <sstream>
 
 using std::string;
+using std::vector;
 
 
 class Board{
@@ -19,25 +20,32 @@ public:
     Board(int xSize, int ySize);
 
     //destructor
-    ~Board();
+//    ~Board();
+
     //initialise board
     void initBoard();
-    //print board
 
+    //toString board
     string toString();
+
     //add tile to board
     //tile parameter commented out until I  see the tile code and adapt this function appropriately
     //function implementation uses a dummy string for now
     void addTile(int xCoord, int yCoord, string tileString);
 
+    //set row on existing board (for file I/O)
+    void readRow(string row);
+
 private:
     //board vector, holds vectors of strings
-    std::vector<std::vector<std::string>> board;
+    vector<vector<string> > board;
 
     //board size
     int xSize;
     int ySize;
 
+    //alphabet vector for tiles and y axis labels
+    vector<string> alphabet;
 
 };
 

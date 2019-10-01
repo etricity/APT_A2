@@ -32,12 +32,12 @@ using std::vector;
     void saveGame();
     void showInfo();
     //void quit();
+    int alphToNum(char letter);
 
     void loadPlayers(FileIO* myFile);
     void loadBoard(FileIO* myFile);
     void loadBag(FileIO* myFile);
     void loadCurrentPlayer(FileIO* myFile);
-<<<<<<< HEAD
 
     LinkedList* generateBag();
     void gamePlay();
@@ -49,19 +49,8 @@ using std::vector;
     Board* board;
     LinkedList* bag;
 
-//    GameMechanics gameMechanics; 
-=======
-
-    LinkedList* generateBag();
-    void gamePlay();
-
-    string userInput;
-
-    vector<Player *> players;
-    Player* currentPlayer;
-    Board* board;
-    LinkedList* bag;
->>>>>>> development
+    GameMechanics gameMechanics;
+    PosVec boardPositions;
 
 
 #endif //QWIRKLE_H

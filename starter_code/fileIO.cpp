@@ -60,7 +60,7 @@ void FileIO::savePlayers(const std::vector<Player *> & players)
 //This will need to be refactored to use Board Class, not a vector<vector<string>>
 void FileIO::saveBoard(Board* board)
 {
-    outputFile << board->print();
+    outputFile << board->toString();
     outputFile<<endl;
 }
 
