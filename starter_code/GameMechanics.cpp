@@ -33,7 +33,8 @@ bool GameMechanics::isQwirkle(Tile newTile, PosPtr newPos, PosVec list){
         response = true;
     }
     return response;
-};
+}
+
 int GameMechanics::getPoints(Tile newTile, PosPtr newPos, PosVec list){
     int points = 0;
 
@@ -49,9 +50,59 @@ int GameMechanics::getPoints(Tile newTile, PosPtr newPos, PosVec list){
         }
     }
     //Counts the number of possible Qwikles and multiplies by 6
-    points += isQwirkle(newTile, newPos, list) * QWIRKLE;
+    points += numberOfQwirkles(newTile, newPos, list) * QWIRKLE;
 
     return points;
+}
+
+PosPtr GameMechanics::getHint(LinkedList* playerBag, PosVec board) {
+    PosPtr bestPosition = nullptr;
+    PosPtr checkPos = nullptr;
+    //Points of current bestPosition
+    int points = 0;
+    //Setup for checking all surrounding positions of a given BoardPosition
+    int posDif[COORD_SIZE] = {COORD_POST,COORD_NEG};
+
+    Node* currHead = playerBag->getHead();
+
+    while(currHead != nullptr){
+        Tile* currTile = currHead->tile;
+
+        //Iterates through all placed BoardPositions that have been previously authenticated
+        for(PosPtr pos: board){
+            //Check over all permutations that would surround the given BoardPosition
+            for(int i : posDif){
+                for(int k : posDif){
+                    //checkPos is a possible position created from surrounding coordinates of current
+                    //index of BoardPositions in the BoardPositions list -> board
+                    checkPos = new BoardPosition(pos->getX()+i, pos->getY()+k);
+
+                    //Validation to check that created position does not escape the bounds of the game board
+                    if(checkPos->getX() >= 0 && checkPos->getY() >= 0
+                        && checkPosition(*currTile, checkPos, board)){
+
+                        //Checks if previous possibility of placement is a better result in placement
+                        if(getPoints(*currTile, checkPos, board) > points){
+
+                            if(bestPosition == nullptr){
+                                bestPosition = checkPos;
+                                points = getPoints(*currTile, checkPos, board);
+                                bestPosition->setTile(currTile);
+                            }
+                            else{
+                                bestPosition = new BoardPosition(*checkPos);
+                                points = getPoints(*currTile, checkPos, board);
+                                bestPosition->setTile(currTile);
+                            }
+                        }
+                    }
+                    delete checkPos;
+                }
+            }
+        }
+        currHead = currHead->next;
+    }
+    return bestPosition;
 }
 
 bool GameMechanics::areTilesNeighbours(PosPtr newPos, PosPtr checkPos){
