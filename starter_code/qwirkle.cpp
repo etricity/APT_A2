@@ -2,36 +2,47 @@
 
 int main(void) {
     
-
     //TODO Menu Interface
     cout << endl<< "Welcome to Qwirkle!" << endl;
     cout << "-------------------" << endl;
     
-    while(userInput != "4")
-    {
-        userInput = "";
-        printMenu();
-        cout << "> ";
-        cin >> userInput;
-        
-        if(cin.eof()) {
-            userInput = "4";
+    do {
+        try {
+            printMenu();
+            promptUserInput();
+            valid = validator.validateMenuInput(userInput);
+            
+            if(userInput == "1") {
+                newGame();
+            } else if(userInput == "2") {
+                loadGame();
+            } else if(userInput == "3") {
+                showInfo();
+                //allows user to go back to menu
+                valid = false;
+            } else if(userInput == "4") {
+                cout << "Goodbye!" << endl << endl;
+                exit(0);
+            }
+            
+        } catch(CustomException e) {
+            cout << e.getMessage() << endl;
+            valid = false;
         }
-        
-        if(userInput == "1") {
-            newGame();
-        } else if(userInput == "2") {
-            loadGame();
-        } else if(userInput == "3") {
-            showInfo();
-        } else if(userInput == "4") {
-            cout << "Goodbye!" << endl << endl;
-        } else {
-            cout << "Invalid Input" << endl;
-        }
-    }
+    } while(!valid);
     
     return EXIT_SUCCESS;
+}
+
+void promptUserInput() {
+    cout << "> ";
+    cin >> userInput;
+    
+    if(cin.eof()) {
+        cout << "Goodbye!" << endl;
+        exit(0);
+    }
+    
 }
 
 void printMenu() {
@@ -50,14 +61,25 @@ void newGame() {
     //Allow user to create new players
     
     cout << "Enter the number of players (Max Players: 4)" << endl;
-    cout << "> ";
-    cin >> userInput;
+    
+    do {
+        try {
+            promptUserInput();
+            valid = validator.validateNumPlayers(userInput);
+        } catch(CustomException e) {
+            cout << e.getMessage() << endl;
+            valid = false;
+        }
+    } while(!valid);
+    cout << endl;
     
     int numPlayers = std::stoi(userInput);
     for(int i = 0; i < numPlayers; i++) {
         cout << "Enter a name for player " << i + 1 << " (uppercase characters only)" << endl;
         cout << "> ";
         cin >> userInput;
+        //Removes remaining '\n' in cin buffer
+        cin.ignore(1, '\n');
         std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
         players.push_back(new Player(userInput));
     }
@@ -220,8 +242,6 @@ void gamePlay() {
         //Player takes an action
         
         //Getting userInput
-        //Removes remaining '\n' in cin buffer
-        cin.ignore(1, '\n');
         std::getline(cin, userInput);
         
         
@@ -231,6 +251,7 @@ void gamePlay() {
         string tileString = "";
         oss >> action;
         
+        cout << action << endl;
         if(action == "place") {
             
             //Tile info to be placed (ie 'R6')
@@ -245,9 +266,9 @@ void gamePlay() {
             int xPos = std::stoi(position.substr(1));
 
             //IF player's hand contains tile matching tileString
-            cout << "HERE" << endl;
+            
             if(currentPlayer->getHand()->contains(tileString[0], tileString[1] - '0')) {
-                   cout << "AFTER" << endl;
+                
                 //Add tile to board
                     //  EG. addTile(5, D, G3) --> add tile G3 to position D5
                 board->addTile(xPos, yPos, tileString);
@@ -259,8 +280,6 @@ void gamePlay() {
                 newBP->setTile(node->tile);
                 
                 boardPositions.push_back(newBP);
-                cout << boardPositions.size() <<endl;
-                cout << boardPositions[0]->getTile().getColour() << boardPositions[0]->getTile().getShape() << endl;
             }
         
             
