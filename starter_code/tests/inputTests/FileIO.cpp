@@ -156,13 +156,17 @@ void FileIO::loadBoard(Board* board, PosVec & boardPositions)
 			int yCoord = lineContents[0] - 'A' + 1;
 			int xCoord = 0;
 			int index = 1;
+			int shape = 0;
     		while(index<lineContents.size())
     		{
     			string temp = lineContents.substr(index, 3);
     			char letter = temp[1];
        			if(letter>='A' && letter<='Z')
        			{
-       				boardPositions.push_back(new BoardPosition(xCoord,yCoord - 1));
+       				shape = std::stoi(temp.substr(2,1));
+       				PosPtr position = new BoardPosition(xCoord,yCoord - 1);
+       				position->setTile(new Tile(letter,shape));
+       				boardPositions.push_back(position);
        			}	
        			xCoord++;
        			index = index + 3;

@@ -135,30 +135,38 @@ void FileIO::loadBoard(Board* board, PosVec & boardPositions)
 {
 	bool exit = false;
 	string lineContents = "";
+	for(int i=0; i<2; i++)
+	{
+		std::getline(inputFile, lineContents);
+	}
 	while(!exit && !inputFile.eof())
 	{
 		std::getline(inputFile, lineContents);
+		if(lineContents[2]=='-')
+		{
+			std::getline(inputFile, lineContents);
+		}
 		if(lineContents.empty())
 		{
 			exit=true;
 		}
 		else
 		{
-			cout<<"fuck"<<endl;
 			board->readRow(lineContents);
-			cout<<"me"<<endl;
-			int yCoord = std::stoi(lineContents.substr(lineContents[0],1));
+			int yCoord = lineContents[0] - 'A' + 1;
 			int xCoord = 0;
-			int index = 0;
-			std::regex alphabets("[a-zA-Z]");
+			int index = 1;
+			int shape = 0;
     		while(index<lineContents.size())
     		{
     			string temp = lineContents.substr(index, 3);
-    			string letter = "";
-    			letter.push_back(temp[1]);
-       			if(std::regex_match(letter, alphabets))
+    			char letter = temp[1];
+       			if(letter>='A' && letter<='Z')
        			{
-       				boardPositions.push_back(new BoardPosition(xCoord,yCoord - 1));
+       				shape = std::stoi(temp.substr(2,1));
+       				PosPtr position = new BoardPosition(xCoord,yCoord - 1);
+       				position->setTile(new Tile(letter,shape));
+       				boardPositions.push_back(position);
        			}	
        			xCoord++;
        			index = index + 3;
@@ -216,7 +224,6 @@ Player* FileIO::loadCurrentPlayer(std::vector<Player *> & players, Player* curre
 				if(players[i]->getName()==lineContents)
 				{
 					currentPlayer = players[i];
-					//cout<<currentPlayer->getName()<<endl;
 				}
 			}
 		}

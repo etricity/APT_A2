@@ -31,7 +31,6 @@ int main(void)
     PosVec boardPositions;
 
     FileIO myFile("test02", false);
-  	bool check =  myFile.checkFile();
 
     myFile.loadPlayers(players);
     for(int i =0; i<players.size(); i++)
@@ -47,7 +46,7 @@ int main(void)
 
     for(int i =0; i<boardPositions.size(); i++)
     {
-        cout<<boardPositions[i]->getX()<<boardPositions[i]->getY()<<endl;
+        cout<<boardPositions[i]->getX()<<boardPositions[i]->getY()<<" "<<boardPositions[i]->getTile().getColour()<<boardPositions[i]->getTile().getShape()<<endl;
     }
 
     cout<<bag->toString()<<endl;
