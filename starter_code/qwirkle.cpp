@@ -1,4 +1,4 @@
-#include "qwirkle.h"
+#include "Qwirkle.h"
 
 int main(int argc, char* argv[]) {
 
