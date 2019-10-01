@@ -29,7 +29,7 @@ public:
 	void loadPlayers(std::vector<Player *> & players);
 	void loadBoard(Board* board, PosVec & boardPositions);   
 	void loadBag(LinkedList* bag);
-	void loadCurrentPlayer(std::vector<Player *> & players, Player* current);
+	Player* loadCurrentPlayer(std::vector<Player *> & players, Player* current);
 
 	bool checkFile();
 	void closeFile();

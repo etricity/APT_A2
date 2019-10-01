@@ -20,7 +20,7 @@ LinkedList* generateBag();
 
 int main(void)
 {
-	Board *board = new Board(26,26);
+	//Board *board = new Board(26,26);
 
     LinkedList* bag = new LinkedList();
 
@@ -30,26 +30,21 @@ int main(void)
 
     PosVec boardPositions;
 
-    FileIO myFile("test01", false);
+    FileIO myFile("testBag", false);
+  	bool check =  myFile.checkFile();
+  	cout<<check<<endl;
 
     myFile.loadPlayers(players);
-    myFile.loadBoard(board, boardPositions);
-    myFile.loadBag(bag);
-    myFile.loadCurrentPlayer(players, currentPlayer);
-
     for(int i =0; i<players.size(); i++)
     {
         cout<<players[i]->getName()<<endl<<players[i]->getScore()<<endl<<players[i]->getHand()->toString()<<endl;
     }
-
-    cout<<board->toString()<<endl;
-
+    myFile.loadBag(bag);
+    cout<<bag->toString()<<endl;
+    currentPlayer = myFile.loadCurrentPlayer(players, currentPlayer);
+    cout<<"I'm here"<<endl;
     cout<<currentPlayer->getName()<<endl;
 
-    for(int i =0; i<boardPositions.size(); i++)
-    {
-        cout<<boardPositions[i]->getX()<<endl<<boardPositions[i]->getY()<<endl;
-    }
     
 
     return EXIT_SUCCESS;

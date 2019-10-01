@@ -1,0 +1,14 @@
+Linked List functions needed:
+
+- Add tile to end of list
+- Remove tile from front of list
+- Delete tile from list 
+- Insert tile to list 
+- Search for tile
+- Number of tiles
+
+- head, tail reference 
+
+
+Menu:
+- 

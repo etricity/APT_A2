@@ -98,7 +98,6 @@ void FileIO::loadPlayers(std::vector<Player *> & players)
 				{
 					std::transform(lineContents.begin(), lineContents.end(), lineContents.begin(), ::toupper);
        				players.push_back(new Player(lineContents));
-       				noPlayers++;
 				}
 				else if(i==1)
 				{
@@ -114,14 +113,15 @@ void FileIO::loadPlayers(std::vector<Player *> & players)
 					while(x<stringLength)
 					{
 						colour = lineContents[x];
-            			shape = std::stoi(lineContents.substr(lineContents[j],1));
+            			shape = std::stoi(lineContents.substr(j,1));
             			players[noPlayers]->getHand()->add_back(new Node(new Tile(colour, shape), nullptr));
             			x=x+4;
             			j=j+4;
 					}
+					noPlayers++;
 				}
 				i++;
-				if(i>=2)
+				if(i>2)
 				{	
 					i=0;
 				}
@@ -144,7 +144,9 @@ void FileIO::loadBoard(Board* board, PosVec & boardPositions)
 		}
 		else
 		{
+			cout<<"fuck"<<endl;
 			board->readRow(lineContents);
+			cout<<"me"<<endl;
 			int yCoord = std::stoi(lineContents.substr(lineContents[0],1));
 			int xCoord = 0;
 			int index = 0;
@@ -186,7 +188,7 @@ void FileIO::loadBag(LinkedList* bag)
 			while(x<stringLength)
 			{
 				colour = lineContents[x];
-            	shape = std::stoi(lineContents.substr(lineContents[j],1));
+            	shape = std::stoi(lineContents.substr(j,1));
             	bag->add_back(new Node(new Tile(colour, shape), nullptr));
             	x=x+4;
             	j=j+4;
@@ -195,13 +197,14 @@ void FileIO::loadBag(LinkedList* bag)
 	}
 }
 
-void FileIO::loadCurrentPlayer(std::vector<Player *> & players, Player* current)
+Player* FileIO::loadCurrentPlayer(std::vector<Player *> & players, Player* currentPlayer)
 {
 	bool exit = false;
 	string lineContents = "";
 	while(!exit && !inputFile.eof())
 	{
 		std::getline(inputFile, lineContents);
+		std::transform(lineContents.begin(), lineContents.end(), lineContents.begin(), ::toupper);
 		if(lineContents.empty())
 		{
 			exit=true;
@@ -212,9 +215,11 @@ void FileIO::loadCurrentPlayer(std::vector<Player *> & players, Player* current)
 			{
 				if(players[i]->getName()==lineContents)
 				{
-					current = players[i];
+					currentPlayer = players[i];
+					//cout<<currentPlayer->getName()<<endl;
 				}
 			}
 		}
 	}
+	return currentPlayer;
 }
