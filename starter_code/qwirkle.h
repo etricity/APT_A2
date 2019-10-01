@@ -15,7 +15,7 @@
 #include <string>
 #include <sstream>
 
-
+#define TESTCASES       "./TestCases/"
 #define EXIT_SUCCESS    0
 
 using std::cout;
@@ -24,33 +24,35 @@ using std::endl;
 using std::string;
 using std::vector;
 
+void testGameMechanics(std::ifstream& input, std::ofstream& fileOutput);
+void testHints(std::ifstream& input, std::ofstream& fileOutput);
 
-    void printMenu();
+void printMenu();
 
-    void newGame();
-    void loadGame();
-    void saveGame();
-    void showInfo();
-    //void quit();
-    int alphToNum(char letter);
+void newGame();
+void loadGame();
+void saveGame();
+void showInfo();
+//void quit();
+int alphToNum(char letter);
 
-    void loadPlayers(FileIO* myFile);
-    void loadBoard(FileIO* myFile);
-    void loadBag(FileIO* myFile);
-    void loadCurrentPlayer(FileIO* myFile);
+void loadPlayers(FileIO* myFile);
+void loadBoard(FileIO* myFile);
+void loadBag(FileIO* myFile);
+void loadCurrentPlayer(FileIO* myFile);
 
-    LinkedList* generateBag();
-    void gamePlay();
+LinkedList* generateBag();
+void gamePlay();
 
-    string userInput;
+string userInput;
 
-    vector<Player *> players;
-    Player* currentPlayer;
-    Board* board;
-    LinkedList* bag;
+vector<Player *> players;
+Player* currentPlayer;
+Board* board;
+LinkedList* bag;
 
-    GameMechanics gameMechanics;
-    PosVec boardPositions;
+GameMechanics gameMechanics;
+PosVec boardPositions;
 
 
 #endif //QWIRKLE_H
