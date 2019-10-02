@@ -9,7 +9,6 @@
 #include "BoardPosition.h"
 #include "Validator.h"
 
-
 #include <vector>
 #include <random>
 #include <chrono>
