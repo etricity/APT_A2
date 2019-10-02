@@ -82,6 +82,8 @@ void newGame() {
         std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
         players.push_back(new Player(userInput));
     }
+    //Removes remaining '\n' in cin buffer
+    cin.ignore(1, '\n');
     
     cout << endl << "Let's Play" << endl;
     
@@ -241,9 +243,6 @@ void gamePlay() {
         //Player takes an action
         
         //Getting userInput
-        //Removes remaining '\n' in cin buffer
-        cin.ignore(1, '\n');
-
         std::getline(cin, userInput);
         
         

@@ -1,21 +1,30 @@
 #include "Board.h"
 
-
+//constructor
+//will not function as expected if given xSize > 99 or ySize > 26
+//no validation provided to prevent this
 Board::Board(int xSize, int ySize){
     this->xSize = xSize;
     this->ySize = ySize;
+
+    //fill alphabet vector
+    for(char c = 'A'; c <= 'Z'; ++c){
+        string s(1, c);
+        alphabet.emplace_back(s);
+    }
+
     initBoard();
 }
 
+//destructor
 //Board::~Board(){
-
-}
+//
+//}
 
 //initialise the board
 void Board::initBoard(){
 
     //initial row containers
-
 
     //numerical x coordinate labels
     vector <string> rowOne;
@@ -36,9 +45,7 @@ void Board::initBoard(){
         }
         rowOne.emplace_back(row1);
 
-
         string border;
-
         if(i==0){
             border = "  --";
         }else{
@@ -61,7 +68,6 @@ void Board::initBoard(){
                 row.emplace_back(alphabet[i]);
             }
             //two alternating pattern pieces
-
             string p1 = " | ";
             string p2 = "   ";
             //if row is even, start with pattern 1
@@ -89,7 +95,6 @@ void Board::initBoard(){
 }
 
 //toString entire board
->>>>>>> origin/development
 string Board::toString(){
     std::ostringstream oss;
     
@@ -106,8 +111,8 @@ string Board::toString(){
 }
 
 //add a tile (provides no validation, invalid coords (eg (1,1)/(1,A)) must not be passed)
-
 void Board::addTile(int xCoord, int yCoord, string tileString){
+
     //add whitespace to make up the correct three character column width
     std::string newTile = " " + tileString;
     
