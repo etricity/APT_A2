@@ -8,7 +8,7 @@ FileIO::FileIO(string filename, bool save)
     }
     else
     {
-        inputFile.open(filename+".in");
+       inputFile.open(filename+".save");
     }
 }
 
