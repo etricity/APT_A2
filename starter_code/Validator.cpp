@@ -42,7 +42,7 @@ bool Validator::validateNumPlayers(string userInput) {
     return valid;
 }
 
-bool Validator::validateCommand(string userInput, Player* currentPlayer) {
+bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* board) {
     
     std::istringstream oss(userInput);
     string arg = "";
@@ -62,7 +62,7 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer) {
         }
         
         oss >> arg;
-        //validateBoardPosition();
+        validationPosition(arg, board);
         
         
 //        if(!std::isalpha(arg[0])) {
@@ -99,5 +99,17 @@ bool Validator::validateHandTile(string tileString, Player* currentPlayer) {
     if(!currentPlayer->getHand()->contains(tileString[0], tileString[1] - '0')) {
         throw CustomException("That tile does not exist in your hand.");
     }
+    return true;
+}
+
+bool Validator::validationPosition(string positionString, Board* board) {
+    
+    char yCo = positionString[0];
+    int xCo = stoi(positionString.substr(1));
+    
+    if(!board->isBoardPositionValid(yCo, xCo)) {
+         throw CustomException("Invalid Board Position.");
+    }
+    
     return true;
 }

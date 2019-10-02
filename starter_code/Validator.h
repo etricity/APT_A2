@@ -5,6 +5,7 @@
 #include <vector>
 #include <sstream>
 #include "Player.h"
+#include "Board.h"
 
 #include <stdio.h>
 #include <ctype.h>
@@ -16,8 +17,9 @@ public:
     void validToFalse();
     bool validateMenuInput(string userInput);
     bool validateNumPlayers(string userInput);
-    bool validateCommand(string userInput, Player* currentPlayer);
+    bool validateCommand(string userInput, Player* currentPlayer, Board* board);
     bool validateHandTile(string tileString, Player* currentPlayer);
+    bool validationPosition(string positionString, Board* board);
     
     bool valid;
 };

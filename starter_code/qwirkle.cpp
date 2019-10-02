@@ -257,9 +257,12 @@ void gamePlay() {
         do {
             try {
                 promtUserInput_WholeLine();
-                valid = validator.validateCommand(userInput, currentPlayer);
+                valid = validator.validateCommand(userInput, currentPlayer, board);
             } catch(CustomException e) {
                 cout << e.getMessage() << endl;
+                valid = false;
+            } catch(std::invalid_argument& e) {
+                cout << "Invalid position structure" << endl;
                 valid = false;
             }
         } while(!valid);
