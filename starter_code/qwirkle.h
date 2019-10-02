@@ -26,7 +26,9 @@ using std::string;
 using std::vector;
 
 
+
     void promptUserInput();
+    void promtUserInput_WholeLine();
     void printMenu();
 
     void newGame();

@@ -3,6 +3,11 @@
 
 #include "CustomException.h"
 #include <vector>
+#include <sstream>
+#include "Player.h"
+
+#include <stdio.h>
+#include <ctype.h>
 
 using std::vector; 
 
@@ -11,6 +16,8 @@ public:
     void validToFalse();
     bool validateMenuInput(string userInput);
     bool validateNumPlayers(string userInput);
+    bool validateCommand(string userInput, Player* currentPlayer);
+    bool validateHandTile(string tileString, Player* currentPlayer);
     
     bool valid;
 };
