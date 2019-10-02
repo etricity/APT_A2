@@ -254,9 +254,6 @@ void gamePlay() {
         //Player takes an action
         
         //Getting userInput
-        //Removes remaining '\n' in cin buffer
-        cin.ignore(1, '\n');
-        
         do {
             try {
                 promtUserInput_WholeLine();
@@ -293,6 +290,7 @@ void gamePlay() {
             board->addTile(xPos, yPos, tileString);
             //Add new BoardPosition to PosVec (maintains a vector of all tiles current on Board)
             PosPtr newBP = new BoardPosition(xPos, yPos);
+            
             newBP->setTile(node->tile);
             boardPositions.push_back(newBP);
 
