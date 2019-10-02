@@ -130,11 +130,14 @@ void Board:: readRow(string row){
     //find row's y coordinate by reading the first character
     int yCoordInt;
     string yCoordString(1, row.at(0));
-    for(int i = 0;i<alphabet.size();i++){
-        if(alphabet[i]==yCoordString){
-            yCoordInt = i;
-        }
-    }
+//moved this code into yCoordToInt function to avoid duplication
+//    for(int i = 0;i<alphabet.size();i++){
+//        if(alphabet[i]==yCoordString){
+//            yCoordInt = i;
+//        }
+//    }
+    yCoordInt = yCoordToInt(yCoordString);
+
 
     //set vector positions
 
@@ -146,4 +149,32 @@ void Board:: readRow(string row){
         board[yCoordInt+2][i+1]= temp;
         bound+=3;
     }
+}
+
+//check if a board position is empty ("   "), and can have a tile placed
+bool Board::isBoardPositionValid(char yCoord, int xCoord){
+    string yCoordString(1, yCoord);
+//moved this code into yCoordToInt function to avoid duplication
+//    for(int i = 0;i<alphabet.size();i++){
+//        if(alphabet[i]==yCoordString){
+//            yCoordInt = i;
+//        }
+//    }
+    int yCoordInt = yCoordToInt(yCoordString);
+    if(board[yCoordInt+2][xCoord+1]=="   "){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+//accept Y Coordinate string and return integer of the same value (ie, A-->0, B-->1,...,Z-->25)
+int Board::yCoordToInt(string yCoordString){
+    for(int i = 0;i<alphabet.size();i++){
+        if(alphabet[i]==yCoordString){
+            return i;
+        }
+    }
+    //if incorrect value is passed, return -1
+    return -1;
 }
