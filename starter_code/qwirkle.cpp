@@ -254,9 +254,6 @@ void gamePlay() {
         //Player takes an action
         
         //Getting userInput
-        //Removes remaining '\n' in cin buffer
-        cin.ignore(1, '\n');
-        
         do {
             try {
                 promtUserInput_WholeLine();
