@@ -78,6 +78,7 @@ void newGame() {
         cout << "Enter a name for player " << i + 1 << " (uppercase characters only)" << endl;
         cout << "> ";
         cin >> userInput;
+
         std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
         players.push_back(new Player(userInput));
     }
@@ -242,6 +243,7 @@ void gamePlay() {
         //Getting userInput
         //Removes remaining '\n' in cin buffer
         cin.ignore(1, '\n');
+
         std::getline(cin, userInput);
         
         

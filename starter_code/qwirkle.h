@@ -9,6 +9,7 @@
 #include "BoardPosition.h"
 #include "Validator.h"
 
+
 #include <vector>
 #include <random>
 #include <chrono>
@@ -24,6 +25,7 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::vector;
+
 
     void promptUserInput();
     void printMenu();
