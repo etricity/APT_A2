@@ -36,6 +36,12 @@ public:
     //set row on existing board (for file I/O)
     void readRow(string row);
 
+    //check if a board position is valid, that is, it does not contain a wall or an existing tile
+    bool isBoardPositionValid(char yCoord, int xCoord);
+
+    //accept Y Coordinate string and return integer of the same value (ie, A-->0, B-->1,...,Z-->25)
+    int yCoordToInt(string yCoordString);
+
 private:
     //board vector, holds vectors of strings
     vector<vector<string> > board;
