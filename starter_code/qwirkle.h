@@ -7,6 +7,8 @@
 #include "FileIO.h"
 #include "GameMechanics.h"
 #include "BoardPosition.h"
+#include "Validator.h"
+
 
 #include <vector>
 #include <random>
@@ -25,6 +27,7 @@ using std::string;
 using std::vector;
 
 
+    void promptUserInput();
     void printMenu();
 
     void newGame();
@@ -42,7 +45,9 @@ using std::vector;
     LinkedList* generateBag();
     void gamePlay();
 
+    Validator validator;
     string userInput;
+    bool valid;
 
     vector<Player *> players;
     Player* currentPlayer;

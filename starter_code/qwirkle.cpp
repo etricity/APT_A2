@@ -78,8 +78,7 @@ void newGame() {
         cout << "Enter a name for player " << i + 1 << " (uppercase characters only)" << endl;
         cout << "> ";
         cin >> userInput;
-        //Removes remaining '\n' in cin buffer
-        cin.ignore(1, '\n');
+
         std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
         players.push_back(new Player(userInput));
     }
@@ -242,6 +241,9 @@ void gamePlay() {
         //Player takes an action
         
         //Getting userInput
+        //Removes remaining '\n' in cin buffer
+        cin.ignore(1, '\n');
+
         std::getline(cin, userInput);
         
         
@@ -251,7 +253,6 @@ void gamePlay() {
         string tileString = "";
         oss >> action;
         
-        cout << action << endl;
         if(action == "place") {
             
             //Tile info to be placed (ie 'R6')

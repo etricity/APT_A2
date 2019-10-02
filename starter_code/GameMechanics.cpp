@@ -50,6 +50,7 @@ int GameMechanics::getPoints(Tile newTile, PosPtr newPos, PosVec list){
         }
     }
     //Counts the number of possible Qwikles and multiplies by 6
+
     points += numberOfQwirkles(newTile, newPos, list) * QWIRKLE;
 
     return points;
