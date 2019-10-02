@@ -45,6 +45,16 @@ void promptUserInput() {
     
 }
 
+void promtUserInput_WholeLine() {
+    cout << "> ";
+    std::getline(cin, userInput);
+    
+    if(cin.eof()) {
+        cout << "Goodbye!" << endl;
+        exit(0);
+    }
+}
+
 void printMenu() {
     cout << endl << "Menu"<< endl;
     cout << "----"<< endl;
@@ -235,8 +245,6 @@ void gamePlay() {
         cout << "Your hand is..." << endl;
         cout << "Bag Size: " << currentPlayer->getHand()->size() << endl;
         cout << currentPlayer->getHand()->toString();
-        //Waiting for player input
-        cout << "> ";
         
         //Player takes an action
         
@@ -244,8 +252,16 @@ void gamePlay() {
         //Removes remaining '\n' in cin buffer
         cin.ignore(1, '\n');
 
-        std::getline(cin, userInput);
         
+        do {
+            try {
+                promtUserInput_WholeLine();
+                valid = validator.validateCommand(userInput, currentPlayer);
+            } catch(CustomException e) {
+                cout << e.getMessage() << endl;
+                valid = false;
+            }
+        } while(!valid);
         
         //1. Places a tile on the board
         std::istringstream oss(userInput);
@@ -266,24 +282,16 @@ void gamePlay() {
             int yPos = alphToNum(position[0]);
             int xPos = std::stoi(position.substr(1));
 
-            //IF player's hand contains tile matching tileString
+            //Add tile to board
+            Node* node = currentPlayer->getHand()->getNode(tileString[0], tileString[1] - '0');
             
-            if(currentPlayer->getHand()->contains(tileString[0], tileString[1] - '0')) {
-                
-                //Add tile to board
-                    //  EG. addTile(5, D, G3) --> add tile G3 to position D5
-                board->addTile(xPos, yPos, tileString);
-                
-                //Add new BoardPosition to PosVec (maintains a vector of all tiles current on Board)
-                Node* node = currentPlayer->getHand()->getNode(tileString[0], tileString[1] - '0');
-                
-                PosPtr newBP = new BoardPosition(xPos, yPos);
-                newBP->setTile(node->tile);
-                
-                boardPositions.push_back(newBP);
-            }
-        
-            
+            //  EG. addTile(5, D, G3) --> add tile G3 to position D5
+            board->addTile(xPos, yPos, tileString);
+            //Add new BoardPosition to PosVec (maintains a vector of all tiles current on Board)
+            PosPtr newBP = new BoardPosition(xPos, yPos);
+            newBP->setTile(node->tile);
+            boardPositions.push_back(newBP);
+
         } else if (action == "replace") {
             
             //Tile info to be placed (ie 'R6')
@@ -291,20 +299,17 @@ void gamePlay() {
             char colour = tileString[0];
             int shape = std::stoi(tileString.substr(1,1));
             
-            //If players hand contains the tile
-            if(currentPlayer->getHand()->contains(colour, shape)) {
-                //Removes the selected node from the player hand & adds it to back of bag
-                bag->add_back(new Node(*currentPlayer->getHand()->remove(colour, shape)));
-                //Adds head of bag to back of hand
-                currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
-                bag->remove_front();
-            }
+            //Puts tile from Player hand to bag
+            bag->add_back(new Node(*currentPlayer->getHand()->remove(colour, shape)));
+            //Adds head of bag to back of hand
+            currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
+            bag->remove_front();
 
         } else if (action == "save") {
             saveGame();
         } else if (action == "quit") {
-            //To be done
-            cout << "QUIT..." << endl;
+            cout << "Goodbye!" << endl;
+            exit(0);
         } else {
             
         }

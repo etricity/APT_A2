@@ -43,6 +43,10 @@ private:
     //board size
     int xSize;
     int ySize;
+
+    //alphabet vector for tiles and y axis labels
+    vector<string> alphabet;
+
 };
 
 #endif //APT_A2_BOARD_H
