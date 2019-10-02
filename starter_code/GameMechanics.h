@@ -4,8 +4,6 @@
 #include "Tile.h"
 #include "BoardPosition.h"
 #include "LinkedList.h"
-
-
 #include <vector>
 #include <stdexcept>
 
@@ -24,7 +22,6 @@ public:
     bool checkPosition(Tile newTile, PosPtr newPos, PosVec list);
     bool isQwirkle(Tile newTile, PosPtr newPos, PosVec list);
     int getPoints(Tile newTile, PosPtr newPos, PosVec list);
-
     /* Andrew Ellis - First Enhancement - Hints
      *
      * Given the player's current tile bag and current board positions

@@ -104,7 +104,6 @@ string Board::toString(){
         }
         oss<<std::endl;
     }
-    oss<<std::endl;
     
     string boardString = oss.str();
     return boardString;

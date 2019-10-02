@@ -2,9 +2,15 @@
 
 int main(void) {
     
-    //TODO Menu Interface
-    cout << endl<< "Welcome to Qwirkle!" << endl;
-    cout << "-------------------" << endl;
+     //TODO Menu Interface
+       cout << endl<< "Welcome to Qwirkle!" << endl;
+              cout << "-------------------" << endl << endl;
+
+       //Generate board
+       board = new Board(26,26);
+
+       //Instantiate bag
+       bag = new LinkedList();
     
     do {
         try {
@@ -62,7 +68,7 @@ void newGame() {
     //Allow user to create new players
     
     cout << "Enter the number of players (Max Players: 4)" << endl;
-    
+
     do {
         try {
             promptUserInput();
@@ -79,8 +85,10 @@ void newGame() {
         cout << "Enter a name for player " << i + 1 << " (uppercase characters only)" << endl;
         cout << "> ";
         cin >> userInput;
+
         //Removes remaining '\n' in cin buffer
         cin.ignore(1, '\n');
+
         std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
         players.push_back(new Player(userInput));
     }
@@ -102,29 +110,15 @@ void newGame() {
         }
     }
     
-    
     //Generate board
     board = new Board(26,26);
-    
-    //Initilise GameMechanics Object
-//    gameMechanics = new GameMechanics();
-    
-    //Player turns- gameplay
     gamePlay();
-        /*Show all details
-            - names of players
-            - scores of players
-            - board
-            - current player hand
-            - user prompt
-         */
-    
-    //Proceed to gameplay
+
 }
 
 void saveGame()
 {
-    string filename = ""; 
+    string filename = "";
     cout<<"Please enter a filename"<<endl;
     cin>>filename;
     FileIO myFile(filename, true);
@@ -133,7 +127,7 @@ void saveGame()
 
 void loadGame() 
 {
-    string filename = ""; 
+    string filename = "";
     cout<<"Please enter a filename"<<endl;
     cin>>filename;
     FileIO *myFile = new FileIO(filename, false);
@@ -223,7 +217,6 @@ LinkedList* generateBag() {
 
 //Loops which alternates through player turns until someone wins or gameplay is saved/quit
 void gamePlay() {
-    
     //If a currentPlayer has not been loaded in
     if(currentPlayer == nullptr) {
         currentPlayer = players[0];
@@ -261,8 +254,7 @@ void gamePlay() {
         string action = "";
         string tileString = "";
         oss >> action;
-        
-        cout << action << endl;
+
         if(action == "place") {
             
             //Tile info to be placed (ie 'R6')
@@ -277,9 +269,7 @@ void gamePlay() {
             int xPos = std::stoi(position.substr(1));
 
             //IF player's hand contains tile matching tileString
-            
             if(currentPlayer->getHand()->contains(tileString[0], tileString[1] - '0')) {
-                
                 //Add tile to board
                     //  EG. addTile(5, D, G3) --> add tile G3 to position D5
                 board->addTile(xPos, yPos, tileString);
@@ -319,18 +309,27 @@ void gamePlay() {
             
         }
     }
+    
 }
 
-void loadPlayers(FileIO* myFile){
+void loadPlayers(FileIO* myFile)
+{
+    myFile->loadPlayers(players);
 }
 
-void loadBoard(FileIO* myFile){
+void loadBoard(FileIO* myFile)
+{
+    myFile->loadBoard(board, boardPositions);
 }
 
-void loadBag(FileIO* myFile){
+void loadBag(FileIO* myFile)
+{
+    myFile->loadBag(bag);
 }
 
-void loadCurrentPlayer(FileIO* myFile){
+void loadCurrentPlayer(FileIO* myFile)
+{
+    currentPlayer = myFile->loadCurrentPlayer(players, currentPlayer);
 }
 
 int alphToNum(char letter) {

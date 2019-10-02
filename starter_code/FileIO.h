@@ -3,11 +3,12 @@
 #include "LinkedList.h"
 #include "Player.h"
 #include "Board.h"
+#include "BoardPosition.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <stdexcept>
 #include <vector>
+#include <string>
 
 using std::string;
 using std::ifstream;
@@ -15,25 +16,25 @@ using std::ofstream;
 using std::endl;
 
 class FileIO {
-public: 
-	FileIO(string filename, bool save);
-	~FileIO();
-	string save(std::vector<Player *> & players, Board* board, LinkedList* bag, Player* current);
-	void savePlayers(const std::vector<Player *> & players);
-	void saveBoard(Board* board);
-	void saveBag(LinkedList* bag);
-	void saveCurrentPlayer(Player* current);
+public:
+    FileIO(string filename, bool save);
+    ~FileIO();
+    string save(std::vector<Player *> & players, Board* board, LinkedList* bag, Player* current);
+    void savePlayers(const std::vector<Player *> & players);
+    void saveBoard(Board* board);
+    void saveBag(LinkedList* bag);
+    void saveCurrentPlayer(Player* current);
 
-	// std::vector<Player *> loadPlayers();
-	// std::vector< std:vector<string> > loadBoard();   
-	// LinkedList* loadBag();
-	// Player* loadCurrentPlayer();
+    void loadPlayers(std::vector<Player *> & players);
+    void loadBoard(Board* board, PosVec & boardPositions);
+    void loadBag(LinkedList* bag);
+    Player* loadCurrentPlayer(std::vector<Player *> & players, Player* current);
 
-	bool checkFile();
-	void closeFile();
+    bool checkFile();
+    void closeFile();
 
 private:
-	ifstream inputFile;
+    ifstream inputFile;
     ofstream outputFile;
 };
 
