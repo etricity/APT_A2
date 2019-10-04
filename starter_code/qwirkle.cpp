@@ -244,7 +244,7 @@ void gamePlay() {
         for(int i = beginningTurn; i < players.size(); i++) {
             currentPlayer = players[i];
             //Current player
-            cout << currentPlayer->getName() << "'s turn." << endl;
+            cout << endl << currentPlayer->getName() << "'s turn." << endl;
             //Printing scores of all players
             for(Player* p: players) {
                 cout << p->getName() << " score: " << p->getScore() << endl;
@@ -289,6 +289,13 @@ void gamePlay() {
                        
                        if(boardPositions.size() > 0) {
                            if(gameMechanics.checkPosition(*tileFromHand, newBP, boardPositions)) {
+                               
+                               //Checking for a qwirkle
+                               if(gameMechanics.isQwirkle(*tileFromHand, newBP, boardPositions)) {
+                                   cout << endl << "QWIRKLE!!!" << endl;;
+                               }
+                               
+                               
                                int points = gameMechanics.getPoints(*tileFromHand, newBP, boardPositions);
                                currentPlayer->addToScore(points);
                                newBP->setTile(tileFromHand);
