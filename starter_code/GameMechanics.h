@@ -4,7 +4,6 @@
 #include "Tile.h"
 #include "BoardPosition.h"
 #include "LinkedList.h"
-#include "CustomException.h"
 #include <vector>
 #include <stdexcept>
 
