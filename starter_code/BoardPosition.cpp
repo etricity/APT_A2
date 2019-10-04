@@ -37,7 +37,3 @@ int BoardPosition::getY() {
 Tile BoardPosition::getTile() {
     return *tile ;
 }
-
-
-
-
