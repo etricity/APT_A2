@@ -22,6 +22,7 @@ int main(void) {
                 newGame();
             } else if(userInput == "2") {
                 loadGame();
+                gamePlay();
             } else if(userInput == "3") {
                 showInfo();
                 //allows user to go back to menu
@@ -128,19 +129,18 @@ void newGame() {
 
 void saveGame()
 {
-    string filename = "";
     cout<<"Please enter a filename"<<endl;
-    cin>>filename;
-    FileIO myFile(filename, true);
+    promptUserInput();
+    FileIO myFile(userInput, true);
     cout<<myFile.save(players, board, bag, currentPlayer)<<endl;
+    cin.ignore(1);
 }
 
 void loadGame() 
 {
-    string filename = "";
     cout<<"Please enter a filename"<<endl;
-    cin>>filename;
-    FileIO *myFile = new FileIO(filename, false);
+    promptUserInput();
+    FileIO *myFile = new FileIO(userInput, false);
     if(myFile->checkFile())
     {
         cout << "Loading Game...." << endl;
@@ -150,10 +150,11 @@ void loadGame()
         loadCurrentPlayer(myFile);
         myFile->closeFile();
         cout << "Game Succesfully Loaded" << endl;
+        cin.ignore(1);
     }
     else
     {
-        cout<<"Sorry the file does not exist"<<endl;
+        throw CustomException("Sorry file does not exist.");
     }
 }
 
@@ -200,8 +201,8 @@ LinkedList* generateBag() {
     }
     
     //Shuffling up the vector<Tile>
-    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::shuffle(tilesInBag.begin(), tilesInBag.end(), std::default_random_engine(seed));
+//    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
+//    std::shuffle(tilesInBag.begin(), tilesInBag.end(), std::default_random_engine(seed));
     
     //Creating the bag
     LinkedList* bag = new LinkedList();
@@ -232,93 +233,120 @@ void gamePlay() {
         currentPlayer = players[0];
     }
     
-    //Always the gameplay to begin at the turn of the currentPlayer
-    std::vector<Player*>::iterator it = std::find(players.begin(), players.end(), currentPlayer);
-    int beginningTurn = std::distance(players.begin(), it);
-    
-    for(int i = beginningTurn; i < players.size(); i++) {
-        currentPlayer = players[i];
-        //Current player
-        cout << currentPlayer->getName() << "'s turn." << endl;
-        //Printing scores of all players
-        for(Player* p: players) {
-            cout << p->getName() << " score: " << p->getScore() << endl;
-        }
-        //Printing board
-        cout << board->toString() << endl;
-        //Current player's hand
-        cout << "Your hand is..." << endl;
-        cout << "Bag Size: " << currentPlayer->getHand()->size() << endl;
-        cout << currentPlayer->getHand()->toString();
+    bool endGame = false;
+    while(!endGame) {
         
-        //Player takes an action
         
-        //Getting userInput
-        do {
-            try {
-                promtUserInput_WholeLine();
-                valid = validator.validateCommand(userInput, currentPlayer, board);
-            } catch(CustomException e) {
-                cout << e.getMessage() << endl;
-                valid = false;
-            } catch(std::invalid_argument& e) {
-                cout << "Invalid position structure" << endl;
-                valid = false;
+        //Always the gameplay to begin at the turn of the currentPlayer
+        std::vector<Player*>::iterator it = std::find(players.begin(), players.end(), currentPlayer);
+        int beginningTurn = std::distance(players.begin(), it);
+        
+        for(int i = beginningTurn; i < players.size(); i++) {
+            currentPlayer = players[i];
+            //Current player
+            cout << currentPlayer->getName() << "'s turn." << endl;
+            //Printing scores of all players
+            for(Player* p: players) {
+                cout << p->getName() << " score: " << p->getScore() << endl;
             }
-        } while(!valid);
-        
-        //1. Places a tile on the board
-        std::istringstream oss(userInput);
-        string action = "";
-        string tileString = "";
-        oss >> action;
+            //Printing board
+            cout << board->toString() << endl;
+            //Current player's hand
+            cout << "Your hand is..." << endl;
+            cout << currentPlayer->getHand()->toString();
+            
+            //Player takes an action
+            
+            //Getting userInput
+           do {
+               try {
+                   promtUserInput_WholeLine();
+                   valid = validator.validateCommand(userInput, currentPlayer, board);
+                   
+                   
+                   //1. Places a tile on the board
+                   std::istringstream oss(userInput);
+                   string action = "";
+                   string tileString = "";
+                   oss >> action;
 
-        if(action == "place") {
-            
-            //Tile info to be placed (ie 'R6')
-            oss >> tileString;
-            //ignores word "at"
-            oss.ignore(256,'t');
-            //Co-ordinates for tile to be added to board
-            string position = "";
-            oss >> position;
-            
-            int yPos = alphToNum(position[0]);
-            int xPos = std::stoi(position.substr(1));
+                   if(action == "place") {
+                       
+                       //Tile info to be placed (ie 'R6')
+                       oss >> tileString;
+                       //ignores word "at"
+                       oss.ignore(256,'t');
+                       //Co-ordinates for tile to be added to board
+                       string position = "";
+                       oss >> position;
+                       
+                       int yPos = alphToNum(position[0]);
+                       int xPos = std::stoi(position.substr(1));
 
-            //Add tile to board
-            Node* node = currentPlayer->getHand()->getNode(tileString[0], tileString[1] - '0');
-            
-            //  EG. addTile(5, D, G3) --> add tile G3 to position D5
-            board->addTile(xPos, yPos, tileString);
-            //Add new BoardPosition to PosVec (maintains a vector of all tiles current on Board)
-            PosPtr newBP = new BoardPosition(xPos, yPos);
-            
-            newBP->setTile(node->tile);
-            boardPositions.push_back(newBP);
 
-        } else if (action == "replace") {
-            
-            //Tile info to be placed (ie 'R6')
-            oss >> tileString;
-            char colour = tileString[0];
-            int shape = std::stoi(tileString.substr(1,1));
-            
-            //Puts tile from Player hand to bag
-            bag->add_back(new Node(*currentPlayer->getHand()->remove(colour, shape)));
-            //Adds head of bag to back of hand
-            currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
-            bag->remove_front();
+                       PosPtr newBP = new BoardPosition(xPos,yPos);
+                       Tile* tileFromHand = currentPlayer->getHand()->getNode(tileString[0], tileString[1] - '0')->tile;
+                       
+                       if(boardPositions.size() > 0) {
+                           if(gameMechanics.checkPosition(*tileFromHand, newBP, boardPositions)) {
+                               int points = gameMechanics.getPoints(*tileFromHand, newBP, boardPositions);
+                               currentPlayer->addToScore(points);
+                               newBP->setTile(tileFromHand);
+                               boardPositions.push_back(newBP);
+                               board->addTile(xPos, yPos, tileString);
+                               
+                               
+                           } else {
+                               throw CustomException("Invalid Tile placement.");
+                           }
+                       } else {
+                           currentPlayer->addToScore(1);
+                           newBP->setTile(tileFromHand);
+                           boardPositions.push_back(newBP);
+                           board->addTile(xPos, yPos, tileString);
+                           
+                       }
+                       currentPlayer->getHand()->remove(tileString[0], tileString[1] - '0');
+                       //Adds head of bag to back of hand
+                       currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
+                       bag->remove_front();
+                       
+                   } else if (action == "replace") {
+                       
+                       //Tile info to be placed (ie 'R6')
+                       oss >> tileString;
+                       char colour = tileString[0];
+                       int shape = std::stoi(tileString.substr(1,1));
+                       
+                       //Puts tile from Player hand to bag
+                       bag->add_back(new Node(*currentPlayer->getHand()->remove(colour, shape)));
+                       //Adds head of bag to back of hand
+                       currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
+                       bag->remove_front();
 
-        } else if (action == "save") {
-            saveGame();
-        } else if (action == "quit") {
-            cout << "Goodbye!" << endl;
-            exit(0);
-        } else {
-            
+                   } else if (action == "save") {
+                       saveGame();
+                       i--;
+                   } else if (action == "quit") {
+                       cout << "Goodbye!" << endl;
+                       exit(0);
+                   }
+               } catch(CustomException e) {
+                   cout << e.getMessage() << endl;
+                   valid = false;
+               } catch(std::invalid_argument e) {
+                   cout << "Invalid Board Position" << endl;
+                   valid = false;
+               }
+           } while(!valid);
         }
+        
+        currentPlayer = players[0];
+        
+        endGame = checkEndGameConditions();
+        
     }
+    
     
 }
 
@@ -355,4 +383,32 @@ int alphToNum(char letter) {
         }
     }
     return yCoordInt;
+}
+
+bool checkEndGameConditions() {
+    
+    bool emptyPlayerHand = false;
+    bool emptyBag = false;
+    
+    bool endGame = false;
+    
+    if(bag->size() == 0) {
+        emptyBag = true;
+    }
+    
+    int i = 0;
+    while(i < players.size() && !emptyPlayerHand) {
+        
+        if(players[i]->getHand()->size() == 0) {
+            emptyPlayerHand = true;
+        }
+        
+        i++;
+    }
+    
+    if(emptyPlayerHand && emptyBag) {
+        endGame = true;
+    }
+    return endGame;
+    
 }

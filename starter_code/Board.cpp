@@ -118,7 +118,6 @@ void Board::addTile(int xCoord, int yCoord, string tileString){
     //compensate for board edges
     board[yCoord+2][xCoord+1]= newTile;
 
-    std::cout << toString();
         
 }
 

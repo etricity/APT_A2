@@ -34,11 +34,13 @@ void LinkedList::add_back(Node* node){
 //Removes the head from the list
 void LinkedList::remove_front(){
     
-    if(head != nullptr){
-        delete head;
+    if(head->next != nullptr) {
         head = head->next;
-        numNodes--;
+    //List is now empty
+    } else {
+        head = nullptr;
     }
+    numNodes--;
 }
 
 /*
@@ -49,18 +51,33 @@ Node* LinkedList::remove(char colour, int shape){
     
     Node* current = head;
     Node* previous = nullptr;
-    if(head->next == nullptr){
-        head = nullptr;
+    
+    //IF head is to be removed
+    if(colour == current->tile->getColour() && shape == current->tile->getShape()){
+        remove_front();
     } else {
-        //Finds the first tile in hand that is to be removed
-        while(colour != current->tile->getColour() || shape != current->tile->getShape()){
+        
+        while(current != nullptr && (colour != current->tile->getColour() || shape != current->tile->getShape())) {
             previous = current;
             current = current->next;
         }
-        //Removes tile from hand
-        previous->next = current->next;
+        
+        //IF node is found
+        if(current != nullptr) {
+            
+            //IF node to remove is tail
+            if(current == tail) {
+                previous->next = current->next;
+                tail = previous;
+                //IF node to remove is not head or tail
+            } else {
+                previous->next = current->next;
+            }
+            numNodes--;
+        }
+        
     }
-    numNodes--;
+    
     return current;
 }
 

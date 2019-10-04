@@ -9,6 +9,7 @@
 #include "BoardPosition.h"
 #include "Validator.h"
 
+
 #include <vector>
 #include <random>
 #include <chrono>
@@ -35,7 +36,8 @@ using std::vector;
     void loadGame();
     void saveGame();
     void showInfo();
-    //void quit();
+    void quit();
+    bool checkEndGameConditions();
     int alphToNum(char letter);
 
     void loadPlayers(FileIO* myFile);
