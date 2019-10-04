@@ -7,11 +7,11 @@ BoardPosition::BoardPosition(int x, int y) {
     tile = nullptr;
 }
 
-BoardPosition::BoardPosition(BoardPosition& other) :
-    x(other.x),
-    y(other.y),
-    tile(other.tile)
-    {}
+BoardPosition::BoardPosition(BoardPosition& other) {
+    this->x = new int(other.getX());
+    this->y = new int(other.getY());
+    tile = other.tile;
+}
 
 BoardPosition::~BoardPosition(){
     delete x;
