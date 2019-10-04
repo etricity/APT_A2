@@ -71,6 +71,7 @@ PosPtr GameMechanics::getHint(LinkedList* playerBag, PosVec board) {
 
     while(currHead != nullptr){
         Tile* currTile = currHead->tile;
+        bool legalMove = false;
 
         //Iterates through all placed BoardPositions that have been previously authenticated
         for(PosPtr pos: board){
@@ -81,15 +82,21 @@ PosPtr GameMechanics::getHint(LinkedList* playerBag, PosVec board) {
                     //index of BoardPositions in the BoardPositions list -> board
                     checkPos = new BoardPosition(pos->getX()+i, pos->getY()+k);
 
+                    //Check that the tile can not be placed in a line already established as 6
+                    PosVec tempList = getTilesInRow(checkPos, pos, board);
+                    if(tempList.size() < QWIRKLE){
+                        legalMove = true;
+                    }
+
                     //Validation to check that created position does not escape the bounds of the game board
-                    if(checkPos->getX() >= 0 && checkPos->getY() >= 0
+                    if(legalMove && checkPos->getX() >= 0 && checkPos->getY() >= 0
                         && checkPosition(*currTile, checkPos, board)){
 
                         //Checks if previous possibility of placement is a better result in placement
                         if(getPoints(*currTile, checkPos, board) > points){
 
                             if(bestPosition == nullptr){
-                                bestPosition = checkPos;
+                                bestPosition = new BoardPosition(*checkPos);
                                 points = getPoints(*currTile, checkPos, board);
                                 bestPosition->setTile(currTile);
                             }
