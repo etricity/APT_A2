@@ -331,7 +331,14 @@ void gamePlay() {
                        currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
                        bag->remove_front();
 
-                   } else if (action == "save") {
+                   } else if(action == "hint") {
+                       
+                       PosPtr hintBP = gameMechanics.getHint(currentPlayer->getHand(), boardPositions);
+                       char letter = 'A' + hintBP->getY();
+                       cout << "Try placing a tile at: " << letter << hintBP->getX() << endl;
+                       i--;
+                       
+                   }else if (action == "save") {
                        saveGame();
                        i--;
                    } else if (action == "quit") {
