@@ -41,7 +41,7 @@ string FileIO::save(std::vector<Player *> & players, Board* board, LinkedList* b
     saveBag(bag);
     saveCurrentPlayer(current);
     outputFile.close();
-    return "Game Successfully Saved";
+    return "Game Successfully Saved\n";
 }
 
 void FileIO::savePlayers(const std::vector<Player *> & players)

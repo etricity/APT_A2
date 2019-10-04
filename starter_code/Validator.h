@@ -20,6 +20,7 @@ public:
     bool validateCommand(string userInput, Player* currentPlayer, Board* board);
     bool validateHandTile(string tileString, Player* currentPlayer);
     bool validationPosition(string positionString, Board* board);
+    bool validateSave(string userInput);
     
     bool valid;
 };

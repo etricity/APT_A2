@@ -36,7 +36,9 @@ using std::vector;
     void loadGame();
     void saveGame();
     void showInfo();
+    void showCommands();
     void quit();
+    void clear();
     bool checkEndGameConditions();
     int alphToNum(char letter);
 

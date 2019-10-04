@@ -48,7 +48,7 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
     string arg = "";
     
     //Validate action
-    vector<string> validActions = {"place","replace","save","quit"};
+    vector<string> validActions = {"place","replace","save","quit", "help"};
     oss >> arg;
     
     if(arg == "place") {
@@ -64,22 +64,18 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
         oss >> arg;
         validationPosition(arg, board);
         
-        
-//        if(!std::isalpha(arg[0])) {
-//            throw CustomException("Invalid Position");
-//        }
-//        arg = arg.substr(1);
-//        if(!std::all_of(arg.begin(), arg.end(), ::isdigit)) {
-//             throw CustomException("Invalid Position");
-//        }
-        
     } else if(arg == "replace") {
         oss >> arg;
         validateHandTile(arg, currentPlayer);
         
     } else if(arg == "save") {
+        arg = "";
+        oss >> arg;
+        validateSave(arg);
         
     } else if(arg == "quit") {
+        
+    } else if(arg == "help"){
         
     } else {
         throw CustomException("Invalid Command.");
@@ -109,6 +105,21 @@ bool Validator::validationPosition(string positionString, Board* board) {
     
     if(!board->isBoardPositionValid(yCo, xCo)) {
          throw CustomException("Invalid Board Position.");
+    }
+    
+    return true;
+}
+
+bool Validator::validateSave(string filename) {
+    
+    if(filename.size() < 1) {
+        throw CustomException("Not a valid filename.");
+    }
+    
+    for(int i = 0; i < filename.size(); i++) {
+        if(std::isspace(filename[i])) {
+            throw CustomException("Not a valid filename.");
+        }
     }
     
     return true;

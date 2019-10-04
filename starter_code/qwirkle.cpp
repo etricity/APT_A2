@@ -4,7 +4,7 @@ int main(void) {
     
      //TODO Menu Interface
        cout << endl<< "Welcome to Qwirkle!" << endl;
-              cout << "-------------------" << endl << endl;
+              cout << "-------------------" << endl;
 
        //Generate board
        board = new Board(26,26);
@@ -28,8 +28,7 @@ int main(void) {
                 //allows user to go back to menu
                 valid = false;
             } else if(userInput == "4") {
-                cout << "Goodbye!" << endl << endl;
-                exit(0);
+                quit();
             }
             
         } catch(CustomException e) {
@@ -44,21 +43,20 @@ int main(void) {
 void promptUserInput() {
     cout << "> ";
     cin >> userInput;
+    cout << endl;
     
     if(cin.eof()) {
-        cout << "Goodbye!" << endl;
-        exit(0);
+        quit();
     }
-    
 }
 
-void promtUserInput_WholeLine() {
+void promptUserInput_WholeLine() {
     cout << "> ";
     std::getline(cin, userInput);
+    cout << endl;
     
     if(cin.eof()) {
-        cout << "Goodbye!" << endl;
-        exit(0);
+        quit();
     }
 }
 
@@ -89,13 +87,11 @@ void newGame() {
             valid = false;
         }
     } while(!valid);
-    cout << endl;
     
     int numPlayers = std::stoi(userInput);
     for(int i = 0; i < numPlayers; i++) {
         cout << "Enter a name for player " << i + 1 << " (uppercase characters only)" << endl;
-        cout << "> ";
-        cin >> userInput;
+        promptUserInput();
 
         //Removes remaining '\n' in cin buffer
         cin.ignore(1, '\n');
@@ -104,13 +100,11 @@ void newGame() {
         players.push_back(new Player(userInput));
     }
     
-    cout << endl << "Let's Play" << endl;
+    cout << "Let's Play" << endl;
     
 //Create new qwirkle game
     //Create bag
     bag = generateBag();
-
-    cout << endl;
     
     //Fill player hands from bag
     for(Player* p: players) {
@@ -129,11 +123,9 @@ void newGame() {
 
 void saveGame()
 {
-    cout<<"Please enter a filename"<<endl;
-    promptUserInput();
-    FileIO myFile(userInput, true);
+    string filename = userInput.substr(userInput.find(" ") + 1);
+    FileIO myFile(filename, true);
     cout<<myFile.save(players, board, bag, currentPlayer)<<endl;
-    cin.ignore(1);
 }
 
 void loadGame() 
@@ -149,7 +141,7 @@ void loadGame()
         loadBag(myFile);
         loadCurrentPlayer(myFile);
         myFile->closeFile();
-        cout << "Game Succesfully Loaded" << endl;
+        cout << "Game Succesfully Loaded" << endl << endl;
         cin.ignore(1);
     }
     else
@@ -244,7 +236,7 @@ void gamePlay() {
         for(int i = beginningTurn; i < players.size(); i++) {
             currentPlayer = players[i];
             //Current player
-            cout << endl << currentPlayer->getName() << "'s turn." << endl;
+            cout << currentPlayer->getName() << "'s turn." << endl;
             //Printing scores of all players
             for(Player* p: players) {
                 cout << p->getName() << " score: " << p->getScore() << endl;
@@ -260,7 +252,7 @@ void gamePlay() {
             //Getting userInput
            do {
                try {
-                   promtUserInput_WholeLine();
+                   promptUserInput_WholeLine();
                    valid = validator.validateCommand(userInput, currentPlayer, board);
                    
                    
@@ -334,9 +326,11 @@ void gamePlay() {
                    } else if (action == "save") {
                        saveGame();
                        i--;
+                   } else if(action == "help") {
+                       showCommands();
+                       i--;
                    } else if (action == "quit") {
-                       cout << "Goodbye!" << endl;
-                       exit(0);
+                       quit();
                    }
                } catch(CustomException e) {
                    cout << e.getMessage() << endl;
@@ -417,5 +411,29 @@ bool checkEndGameConditions() {
         endGame = true;
     }
     return endGame;
+    
+}
+
+void showCommands() {
+    cout << "Player Actions:" << endl
+    << "1. place <tile> at <position>" << endl
+    << "2. replace <tile>" << endl
+    << "3. save <filename>" << endl
+    << "4. quit" << endl
+    << "5. help" << endl << endl;
+}
+
+void quit() {
+    cout << "Goodbye!" << endl;
+    clear();
+    exit(0);
+}
+
+//Clean up all memmory
+void clear() {
+    //Clear bag
+    //Clear player hands
+    //Clear BoardPositions
+    //Clear Players
     
 }
