@@ -48,7 +48,7 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
     string arg = "";
     
     //Validate action
-    vector<string> validActions = {"place","replace","save","quit", "help"};
+    vector<string> validActions = {"place","replace","save","quit", "help", "hint"};
     oss >> arg;
     
     if(arg == "place") {
@@ -76,6 +76,8 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
     } else if(arg == "quit") {
         
     } else if(arg == "help"){
+        
+    } else if (arg == "hint") {
         
     } else {
         throw CustomException("Invalid Command.");

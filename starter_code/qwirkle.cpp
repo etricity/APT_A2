@@ -193,8 +193,8 @@ LinkedList* generateBag() {
     }
     
     //Shuffling up the vector<Tile>
-//    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
-//    std::shuffle(tilesInBag.begin(), tilesInBag.end(), std::default_random_engine(seed));
+    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::shuffle(tilesInBag.begin(), tilesInBag.end(), std::default_random_engine(seed));
     
     //Creating the bag
     LinkedList* bag = new LinkedList();
@@ -236,7 +236,7 @@ void gamePlay() {
         for(int i = beginningTurn; i < players.size(); i++) {
             currentPlayer = players[i];
             //Current player
-            cout << currentPlayer->getName() << "'s turn." << endl;
+            cout << endl << currentPlayer->getName() << "'s turn." << endl;
             //Printing scores of all players
             for(Player* p: players) {
                 cout << p->getName() << " score: " << p->getScore() << endl;
@@ -331,6 +331,11 @@ void gamePlay() {
                        i--;
                    } else if (action == "quit") {
                        quit();
+                   } else if (action == "hint") {
+                       PosPtr hint = gameMechanics.getHint(currentPlayer->getHand(), boardPositions);
+                       char row = 'A' + hint->getY();
+                       cout << "Try placing a tile at: " << row << hint->getX() << endl;
+                       i--;
                    }
                } catch(CustomException e) {
                    cout << e.getMessage() << endl;
