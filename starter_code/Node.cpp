@@ -18,8 +18,6 @@ Node::~Node() {
 }
 
 void Node::clear() {
-    tile = nullptr;
-    //Attempting to either set next to nullptr or delete it causes a Seg Fault
-    //Needs to be further looked at for memmory deallocation 
+    //Do not delete next --> next is a pointer to another node. It will be deleted when the list is deleted.
     delete tile;
 }

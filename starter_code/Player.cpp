@@ -7,7 +7,7 @@ Player::Player(string name) {
 }
 
 Player::~Player() {
-   // clear();
+    clear();
 }
 
 string Player::getName() {
@@ -27,7 +27,7 @@ LinkedList * Player::getHand() {
 }
 
 void Player::clear() {
-    
+    delete hand;
 }
 
 

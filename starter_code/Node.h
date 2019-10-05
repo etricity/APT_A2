@@ -6,13 +6,14 @@
 class Node {
 public:
 
-   Node(Tile* tile, Node* next);
-   Node(Node& other);
+    Node(Tile* tile, Node* next);
+    Node(Node& other);
     ~Node();
+    
     void clear();
 
-   Tile*    tile;
-   Node*    next;
+    Tile*    tile;
+    Node*    next;
 };
 
 #endif 

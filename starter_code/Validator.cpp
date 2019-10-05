@@ -47,8 +47,8 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
     std::istringstream oss(userInput);
     string arg = "";
     
-    //Validate action
-    vector<string> validActions = {"place","replace","save","quit", "help", "hint", "forfeit"};
+    /* add 'hint' if fixed by due date */
+
     oss >> arg;
     
     if(arg == "place") {
@@ -76,8 +76,6 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
     } else if(arg == "quit") {
         
     } else if(arg == "help"){
-        
-    } else if (arg == "hint") {
         
     } else if (arg == "forfeit") {
         validateForfeit(numPlayers);

@@ -85,20 +85,6 @@ Node* LinkedList::getHead() {
     return head;
 }
 
-//Deallocated all memmory for all nodes in the list
-void LinkedList::clear(){
-    Node* current = head;
-    Node* next = nullptr;
-    
-    for(int i = 0; i < numNodes; i++)
-    {
-        next = current->next;
-        delete current;
-        current = next;
-    }
-    delete current;
-}
-
 bool LinkedList::contains(char colour, int shape) {
     bool found = false;
     
@@ -142,4 +128,16 @@ string LinkedList::toString(){
     oss << endl;
     string listString = oss.str();
     return listString;
+}
+
+//Deallocated all memmory for all nodes in the list
+void LinkedList::clear(){
+    Node* current = head;
+    Node* next = nullptr;
+    
+    while(current != nullptr) {
+        next = current->next;
+        delete current;
+        current = next;
+    }
 }
