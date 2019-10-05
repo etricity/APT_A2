@@ -1,11 +1,7 @@
 #include "Validator.h"
 
-void Validator::validToFalse() {
-    valid = false;
-}
-
 bool Validator::validateMenuInput(string userInput) {
-    validToFalse();
+    valid = false;
     vector<string> validInputs = {"1","2","3","4"};
     
     int i = 0;
@@ -20,11 +16,10 @@ bool Validator::validateMenuInput(string userInput) {
         throw CustomException("Invalid Input.");
     }
     
-    return valid;
+    return true;
 }
 
 bool Validator::validateNumPlayers(string userInput) {
-    validToFalse();
     vector<string> validInputs = {"1","2","3","4"};
     
     int i = 0;
@@ -39,7 +34,7 @@ bool Validator::validateNumPlayers(string userInput) {
         throw CustomException("You must have 1-4 players.");
     }
     
-    return valid;
+    return true;
 }
 
 bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* board, vector<Player*> players, LinkedList* bag, vector<PosPtr> boardPositions) {
@@ -114,7 +109,7 @@ bool Validator::validationPosition(string positionString, Board* board) {
     int xCo = stoi(positionString.substr(1));
     
     if(!board->isBoardPositionValid(yCo, xCo)) {
-         throw CustomException("Invalid Board Position.");
+        throw CustomException("Invalid Board Position.");
     }
     
     return true;

@@ -36,7 +36,7 @@ void LinkedList::remove_front(){
     
     if(head->next != nullptr) {
         head = head->next;
-    //List is now empty
+        //List is now empty
     } else {
         head = nullptr;
     }
@@ -119,7 +119,7 @@ string LinkedList::toString(){
     Node* temp = head;
     for(int i = 0; i < numNodes; i++){
         oss << temp->tile->getColour() << temp->tile->getShape();
-
+        
         if(temp->next != nullptr) {
             oss << ", ";
         }

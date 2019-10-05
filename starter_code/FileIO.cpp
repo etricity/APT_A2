@@ -8,13 +8,13 @@ FileIO::FileIO(string filename, bool save)
     }
     else
     {
-       inputFile.open(filename+".save");
+        inputFile.open(filename+".save");
     }
 }
 
 FileIO::~FileIO()
 {
-   
+    
 }
 
 bool FileIO::checkFile()
@@ -96,7 +96,7 @@ void FileIO::loadPlayers(std::vector<Player *> & players)
                 if(i==0)
                 {
                     std::transform(lineContents.begin(), lineContents.end(), lineContents.begin(), ::toupper);
-                       players.push_back(new Player(lineContents));
+                    players.push_back(new Player(lineContents));
                 }
                 else if(i==1)
                 {
@@ -161,16 +161,16 @@ void FileIO::loadBoard(Board* board, PosVec & boardPositions)
             {
                 string temp = lineContents.substr(index, 3);
                 char letter = temp[1];
-                   if(letter>='A' && letter<='Z')
-                   {
-                       shape = std::stoi(temp.substr(2,1));
-                       PosPtr position = new BoardPosition(xCoord,yCoord - 1);
-                       position->setTile(new Tile(letter,shape));
-                       boardPositions.push_back(position);
-                   }
-                   xCoord++;
-                   index = index + 3;
-               }
+                if(letter>='A' && letter<='Z')
+                {
+                    shape = std::stoi(temp.substr(2,1));
+                    PosPtr position = new BoardPosition(xCoord,yCoord - 1);
+                    position->setTile(new Tile(letter,shape));
+                    boardPositions.push_back(position);
+                }
+                xCoord++;
+                index = index + 3;
+            }
         }
     }
 }

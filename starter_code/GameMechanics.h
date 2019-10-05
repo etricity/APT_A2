@@ -15,10 +15,10 @@
  * 3) Checks for all possible points made from move, will return as an int
  *
  * Requirements
-*/
+ */
 
 class GameMechanics {
-
+    
 public:
     bool checkPosition(Tile newTile, PosPtr newPos, PosVec list);
     bool isQwirkle(Tile newTile, PosPtr newPos, PosVec list);
@@ -30,18 +30,18 @@ public:
      * that will get the player the highest possible score.
      */
     PosPtr getHint(LinkedList* playerBag, PosVec board);
-
+    
 private:
     bool areTilesNeighbours(PosPtr newPos, PosPtr checkPos);
     bool doTilesMatchColour(Tile newTile, Tile oldTile);
     bool doTilesMatchShape(Tile newTile, Tile checkTile);
     bool isTileTheSame(Tile newTile, Tile checkTile);
     bool doesTileExistInLine(Tile checkTile, PosPtr newPos, PosVec list);
-
+    
     PosVec getTilesInRow(PosPtr newPos, PosPtr checkPos, PosVec list);
-
+    
     bool canTileBePlaced(Tile newTile, PosPtr newPos, PosVec list);
-
+    
     int numberOfQwirkles(Tile newTile, PosPtr newPos, PosVec list);
 };
 

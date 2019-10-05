@@ -12,10 +12,10 @@ public:
     Tile(Colour colour, Shape shape);
     Tile(const Tile& tile);
     ~Tile();
-
+    
     Colour getColour();
     Shape getShape();
-
+    
 private:
     Colour colour;
     Shape shape;

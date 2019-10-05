@@ -6,13 +6,13 @@
 Board::Board(int xSize, int ySize){
     this->xSize = xSize;
     this->ySize = ySize;
-
+    
     //fill alphabet vector
     for(char c = 'A'; c <= 'Z'; ++c){
         string s(1, c);
         alphabet.emplace_back(s);
     }
-
+    
     initBoard();
 }
 
@@ -23,14 +23,14 @@ Board::Board(int xSize, int ySize){
 
 //initialise the board
 void Board::initBoard(){
-
+    
     //initial row containers
-
+    
     //numerical x coordinate labels
     vector <string> rowOne;
     //top and bottom board borders
     vector <string> borderRow;
-
+    
     //fill initial rows
     for(int i = 0;i<xSize;i++){
         string row1;
@@ -44,7 +44,7 @@ void Board::initBoard(){
             row1 = " " + std::to_string(i);
         }
         rowOne.emplace_back(row1);
-
+        
         string border;
         if(i==0){
             border = "  --";
@@ -53,9 +53,9 @@ void Board::initBoard(){
         }
         borderRow.emplace_back(border);
     }
-
+    
     //the creation of the board
-
+    
     //x axis labels
     board.emplace_back(rowOne);
     //top border
@@ -111,35 +111,35 @@ string Board::toString(){
 
 //add a tile (provides no validation, invalid coords (eg (1,1)/(1,A)) must not be passed)
 void Board::addTile(int xCoord, int yCoord, string tileString){
-
+    
     //add whitespace to make up the correct three character column width
     std::string newTile = " " + tileString;
     
     //compensate for board edges
     board[yCoord+2][xCoord+1]= newTile;
-
-        
+    
+    
 }
 
 //to be called when a board is loaded in
 //accepts a string that represents an entire row in an existing board
 //passed row strings must be of the same length as the ones in the current board
 void Board:: readRow(string row){
-
+    
     //find row's y coordinate by reading the first character
     int yCoordInt;
     string yCoordString(1, row.at(0));
-//moved this code into yCoordToInt function to avoid duplication
-//    for(int i = 0;i<alphabet.size();i++){
-//        if(alphabet[i]==yCoordString){
-//            yCoordInt = i;
-//        }
-//    }
+    //moved this code into yCoordToInt function to avoid duplication
+    //    for(int i = 0;i<alphabet.size();i++){
+    //        if(alphabet[i]==yCoordString){
+    //            yCoordInt = i;
+    //        }
+    //    }
     yCoordInt = yCoordToInt(yCoordString);
-
-
+    
+    
     //set vector positions
-
+    
     //substrings of length 3 are created from the string
     //each substring represents one position in the vector
     int bound = 1;
@@ -153,12 +153,12 @@ void Board:: readRow(string row){
 //check if a board position is empty ("   "), and can have a tile placed
 bool Board::isBoardPositionValid(char yCoord, int xCoord){
     string yCoordString(1, yCoord);
-//moved this code into yCoordToInt function to avoid duplication
-//    for(int i = 0;i<alphabet.size();i++){
-//        if(alphabet[i]==yCoordString){
-//            yCoordInt = i;
-//        }
-//    }
+    //moved this code into yCoordToInt function to avoid duplication
+    //    for(int i = 0;i<alphabet.size();i++){
+    //        if(alphabet[i]==yCoordString){
+    //            yCoordInt = i;
+    //        }
+    //    }
     int yCoordInt = yCoordToInt(yCoordString);
     if(board[yCoordInt+2][xCoord+1]=="   "){
         return true;

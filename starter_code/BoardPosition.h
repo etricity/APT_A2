@@ -15,25 +15,25 @@
 
 class BoardPosition {
 public:
-
+    
     // x-co-ordinate
     int getX();
-
+    
     // y-co-ordinate
     int getY();
-
+    
     // Tile
     Tile getTile();
-
+    
     BoardPosition(int x, int y);
-
+    
     BoardPosition(BoardPosition& other);
-
+    
     ~BoardPosition();
-
+    
     void setTile(Tile* tile);
-
-
+    
+    
 private:
     int* x;
     int* y;

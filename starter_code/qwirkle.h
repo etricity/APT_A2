@@ -27,43 +27,51 @@ using std::endl;
 using std::string;
 using std::vector;
 
+//Qwirkle Methods
 
+//gets input from the user
+void promptUserInput();
+//gets input from user (including white spaces)
+void promtUserInput_WholeLine();
 
-    void promptUserInput();
-    void promtUserInput_WholeLine();
-    void printMenu();
+void printMenu();
 
-    void newGame();
-    void loadGame();
-    void saveGame();
-    void showInfo();
-    void showCommands();
-    void quit();
-    void clear();
-    bool checkEndGameConditions();
-    void displayEndGameInfo();
-    Player* calculateWinner();
-    int alphToNum(char letter);
+void newGame();
+void loadGame();
+void gamePlay();
+void saveGame();
+void showInfo();
+void showCommands();
+void quit();
+void displayEndGameInfo();
 
-    void loadPlayers(FileIO* myFile);
-    void loadBoard(FileIO* myFile);
-    void loadBag(FileIO* myFile);
-    void loadCurrentPlayer(FileIO* myFile);
+LinkedList* generateBag();
+bool checkEndGameConditions();
+Player* calculateWinner();
 
-    LinkedList* generateBag();
-    void gamePlay();
+void clear();
 
-    Validator validator;
-    string userInput;
-    bool valid;
+//utility function to convert a character into its integer counterpart
+int alphToNum(char letter);
 
-    vector<Player *> players;
-    Player* currentPlayer;
-    Board* board;
-    LinkedList* bag;
+//load functions
+void loadPlayers(FileIO* myFile);
+void loadBoard(FileIO* myFile);
+void loadBag(FileIO* myFile);
+void loadCurrentPlayer(FileIO* myFile);
 
-    GameMechanics gameMechanics;
-    PosVec boardPositions;
+//Qwirkle Fields
 
+Validator validator;
+string userInput;
+bool valid;
+
+vector<Player *> players;
+Player* currentPlayer;
+Board* board;
+LinkedList* bag;
+
+GameMechanics gameMechanics;
+PosVec boardPositions;
 
 #endif //QWIRKLE_H

@@ -25,15 +25,15 @@ public:
     void saveBoard(Board* board);
     void saveBag(LinkedList* bag);
     void saveCurrentPlayer(Player* current);
-
+    
     void loadPlayers(std::vector<Player *> & players);
     void loadBoard(Board* board, PosVec & boardPositions);
     void loadBag(LinkedList* bag);
     Player* loadCurrentPlayer(std::vector<Player *> & players, Player* current);
-
+    
     bool checkFile();
     void closeFile();
-
+    
 private:
     ifstream inputFile;
     ofstream outputFile;

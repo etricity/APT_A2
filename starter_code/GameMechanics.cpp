@@ -37,12 +37,12 @@ bool GameMechanics::isQwirkle(Tile newTile, PosPtr newPos, PosVec list){
 
 int GameMechanics::getPoints(Tile newTile, PosPtr newPos, PosVec list){
     int points = 0;
-
+    
     if(checkPosition(newTile, newPos, list)){
         for(PosPtr checkPos : list){
             if(areTilesNeighbours(newPos, checkPos)
-                && !isTileTheSame(newTile, checkPos->getTile())) {
-
+               && !isTileTheSame(newTile, checkPos->getTile())) {
+                
                 PosVec tempList = getTilesInRow(newPos, checkPos, list);
                 //The +1 is to account for the tile being placed
                 points += tempList.size()+1;
@@ -50,9 +50,9 @@ int GameMechanics::getPoints(Tile newTile, PosPtr newPos, PosVec list){
         }
     }
     //Counts the number of possible Qwikles and multiplies by 6
-
+    
     points += numberOfQwirkles(newTile, newPos, list) * QWIRKLE;
-
+    
     return points;
 }
 
@@ -63,13 +63,13 @@ PosPtr GameMechanics::getHint(LinkedList* playerBag, PosVec board) {
     int points = 0;
     //Setup for checking all surrounding positions of a given BoardPosition
     int posDif[COORD_SIZE] = {COORD_POST,COORD_NEG};
-
+    
     Node* currHead = playerBag->getHead();
-
+    
     while(currHead != nullptr){
         Tile* currTile = currHead->tile;
         bool legalMove = false;
-
+        
         //Iterates through all placed BoardPositions that have been previously authenticated
         for(PosPtr pos: board){
             //Check over all permutations that would surround the given BoardPosition
@@ -78,20 +78,20 @@ PosPtr GameMechanics::getHint(LinkedList* playerBag, PosVec board) {
                     //checkPos is a possible position created from surrounding coordinates of current
                     //index of BoardPositions in the BoardPositions list -> board
                     checkPos = new BoardPosition(pos->getX()+i, pos->getY()+k);
-
+                    
                     //Check that the tile can not be placed in a line already established as 6
                     PosVec tempList = getTilesInRow(checkPos, pos, board);
                     if(tempList.size() < QWIRKLE){
                         legalMove = true;
                     }
-
+                    
                     //Validation to check that created position does not escape the bounds of the game board
                     if(legalMove && checkPos->getX() >= 0 && checkPos->getY() >= 0
-                        && checkPosition(*currTile, checkPos, board)){
-
+                       && checkPosition(*currTile, checkPos, board)){
+                        
                         //Checks if previous possibility of placement is a better result in placement
                         if(getPoints(*currTile, checkPos, board) > points){
-
+                            
                             if(bestPosition == nullptr){
                                 bestPosition = new BoardPosition(*checkPos);
                                 points = getPoints(*currTile, checkPos, board);
@@ -146,7 +146,7 @@ bool GameMechanics::doTilesMatchShape(Tile newTile, Tile checkTile){
 bool GameMechanics::isTileTheSame(Tile newTile, Tile checkTile){
     bool response = false;
     if(doTilesMatchColour(newTile, checkTile)
-     && doTilesMatchShape(newTile, checkTile)){
+       && doTilesMatchShape(newTile, checkTile)){
         response = true;
     }
     return response;
@@ -155,20 +155,20 @@ bool GameMechanics::isTileTheSame(Tile newTile, Tile checkTile){
 bool GameMechanics::doesTileExistInLine(Tile checkTile, PosPtr newPos, PosVec list){
     bool response = false;
     bool itExists = false;
-
+    
     for(PosPtr pos: list){
         if(areTilesNeighbours(newPos, pos)
-         && !isTileTheSame(checkTile, pos->getTile()) ){
-
+           && !isTileTheSame(checkTile, pos->getTile()) ){
+            
             //Call a method that creates a list of all tiles in a single line
             PosVec tempList = getTilesInRow(newPos, pos, list);
-
+            
             for(PosPtr temp : tempList){
                 if(isTileTheSame(checkTile, temp->getTile())){
                     itExists = true;
                 }
                 if(!doTilesMatchColour(checkTile, temp->getTile())
-                && !doTilesMatchShape(checkTile, temp->getTile())){
+                   && !doTilesMatchShape(checkTile, temp->getTile())){
                     itExists = true;
                 }
             }
@@ -180,7 +180,7 @@ bool GameMechanics::doesTileExistInLine(Tile checkTile, PosPtr newPos, PosVec li
         response = true;
     }
     return response;
-    }
+}
 //Get the total amount of tiles in a legal laid down row
 PosVec GameMechanics::getTilesInRow(PosPtr newPos, PosPtr checkPos, PosVec list){
     PosVec tempList;
@@ -188,7 +188,7 @@ PosVec GameMechanics::getTilesInRow(PosPtr newPos, PosPtr checkPos, PosVec list)
     int x = checkPos->getX() - newPos->getX();
     int y = checkPos->getY() - newPos->getY();
     tempList.push_back(checkPos);
-
+    
     bool searchExhausted = false;
     do {
         searchExhausted = true;
@@ -210,14 +210,14 @@ bool GameMechanics::canTileBePlaced(Tile newTile, PosPtr newPos, PosVec list){
     //posDif assists checking all
     for(PosPtr pos : list){
         if(areTilesNeighbours(newPos, pos)
-            && ( doTilesMatchColour(newTile, pos->getTile())
-            ||   doTilesMatchShape(newTile, pos->getTile()) )){
+           && ( doTilesMatchColour(newTile, pos->getTile())
+               ||   doTilesMatchShape(newTile, pos->getTile()) )){
             response = true;
         }
         //This variation checks that a tile can not be placed next to a tile of exact-type
         if(areTilesNeighbours(newPos, pos)
            && doTilesMatchColour(newTile, pos->getTile())
-            && doTilesMatchShape(newTile, pos->getTile()) ){
+           && doTilesMatchShape(newTile, pos->getTile()) ){
             sameNeighbour = true;
         }
     }
@@ -229,16 +229,16 @@ bool GameMechanics::canTileBePlaced(Tile newTile, PosPtr newPos, PosVec list){
 int GameMechanics::numberOfQwirkles(Tile newTile, PosPtr newPos, PosVec list){
     int count = 0;
     bool canBePlaced = false;
-
+    
     if(checkPosition(newTile, newPos, list)) {
         canBePlaced = true;
     }
     for(PosPtr checkPos : list){
         if(areTilesNeighbours(newPos, checkPos)
            && !isTileTheSame(newTile, checkPos->getTile()) ) {
-
+            
             PosVec tempList = getTilesInRow(newPos, checkPos, list);
-
+            
             if (canBePlaced && tempList.size() == QWIRKLE-1) {
                 count++;
             }

@@ -13,7 +13,7 @@ using std::string;
 
 class LinkedList {
 public:
-
+    
     LinkedList();
     ~LinkedList();
     
@@ -29,7 +29,7 @@ public:
     
     void clear();
     string toString();
-
+    
 private:
     Node* head;
     Node* tail;
