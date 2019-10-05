@@ -42,13 +42,13 @@ bool Validator::validateNumPlayers(string userInput) {
     return valid;
 }
 
-bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* board) {
+bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* board, int numPlayers) {
     
     std::istringstream oss(userInput);
     string arg = "";
     
     //Validate action
-    vector<string> validActions = {"place","replace","save","quit", "help", "hint"};
+    vector<string> validActions = {"place","replace","save","quit", "help", "hint", "forfeit"};
     oss >> arg;
     
     if(arg == "place") {
@@ -79,7 +79,10 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
         
     } else if (arg == "hint") {
         
-    } else {
+    } else if (arg == "forfeit") {
+        validateForfeit(numPlayers);
+        
+    }else {
         throw CustomException("Invalid Command.");
     }
     
@@ -124,5 +127,13 @@ bool Validator::validateSave(string filename) {
         }
     }
     
+    return true;
+}
+
+bool Validator::validateForfeit(int numPlayers) {
+    
+    if(numPlayers <= 1) {
+        throw CustomException("You cannot forfeit. You are the only remaining player. Try 'quit'.");
+    }
     return true;
 }

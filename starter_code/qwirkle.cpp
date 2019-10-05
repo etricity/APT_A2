@@ -253,7 +253,7 @@ void gamePlay() {
            do {
                try {
                    promptUserInput_WholeLine();
-                   valid = validator.validateCommand(userInput, currentPlayer, board);
+                   valid = validator.validateCommand(userInput, currentPlayer, board, players.size());
                    
                    
                    //1. Places a tile on the board
@@ -335,6 +335,10 @@ void gamePlay() {
                        PosPtr hint = gameMechanics.getHint(currentPlayer->getHand(), boardPositions);
                        char row = 'A' + hint->getY();
                        cout << "Try placing a tile at: " << row << hint->getX() << endl;
+                       i--;
+                   } else if (action == "forfeit") {
+                       players.erase(std::remove(players.begin(), players.end(), currentPlayer), players.end());
+                       cout << "Player removed" << endl;
                        i--;
                    }
                } catch(CustomException e) {
