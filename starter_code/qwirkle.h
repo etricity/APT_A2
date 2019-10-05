@@ -40,6 +40,8 @@ using std::vector;
     void quit();
     void clear();
     bool checkEndGameConditions();
+    void displayEndGameInfo();
+    Player* calculateWinner();
     int alphToNum(char letter);
 
     void loadPlayers(FileIO* myFile);

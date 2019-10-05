@@ -142,7 +142,6 @@ void loadGame()
         myFile->closeFile();
         cout << "Game Succesfully Loaded" << endl << endl;
         cin.ignore(1);
-        cout << bag->toString() << endl;
     }
     else
     {
@@ -248,7 +247,7 @@ void gamePlay() {
            do {
                try {
                    promptUserInput_WholeLine();
-                   valid = validator.validateCommand(userInput, currentPlayer, board, players.size());
+                   valid = validator.validateCommand(userInput, currentPlayer, board, players.size(), bag);
                    
                    
                    //1. Places a tile on the board
@@ -302,8 +301,11 @@ void gamePlay() {
                        }
                        currentPlayer->getHand()->remove(tileString[0], tileString[1] - '0');
                        //Adds head of bag to back of hand
-                       currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
-                       bag->remove_front();
+                       
+                       if(bag->size() > 0) {
+                           currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
+                           bag->remove_front();
+                       }
                        
                    } else if (action == "replace") {
                        
@@ -351,9 +353,9 @@ void gamePlay() {
         currentPlayer = players[0];
         
         endGame = checkEndGameConditions();
-        
     }
     
+    displayEndGameInfo();
     
 }
 
@@ -427,6 +429,33 @@ void showCommands() {
     << "3. save <filename>" << endl
     << "4. quit" << endl
     << "5. help" << endl << endl;
+}
+
+void displayEndGameInfo() {
+    
+    cout << endl << "Game over" << endl;
+    
+    for(Player* p : players) {
+        cout << "Score for " << p->getName() << ": " << p->getScore() << endl;
+    }
+    
+    cout << calculateWinner()->getName() << " won!" << endl;
+    quit();
+    
+}
+
+Player* calculateWinner() {
+    
+    Player* playerWithHighScore = players[0];
+    
+    for(int i = 1; i < players.size(); i++) {
+        if(players[i]->getScore() > playerWithHighScore->getScore()) {
+            playerWithHighScore = players[i];
+        }
+    }
+    
+    return playerWithHighScore;
+    
 }
 
 void quit() {

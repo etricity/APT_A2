@@ -17,7 +17,7 @@ public:
     void validToFalse();
     bool validateMenuInput(string userInput);
     bool validateNumPlayers(string userInput);
-    bool validateCommand(string userInput, Player* currentPlayer, Board* board, int numPlayers);
+    bool validateCommand(string userInput, Player* currentPlayer, Board* board, int numPlayers, LinkedList* bag);
     bool validateHandTile(string tileString, Player* currentPlayer);
     bool validationPosition(string positionString, Board* board);
     bool validateSave(string userInput);

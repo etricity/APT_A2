@@ -42,7 +42,7 @@ bool Validator::validateNumPlayers(string userInput) {
     return valid;
 }
 
-bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* board, int numPlayers) {
+bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* board, int numPlayers, LinkedList* bag) {
     
     std::istringstream oss(userInput);
     string arg = "";
@@ -67,6 +67,10 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
     } else if(arg == "replace") {
         oss >> arg;
         validateHandTile(arg, currentPlayer);
+        
+        if(bag->size() < 1) {
+            throw CustomException("There are no tiles left in the bag");
+        }
         
     } else if(arg == "save") {
         arg = "";
