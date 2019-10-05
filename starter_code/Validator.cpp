@@ -42,13 +42,10 @@ bool Validator::validateNumPlayers(string userInput) {
     return valid;
 }
 
-bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* board, int numPlayers, LinkedList* bag) {
+bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* board, vector<Player*> players, LinkedList* bag, vector<PosPtr> boardPositions) {
     
     std::istringstream oss(userInput);
     string arg = "";
-    
-    /* add 'hint' if fixed by due date */
-
     oss >> arg;
     
     if(arg == "place") {
@@ -79,10 +76,16 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
         
     } else if(arg == "quit") {
         
-    } else if(arg == "help"){
+    } else if(arg == "hint") {
+        
+        if(boardPositions.size() <= 1){
+            throw CustomException("You must have more than one tile placed to enable hints");
+        }
+        
+    }else if(arg == "help"){
         
     } else if (arg == "forfeit") {
-        validateForfeit(numPlayers);
+        validateForfeit(players);
         
     }else {
         throw CustomException("Invalid Command.");
@@ -132,9 +135,9 @@ bool Validator::validateSave(string filename) {
     return true;
 }
 
-bool Validator::validateForfeit(int numPlayers) {
+bool Validator::validateForfeit(vector<Player*> players) {
     
-    if(numPlayers <= 1) {
+    if(players.size() <= 1) {
         throw CustomException("You cannot forfeit. You are the only remaining player. Try 'quit'.");
     }
     return true;

@@ -57,9 +57,6 @@ int GameMechanics::getPoints(Tile newTile, PosPtr newPos, PosVec list){
 }
 
 PosPtr GameMechanics::getHint(LinkedList* playerBag, PosVec board) {
-    if(board.size() <= 1){
-        throw CustomException("You must have more than one tile placed to enable hints");
-    }
     PosPtr bestPosition = nullptr;
     PosPtr checkPos = nullptr;
     //Points of current bestPosition

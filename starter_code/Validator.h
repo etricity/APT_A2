@@ -6,6 +6,7 @@
 #include <sstream>
 #include "Player.h"
 #include "Board.h"
+#include "GameMechanics.h"
 
 #include <stdio.h>
 #include <ctype.h>
@@ -17,11 +18,11 @@ public:
     void validToFalse();
     bool validateMenuInput(string userInput);
     bool validateNumPlayers(string userInput);
-    bool validateCommand(string userInput, Player* currentPlayer, Board* board, int numPlayers, LinkedList* bag);
+    bool validateCommand(string userInput, Player* currentPlayer, Board* board, vector<Player*> players, LinkedList* bag, vector<PosPtr> boardPositions);
     bool validateHandTile(string tileString, Player* currentPlayer);
     bool validationPosition(string positionString, Board* board);
     bool validateSave(string userInput);
-    bool validateForfeit(int numPlayers);
+    bool validateForfeit(vector<Player*> players);
     
     bool valid;
 };

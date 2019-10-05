@@ -247,7 +247,7 @@ void gamePlay() {
            do {
                try {
                    promptUserInput_WholeLine();
-                   valid = validator.validateCommand(userInput, currentPlayer, board, players.size(), bag);
+                   valid = validator.validateCommand(userInput, currentPlayer, board, players, bag, boardPositions);
                    
                    
                    //1. Places a tile on the board
@@ -328,7 +328,6 @@ void gamePlay() {
                        i--;
                    } else if (action == "quit") {
                        quit();
-                       //UPDATE VALIDATOR TO ALLOW FOR HINTS IF IS FIXED BEFORE DUE DATE
                    } else if (action == "hint") {
                        PosPtr hint = gameMechanics.getHint(currentPlayer->getHand(), boardPositions);
                        char row = 'A' + hint->getY();
