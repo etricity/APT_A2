@@ -16,6 +16,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 
 #define EXIT_SUCCESS    0
