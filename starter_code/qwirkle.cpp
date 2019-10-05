@@ -338,7 +338,7 @@ void gamePlay() {
                        i--;
                    } else if (action == "forfeit") {
                        players.erase(std::remove(players.begin(), players.end(), currentPlayer), players.end());
-                       cout << "Player removed" << endl;
+                       cout << currentPlayer->getName() << " removed from play." << endl;
                        i--;
                    }
                } catch(CustomException e) {
