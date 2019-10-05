@@ -9,11 +9,12 @@ typedef int Shape;
 
 class Tile {
 public:
-   Tile(Colour colour, Shape shape);
-   Tile(const Tile& tile);
+    Tile(Colour colour, Shape shape);
+    Tile(const Tile& tile);
+    ~Tile();
 
-   Colour getColour();
-   Shape getShape();
+    Colour getColour();
+    Shape getShape();
 
 private:
     Colour colour;

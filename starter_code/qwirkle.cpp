@@ -6,9 +6,9 @@ int main(void) {
        cout << endl<< "Welcome to Qwirkle!" << endl;
               cout << "-------------------" << endl;
 
+//board and bag must be initlised here to be used if loadGame() is called
        //Generate board
        board = new Board(26,26);
-
        //Instantiate bag
        bag = new LinkedList();
     
@@ -20,6 +20,7 @@ int main(void) {
             
             if(userInput == "1") {
                 newGame();
+                gamePlay();
             } else if(userInput == "2") {
                 loadGame();
                 gamePlay();
@@ -103,6 +104,8 @@ void newGame() {
     cout << "Let's Play" << endl;
     
 //Create new qwirkle game
+    //prevents memmory leak if loadGame was NOT called
+    delete bag;
     //Create bag
     bag = generateBag();
     
@@ -115,10 +118,6 @@ void newGame() {
         }
     }
     
-    //Generate board
-    board = new Board(26,26);
-    gamePlay();
-
 }
 
 void saveGame()
@@ -143,6 +142,7 @@ void loadGame()
         myFile->closeFile();
         cout << "Game Succesfully Loaded" << endl << endl;
         cin.ignore(1);
+        cout << bag->toString() << endl;
     }
     else
     {
@@ -209,11 +209,6 @@ LinkedList* generateBag() {
         newNode = new Node(tilesInBag.at(i), nullptr);
         bag->add_back(newNode);
     }
-    //Clean-up
-    newTile = nullptr;
-    newNode = nullptr;
-    delete newTile;
-    delete newNode;
     
     return bag;
 }
@@ -331,6 +326,7 @@ void gamePlay() {
                        i--;
                    } else if (action == "quit") {
                        quit();
+                       //UPDATE VALIDATOR TO ALLOW FOR HINTS IF IS FIXED BEFORE DUE DATE
                    } else if (action == "hint") {
                        PosPtr hint = gameMechanics.getHint(currentPlayer->getHand(), boardPositions);
                        char row = 'A' + hint->getY();
@@ -339,6 +335,7 @@ void gamePlay() {
                    } else if (action == "forfeit") {
                        players.erase(std::remove(players.begin(), players.end(), currentPlayer), players.end());
                        cout << currentPlayer->getName() << " removed from play." << endl;
+                       delete currentPlayer;
                        i--;
                    }
                } catch(CustomException e) {
@@ -440,9 +437,14 @@ void quit() {
 
 //Clean up all memmory
 void clear() {
-    //Clear bag
-    //Clear player hands
-    //Clear BoardPositions
-    //Clear Players
+    delete bag;
+    delete board;
     
+    for(Player* p: players) {
+        delete p;
+    }
+    
+    for(PosPtr bp: boardPositions) {
+        delete bp;
+    }
 }

@@ -28,7 +28,6 @@ public:
     bool contains(char colour, int shape);
     
     void clear();
-    //testing only
     string toString();
 
 private:
