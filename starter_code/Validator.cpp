@@ -77,10 +77,12 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
             throw CustomException("You must have more than one tile placed to enable hints");
         }
         
-    }else if(arg == "help"){
+    } else if(arg == "help"){
         
     } else if (arg == "forfeit") {
         validateForfeit(players);
+        
+    } else if (arg == "pass") {
         
     }else {
         throw CustomException("Invalid Command.");

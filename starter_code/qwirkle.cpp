@@ -335,6 +335,8 @@ void gamePlay() {
                         cout << currentPlayer->getName() << " removed from play." << endl;
                         delete currentPlayer;
                         i--;
+                    } else if (action == "pass") {
+                        cout << currentPlayer->getName() << " passed turn." << endl;
                     }
                 } catch(CustomException e) {
                     cout << e.getMessage() << endl;
@@ -422,9 +424,10 @@ void showCommands() {
     cout << "Player Actions:" << endl
     << "1. place <tile> at <position>" << endl
     << "2. replace <tile>" << endl
-    << "3. save <filename>" << endl
-    << "4. quit" << endl
-    << "5. help" << endl << endl;
+    << "3. pass" << endl
+    << "4. save <filename>" << endl
+    << "5. quit" << endl
+    << "6. help" << endl << endl;
 }
 
 void displayEndGameInfo() {
