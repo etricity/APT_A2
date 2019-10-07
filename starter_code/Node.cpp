@@ -9,7 +9,7 @@ Node::Node(Tile* tile, Node* next)
 
 Node::Node(Node& other)
 {
-    this->tile = other.tile;
+    this->tile = new Tile(*other.tile);
     this->next = nullptr;
 }
 

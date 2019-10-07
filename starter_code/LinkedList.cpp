@@ -33,9 +33,11 @@ void LinkedList::add_back(Node* node){
 
 //Removes the head from the list
 void LinkedList::remove_front(){
-    
-    if(head->next != nullptr) {
-        head = head->next;
+
+    Node* next = head->next;
+    delete head;
+    if(next != nullptr) {
+        head = next;
         //List is now empty
     } else {
         head = nullptr;
@@ -134,10 +136,13 @@ string LinkedList::toString(){
 void LinkedList::clear(){
     Node* current = head;
     Node* next = nullptr;
-    
+    int i = 0;
     while(current != nullptr) {
         next = current->next;
         delete current;
         current = next;
+        i++;
+        
     }
+    cout << i << endl;
 }
