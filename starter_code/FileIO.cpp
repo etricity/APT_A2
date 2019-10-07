@@ -74,6 +74,7 @@ void FileIO::saveCurrentPlayer(Player* current)
     outputFile<<current->getName();
 }
 
+
 Player* FileIO::load(std::vector<Player *> & players, Board* board, PosVec & boardPositions, LinkedList* bag, Player* current)
 {
 	loadPlayers(players);
@@ -81,6 +82,7 @@ Player* FileIO::load(std::vector<Player *> & players, Board* board, PosVec & boa
 	loadBag(bag);
 	return loadCurrentPlayer(players, current);
 }	
+
 
 void FileIO::loadPlayers(std::vector<Player *> & players)
 {

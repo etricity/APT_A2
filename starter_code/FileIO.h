@@ -25,6 +25,7 @@ public:
     void saveBoard(Board* board);
     void saveBag(LinkedList* bag);
     void saveCurrentPlayer(Player* current);
+
     Player* load(std::vector<Player *> & players, Board* board, PosVec & boardPositions, LinkedList* bag, Player* current);
     void loadPlayers(std::vector<Player *> & players);
     void loadBoard(Board* board, PosVec & boardPositions);

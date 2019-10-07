@@ -49,6 +49,7 @@ void promptUserInput() {
     }
 }
 
+
 void promptUserInput_WholeLine() {
     cout << "> ";
     std::getline(cin, userInput);
@@ -134,6 +135,7 @@ void loadGame()
         cout << "Loading Game...." << endl;
         currentPlayer = myFile.load(players, board, boardPositions, bag, currentPlayer);
         myFile.closeFile();
+
         cout << "Game Succesfully Loaded" << endl << endl;
         cin.ignore(1);
     }
