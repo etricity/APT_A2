@@ -312,7 +312,9 @@ void gamePlay() {
                         int shape = std::stoi(tileString.substr(1,1));
                         
                         //Puts tile from Player hand to bag
-                        bag->add_back(new Node(*currentPlayer->getHand()->remove(colour, shape)));
+                        Node* nodeToReplace = currentPlayer->getHand()->remove(colour, shape);
+                        bag->add_back(new Node(*nodeToReplace));
+                        delete nodeToReplace;
                         //Adds head of bag to back of hand
                         currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
                         bag->remove_front();
