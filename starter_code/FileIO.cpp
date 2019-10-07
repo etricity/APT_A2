@@ -75,6 +75,15 @@ void FileIO::saveCurrentPlayer(Player* current)
 }
 
 
+Player* FileIO::load(std::vector<Player *> & players, Board* board, PosVec & boardPositions, LinkedList* bag, Player* current)
+{
+	loadPlayers(players);
+	loadBoard(board, boardPositions);
+	loadBag(bag);
+	return loadCurrentPlayer(players, current);
+}	
+
+
 void FileIO::loadPlayers(std::vector<Player *> & players)
 {
     cout << "Loading Players..." << endl;
