@@ -144,6 +144,7 @@ void loadGame()
     {
         throw CustomException("Sorry file does not exist.");
     }
+    delete myFile;
 }
 
 void showInfo() {
@@ -189,8 +190,8 @@ LinkedList* generateBag() {
     }
     
     //Shuffling up the vector<Tile>
-    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::shuffle(tilesInBag.begin(), tilesInBag.end(), std::default_random_engine(seed));
+//    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
+//    std::shuffle(tilesInBag.begin(), tilesInBag.end(), std::default_random_engine(seed));
     
     //Creating the bag
     LinkedList* bag = new LinkedList();
@@ -312,9 +313,9 @@ void gamePlay() {
                         int shape = std::stoi(tileString.substr(1,1));
                         
                         //Puts tile from Player hand to bag
-                        Node* nodeToReplace = currentPlayer->getHand()->remove(colour, shape);
+                        Node* nodeToReplace = currentPlayer->getHand()->getNode(colour, shape);
                         bag->add_back(new Node(*nodeToReplace));
-                        delete nodeToReplace;
+                        currentPlayer->getHand()->remove(colour, shape);
                         //Adds head of bag to back of hand
                         currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
                         bag->remove_front();

@@ -75,6 +75,7 @@ Node* LinkedList::remove(char colour, int shape){
             } else {
                 previous->next = current->next;
             }
+            delete current;
             numNodes--;
         }
         
