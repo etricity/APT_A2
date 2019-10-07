@@ -1,7 +1,7 @@
+
 Welcome to Qwirkle!
 -------------------
 
-
 Menu
 ----
 1. New Game
@@ -9,10 +9,10 @@ Menu
 3. Show student infomation
 4. Quit
 
->2
+> 
 Please enter a filename
->loadTest
-Sorry the file does not exist
+> 
+Sorry file does not exist.
 
 Menu
 ----
@@ -21,5 +21,5 @@ Menu
 3. Show student infomation
 4. Quit
 
-> 4
+> 
 Goodbye!

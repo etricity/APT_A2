@@ -1,6 +1,6 @@
+
 Welcome to Qwirkle!
 -------------------
-
 
 Menu
 ----
@@ -9,7 +9,7 @@ Menu
 3. Show student infomation
 4. Quit
 
-> 3
+> 
 Showing student info....
 Name: Isaiah Cuzzupe
 Student ID: s3743803
@@ -35,5 +35,5 @@ Menu
 3. Show student infomation
 4. Quit
 
-> 4
+> 
 Goodbye!
