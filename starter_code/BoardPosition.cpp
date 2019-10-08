@@ -19,7 +19,7 @@ BoardPosition::~BoardPosition(){
     x = nullptr;
     y = nullptr;
 
-    tile = nullptr;
+    delete tile;
 }
 
 void BoardPosition::setTile(Tile* tile){
