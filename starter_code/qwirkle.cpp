@@ -414,9 +414,10 @@ void showCommands() {
     << "1. place <tile> at <position>" << endl
     << "2. replace <tile>" << endl
     << "3. pass" << endl
-    << "4. save <filename>" << endl
-    << "5. quit" << endl
-    << "6. help" << endl << endl;
+    << "4. hint" << endl
+    << "5. save <filename>" << endl
+    << "6. quit" << endl
+    << "7. help" << endl << endl;
 }
 
 void displayEndGameInfo() {
