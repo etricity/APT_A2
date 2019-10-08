@@ -329,7 +329,9 @@ void gamePlay() {
                     } else if (action == "hint") {
                         PosPtr hint = gameMechanics.getHint(currentPlayer->getHand(), boardPositions);
                         char row = 'A' + hint->getY();
-                        cout << "Try placing a tile at: " << row << hint->getX() << endl;
+                        char hColour = hint->getTile().getColour();
+                        int hShape  = hint->getTile().getShape();
+                        cout << "Try tile " << hColour << hShape << " at " << row << hint->getX() << endl;
                         i--;
                     } else if (action == "forfeit") {
                         players.erase(std::remove(players.begin(), players.end(), currentPlayer), players.end());
