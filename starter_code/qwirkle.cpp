@@ -143,8 +143,6 @@ void loadGame()
     {
         throw CustomException("Sorry file does not exist.");
     }
-    //file must be cleaned
-    delete myFile;
 }
 
 void showInfo() {
