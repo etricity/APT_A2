@@ -18,7 +18,7 @@ BoardPosition::~BoardPosition(){
     delete y;
     x = nullptr;
     y = nullptr;
-
+    
     delete tile;
 }
 

@@ -19,9 +19,6 @@ public:
     //constructor
     Board(int xSize, int ySize);
     
-    //destructor
-    //    ~Board();
-    
     //initialise board
     void initBoard();
     

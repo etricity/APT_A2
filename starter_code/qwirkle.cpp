@@ -74,9 +74,8 @@ void newGame() {
     currentPlayer = nullptr;
     cout << "Starting a New Game" << endl << endl;
     
-    
+    //Setting up number of players for the new game
     cout << "Enter the number of players (Max Players: 4)" << endl;
-    
     do {
         try {
             promptUserInput();
@@ -98,10 +97,9 @@ void newGame() {
         std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
         players.push_back(new Player(userInput));
     }
-    
     cout << "Let's Play" << endl;
+    //Sets up the bag & player hands for the game
     
-    //Create new qwirkle game
     //prevents memmory leak if loadGame was NOT called
     delete bag;
     //Create bag
@@ -166,6 +164,7 @@ void showInfo() {
     cout << "Email: s3747746@student.rmit.edu.au" << endl << endl;
 }
 
+//Generates a randomly ordered bag for a new game (randomization based on current time)
 LinkedList* generateBag() {
     
     //Valid colours & shapes for tiles
@@ -216,7 +215,7 @@ void gamePlay() {
         currentPlayer = players[0];
         beginningTurn = 0;
     } else {
-        //Always the gameplay to begin at the turn of the currentPlayer
+        //Always the gameplay to begin at the turn of the currentPlayer loaded in
         std::vector<Player*>::iterator it = std::find(players.begin(), players.end(), currentPlayer);
         beginningTurn = std::distance(players.begin(), it);
     }
@@ -239,8 +238,6 @@ void gamePlay() {
             cout << currentPlayer->getHand()->toString();
 
             //Player takes an action
-
-            //Getting userInput
             do {
                 try {
                     promptUserInput_WholeLine();
@@ -253,6 +250,7 @@ void gamePlay() {
                     string tileString = "";
                     oss >> action;
 
+                    //User places a valid tile to a valid position
                     if(action == "place") {
 
                         //Tile info to be placed (ie 'R6')
@@ -263,17 +261,17 @@ void gamePlay() {
                         string position = "";
                         oss >> position;
 
-
+                        //Getting tile & position infomation from user input
                         char colour = tileString[0];
                         int shape = std::stoi(tileString.substr(1,1));
 
                         int yPos = alphToNum(position[0]);
                         int xPos = std::stoi(position.substr(1));
 
-
                         PosPtr newBP = new BoardPosition(xPos,yPos);
                         Tile* tileFromHand = new Tile(*(currentPlayer->getHand()->getNode(colour, shape)->tile));
 
+                        //Position only needs to be checked once a tile has been placed on the board
                         if(boardPositions.size() > 0) {
                             if(gameMechanics.checkPosition(*tileFromHand, newBP, boardPositions)) {
 
@@ -295,6 +293,7 @@ void gamePlay() {
                                 throw CustomException("Invalid Tile placement.");
                             }
                         } else {
+                            //Placing the very first tile on the board
                             currentPlayer->addToScore(1);
                             newBP->setTile(tileFromHand);
                             boardPositions.push_back(newBP);
@@ -302,14 +301,15 @@ void gamePlay() {
 
                         }
 
+                        //Removes the placed tile from the player hand
                         currentPlayer->getHand()->remove(colour,shape);
-                        //Adds head of bag to back of hand
-
+                        //Adds head of bag to back of hand if there are tiles in the bag
                         if(bag->size() > 0) {
                             currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
                             bag->remove_front();
                         }
 
+                    //Player replaces a tile from their hand
                     } else if (action == "replace") {
 
                         //Tile info to be placed (ie 'R6')
@@ -325,14 +325,18 @@ void gamePlay() {
                         currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
                         bag->remove_front();
 
+                    //Saving game (does not take up player action)
                     } else if (action == "save") {
                         saveGame();
                         i--;
+                    //Print possible player actions (does not take up player action)
                     } else if(action == "help") {
                         showCommands();
                         i--;
+                    //Quits the game without saving
                     } else if (action == "quit") {
                         quit();
+                    //Prints the tile & position the player should use to get the most number of points (does not take up player action)
                     } else if (action == "hint") {
                         PosPtr hint = gameMechanics.getHint(currentPlayer->getHand(), boardPositions);
                         char row = 'A' + hint->getY();
@@ -340,18 +344,22 @@ void gamePlay() {
                         int hShape  = hint->getTile().getShape();
                         cout << "Try tile " << hColour << hShape << " at " << row << hint->getX() << endl;
                         i--;
+                    //Removes current player from the game
                     } else if (action == "forfeit") {
                         players.erase(std::remove(players.begin(), players.end(), currentPlayer), players.end());
                         cout << currentPlayer->getName() << " removed from play." << endl;
                         delete currentPlayer;
                         i--;
-                        
+                    
+                    //Skips the current players turn
                     } else if (action == "pass") {
                         cout << currentPlayer->getName() << " passed turn." << endl;
                     }
                 } catch(CustomException e) {
                     cout << e.getMessage() << endl;
                     valid = false;
+                //Additional more generalised catch statement to catch exceptions for invalid arguments inputed by the user
+                // Usually called when the player, for example, attempts "place R3 at ABC"
                 } catch(std::invalid_argument e) {
                     cout << "Invalid Board Position" << endl;
                     valid = false;
@@ -365,10 +373,11 @@ void gamePlay() {
             }
             
         }
-        //This must be done as begginningg turn may NOT be 0 IF a previous game has been loaded in
+        //This must be done as begginning turn may NOT be 0 IF a previous game has been loaded in
         beginningTurn = 0;
 
     }
+    //The gameplay loop has been exited
     displayEndGameInfo();
 }
 
@@ -392,13 +401,14 @@ bool checkEndGameConditions() {
     bool emptyPlayerHand = false;
     bool emptyBag = false;
     bool onePlayerRemaining = false;
-    
     bool endGame = false;
     
+    //checking for empty bag
     if(bag->size() == 0) {
         emptyBag = true;
     }
     
+    //checking if a player hand is empty
     int i = 0;
     while(i < players.size() && !emptyPlayerHand) {
         
@@ -409,10 +419,15 @@ bool checkEndGameConditions() {
         i++;
     }
     
+    //checking if only 1 player remains
     if(players.size() == 1) {
         onePlayerRemaining = true;
     }
     
+    /*
+     * Game will terminate when a player hand is empty & the bag is empty
+     * OR when a player forfeits leaving 1 player in the game
+    */
     if((emptyPlayerHand && emptyBag) || onePlayerRemaining) {
         endGame = true;
     }
@@ -447,6 +462,7 @@ void displayEndGameInfo() {
     
 }
 
+//determines the player with the most amount of points at the end of the game
 Player* calculateWinner() {
     
     Player* playerWithHighScore = players[0];
