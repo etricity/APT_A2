@@ -137,10 +137,13 @@ string LinkedList::toString(){
 void LinkedList::clear(){
     Node* current = head;
     Node* next = nullptr;
-    
+    int i = 0;
     while(current != nullptr) {
         next = current->next;
         delete current;
         current = next;
+        i++;
+
     }
+    cout << i << endl;
 }
