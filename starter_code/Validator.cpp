@@ -20,6 +20,7 @@ bool Validator::validateMenuInput(string userInput) {
 }
 
 bool Validator::validateNumPlayers(string userInput) {
+    valid = false;
     vector<string> validInputs = {"1","2","3","4"};
     
     int i = 0;

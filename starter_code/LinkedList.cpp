@@ -137,7 +137,6 @@ string LinkedList::toString(){
 void LinkedList::clear(){
     Node* current = head;
     Node* next = nullptr;
-    
     while(current != nullptr) {
         next = current->next;
         delete current;

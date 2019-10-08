@@ -54,6 +54,12 @@ void clear();
 //utility function to convert a character into its integer counterpart
 int alphToNum(char letter);
 
+//load functions
+void loadPlayers(FileIO* myFile);
+void loadBoard(FileIO* myFile);
+void loadBag(FileIO* myFile);
+void loadCurrentPlayer(FileIO* myFile);
+
 //Qwirkle Fields
 
 Validator validator;
