@@ -49,6 +49,7 @@ void promptUserInput() {
     }
 }
 
+
 void promptUserInput_WholeLine() {
     cout << "> ";
     std::getline(cin, userInput);
@@ -128,15 +129,13 @@ void loadGame()
 {
     cout<<"Please enter a filename"<<endl;
     promptUserInput();
-    FileIO *myFile = new FileIO(userInput, false);
-    if(myFile->checkFile())
+    FileIO myFile (userInput, false);
+    if(myFile.checkFile())
     {
         cout << "Loading Game...." << endl;
-        loadPlayers(myFile);
-        loadBoard(myFile);
-        loadBag(myFile);
-        loadCurrentPlayer(myFile);
-        myFile->closeFile();
+        currentPlayer = myFile.load(players, board, boardPositions, bag, currentPlayer);
+        myFile.closeFile();
+
         cout << "Game Succesfully Loaded" << endl << endl;
         cin.ignore(1);
     }
@@ -365,26 +364,6 @@ void gamePlay() {
 
     displayEndGameInfo();
 
-}
-
-void loadPlayers(FileIO* myFile)
-{
-    myFile->loadPlayers(players);
-}
-
-void loadBoard(FileIO* myFile)
-{
-    myFile->loadBoard(board, boardPositions);
-}
-
-void loadBag(FileIO* myFile)
-{
-    myFile->loadBag(bag);
-}
-
-void loadCurrentPlayer(FileIO* myFile)
-{
-    currentPlayer = myFile->loadCurrentPlayer(players, currentPlayer);
 }
 
 int alphToNum(char letter) {
