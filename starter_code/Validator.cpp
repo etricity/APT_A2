@@ -71,9 +71,9 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
         validateSave(arg);
         
     } else if(arg == "quit") {
-        
+        //no validation required (if statment validates the command)
     } else if(arg == "hint") {
-        
+        //no validation required (dont in qwirkle)
         if(boardPositions.size() <= 1){
             throw CustomException("You must have more than one tile placed to enable hints");
         }

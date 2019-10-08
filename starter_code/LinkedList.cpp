@@ -18,7 +18,7 @@ int LinkedList::size(){
 
 //Adds a node to the end of the list
 void LinkedList::add_back(Node* node){
-
+    
     if(head == nullptr)
     {
         head = node;
@@ -27,13 +27,12 @@ void LinkedList::add_back(Node* node){
         tail->next = node;
         tail = node;
     }
-    //FIX THIS --> tail->next must be nullptr
     numNodes++;
 }
 
 //Removes the head from the list
 void LinkedList::remove_front(){
-
+    
     Node* next = head->next;
     delete head;
     if(next != nullptr) {
@@ -50,23 +49,23 @@ void LinkedList::remove_front(){
  *   If duplicate nodes exist, will remove the first found node
  */
 Node* LinkedList::remove(char colour, int shape){
-
+    
     Node* current = head;
     Node* previous = nullptr;
-
+    
     //IF head is to be removed
     if(colour == current->tile->getColour() && shape == current->tile->getShape()){
         remove_front();
     } else {
-
+        
         while(current != nullptr && (colour != current->tile->getColour() || shape != current->tile->getShape())) {
             previous = current;
             current = current->next;
         }
-
+        
         //IF node is found
         if(current != nullptr) {
-
+            
             //IF node to remove is tail
             if(current == tail) {
                 previous->next = current->next;
@@ -78,9 +77,9 @@ Node* LinkedList::remove(char colour, int shape){
             delete current;
             numNodes--;
         }
-
+        
     }
-
+    
     return current;
 }
 
@@ -88,9 +87,10 @@ Node* LinkedList::getHead() {
     return head;
 }
 
+//Returns true if the list contains a node that holds a tile with the parameters passed
 bool LinkedList::contains(char colour, int shape) {
     bool found = false;
-
+    
     Node * temp = head;
     int i = 0;
     while(!found && i < size()) {
@@ -101,13 +101,14 @@ bool LinkedList::contains(char colour, int shape) {
         i++;
     }
     return found;
-
+    
 }
 
+//Returns a node in the list that contains a node that holds a tile with the parameters passed
 Node* LinkedList::getNode(char colour, int shape){
-
+    
     Node* current = head;
-    //Finds the first tile in hand that is to be removed
+    //Finds the first tile in hand that matches the paramaters
     while(colour != current->tile->getColour() || shape != current->tile->getShape()){
         current = current->next;
     }
@@ -115,14 +116,13 @@ Node* LinkedList::getNode(char colour, int shape){
 }
 
 
-//Test purposes only (delete for final submission)
 string LinkedList::toString(){
     std::ostringstream oss;
-
+    
     Node* temp = head;
     for(int i = 0; i < numNodes; i++){
         oss << temp->tile->getColour() << temp->tile->getShape();
-
+        
         if(temp->next != nullptr) {
             oss << ", ";
         }

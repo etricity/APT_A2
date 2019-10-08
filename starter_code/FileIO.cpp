@@ -34,6 +34,7 @@ void FileIO::closeFile()
     inputFile.close();
 }
 
+//Saves the current state of the game to a file (<filename>.save)
 string FileIO::save(std::vector<Player *> & players, Board* board, LinkedList* bag, Player* current)
 {
     savePlayers(players);
@@ -74,7 +75,7 @@ void FileIO::saveCurrentPlayer(Player* current)
     outputFile<<current->getName();
 }
 
-
+//Load the saved state of the game from a file (<filename>.save)
 Player* FileIO::load(std::vector<Player *> & players, Board* board, PosVec & boardPositions, LinkedList* bag, Player* current)
 {
     loadPlayers(players);

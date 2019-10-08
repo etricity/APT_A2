@@ -18,6 +18,5 @@ Node::~Node() {
 }
 
 void Node::clear() {
-    //Do not delete next --> next is a pointer to another node. It will be deleted when the list is deleted.
     delete tile;
 }
