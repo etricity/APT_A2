@@ -214,15 +214,15 @@ void gamePlay() {
     if(currentPlayer == nullptr) {
         currentPlayer = players[0];
     }
-    
+
     bool endGame = false;
     while(!endGame) {
-        
-        
+
+
         //Always the gameplay to begin at the turn of the currentPlayer
         std::vector<Player*>::iterator it = std::find(players.begin(), players.end(), currentPlayer);
         int beginningTurn = std::distance(players.begin(), it);
-        
+
         for(int i = beginningTurn; i < players.size(); i++) {
             currentPlayer = players[i];
             //Current player
@@ -236,24 +236,24 @@ void gamePlay() {
             //Current player's hand
             cout << "Your hand is..." << endl;
             cout << currentPlayer->getHand()->toString();
-            
+
             //Player takes an action
-            
+
             //Getting userInput
             do {
                 try {
                     promptUserInput_WholeLine();
                     valid = validator.validateCommand(userInput, currentPlayer, board, players, bag, boardPositions);
-                    
-                    
+
+
                     //1. Places a tile on the board
                     std::istringstream oss(userInput);
                     string action = "";
                     string tileString = "";
                     oss >> action;
-                    
+
                     if(action == "place") {
-                        
+
                         //Tile info to be placed (ie 'R6')
                         oss >> tileString;
                         //ignores word "at"
@@ -261,31 +261,36 @@ void gamePlay() {
                         //Co-ordinates for tile to be added to board
                         string position = "";
                         oss >> position;
-                        
+
+
+                        char colour = tileString[0];
+                        int shape = std::stoi(tileString.substr(1,1));
+
                         int yPos = alphToNum(position[0]);
                         int xPos = std::stoi(position.substr(1));
-                        
-                        
+
+
                         PosPtr newBP = new BoardPosition(xPos,yPos);
-                        Tile* tileFromHand = currentPlayer->getHand()->getNode(tileString[0], tileString[1] - '0')->tile;
-                        
+                        Tile* tileFromHand = new Tile(*(currentPlayer->getHand()->getNode(colour, shape)->tile));
+
                         if(boardPositions.size() > 0) {
                             if(gameMechanics.checkPosition(*tileFromHand, newBP, boardPositions)) {
-                                
+
                                 //Checking for a qwirkle
                                 if(gameMechanics.isQwirkle(*tileFromHand, newBP, boardPositions)) {
                                     cout << endl << "QWIRKLE!!!" << endl;;
                                 }
-                                
-                                
+
                                 int points = gameMechanics.getPoints(*tileFromHand, newBP, boardPositions);
                                 currentPlayer->addToScore(points);
                                 newBP->setTile(tileFromHand);
                                 boardPositions.push_back(newBP);
                                 board->addTile(xPos, yPos, tileString);
-                                
-                                
+
+
                             } else {
+                                delete tileFromHand;
+                                delete newBP;
                                 throw CustomException("Invalid Tile placement.");
                             }
                         } else {
@@ -293,29 +298,32 @@ void gamePlay() {
                             newBP->setTile(tileFromHand);
                             boardPositions.push_back(newBP);
                             board->addTile(xPos, yPos, tileString);
-                            
+
                         }
-                        currentPlayer->getHand()->remove(tileString[0], tileString[1] - '0');
+
+                        currentPlayer->getHand()->remove(colour,shape);
                         //Adds head of bag to back of hand
-                        
+
                         if(bag->size() > 0) {
                             currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
                             bag->remove_front();
                         }
-                        
+
                     } else if (action == "replace") {
-                        
+
                         //Tile info to be placed (ie 'R6')
                         oss >> tileString;
                         char colour = tileString[0];
                         int shape = std::stoi(tileString.substr(1,1));
-                        
+
                         //Puts tile from Player hand to bag
-                        bag->add_back(new Node(*currentPlayer->getHand()->remove(colour, shape)));
+                        Node* nodeToReplace = currentPlayer->getHand()->getNode(colour, shape);
+                        bag->add_back(new Node(*nodeToReplace));
+                        currentPlayer->getHand()->remove(colour, shape);
                         //Adds head of bag to back of hand
                         currentPlayer->getHand()->add_back(new Node(*bag->getHead()));
                         bag->remove_front();
-                        
+
                     } else if (action == "save") {
                         saveGame();
                         i--;
@@ -346,14 +354,14 @@ void gamePlay() {
                 }
             } while(!valid);
         }
-        
+
         currentPlayer = players[0];
-        
+
         endGame = checkEndGameConditions();
     }
-    
+
     displayEndGameInfo();
-    
+
 }
 
 int alphToNum(char letter) {
