@@ -1,0 +1,7 @@
+2
+loadCase
+place O4 at E3
+place Y4 at F4
+place R4 at G5
+save saveTest
+quit
