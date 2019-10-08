@@ -210,18 +210,19 @@ LinkedList* generateBag() {
 
 //Loops which alternates through player turns until someone wins or gameplay is saved/quit
 void gamePlay() {
+    int beginningTurn;
     //If a currentPlayer has not been loaded in
     if(currentPlayer == nullptr) {
         currentPlayer = players[0];
-    }
-
-    bool endGame = false;
-    while(!endGame) {
-
-
+        beginningTurn = 0;
+    } else {
         //Always the gameplay to begin at the turn of the currentPlayer
         std::vector<Player*>::iterator it = std::find(players.begin(), players.end(), currentPlayer);
-        int beginningTurn = std::distance(players.begin(), it);
+        beginningTurn = std::distance(players.begin(), it);
+    }
+    
+    bool endGame = false;
+    while(!endGame) {
 
         for(int i = beginningTurn; i < players.size(); i++) {
             currentPlayer = players[i];
@@ -243,7 +244,7 @@ void gamePlay() {
             do {
                 try {
                     promptUserInput_WholeLine();
-                    valid = validator.validateCommand(userInput, currentPlayer, board, players, bag, boardPositions);
+                    valid = validator.validateCommand(userInput, currentPlayer, board, bag, boardPositions);
 
 
                     //1. Places a tile on the board
@@ -344,6 +345,7 @@ void gamePlay() {
                         cout << currentPlayer->getName() << " removed from play." << endl;
                         delete currentPlayer;
                         i--;
+                        
                     } else if (action == "pass") {
                         cout << currentPlayer->getName() << " passed turn." << endl;
                     }
@@ -355,15 +357,19 @@ void gamePlay() {
                     valid = false;
                 }
             } while(!valid);
+            
+            //Checks weather the game should end every player turn (Game will end immediately, NOT at end of round)
+            endGame = checkEndGameConditions();
+            if(endGame == true) {
+                i = players.size();
+            }
+            
         }
+        //This must be done as begginningg turn may NOT be 0 IF a previous game has been loaded in
+        beginningTurn = 0;
 
-        currentPlayer = players[0];
-
-        endGame = checkEndGameConditions();
     }
-
     displayEndGameInfo();
-
 }
 
 int alphToNum(char letter) {
@@ -385,6 +391,7 @@ bool checkEndGameConditions() {
     
     bool emptyPlayerHand = false;
     bool emptyBag = false;
+    bool onePlayerRemaining = false;
     
     bool endGame = false;
     
@@ -402,7 +409,11 @@ bool checkEndGameConditions() {
         i++;
     }
     
-    if(emptyPlayerHand && emptyBag) {
+    if(players.size() == 1) {
+        onePlayerRemaining = true;
+    }
+    
+    if((emptyPlayerHand && emptyBag) || onePlayerRemaining) {
         endGame = true;
     }
     return endGame;
@@ -429,6 +440,9 @@ void displayEndGameInfo() {
     }
     
     cout << calculateWinner()->getName() << " won!" << endl;
+    
+    cout << endl << board->toString() << endl;
+    
     quit();
     
 }

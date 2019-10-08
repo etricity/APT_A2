@@ -21,7 +21,7 @@ bool Validator::validateMenuInput(string userInput) {
 
 bool Validator::validateNumPlayers(string userInput) {
     valid = false;
-    vector<string> validInputs = {"1","2","3","4"};
+    vector<string> validInputs = {"2","3","4"};
     
     int i = 0;
     while(!valid && i != validInputs.size()) {
@@ -32,13 +32,13 @@ bool Validator::validateNumPlayers(string userInput) {
     }
     
     if(!valid) {
-        throw CustomException("You must have 1-4 players.");
+        throw CustomException("You must have 2-4 players.");
     }
     
     return true;
 }
 
-bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* board, vector<Player*> players, LinkedList* bag, vector<PosPtr> boardPositions) {
+bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* board, LinkedList* bag, vector<PosPtr> boardPositions) {
     
     std::istringstream oss(userInput);
     string arg = "";
@@ -81,7 +81,6 @@ bool Validator::validateCommand(string userInput, Player* currentPlayer, Board* 
     } else if(arg == "help"){
         
     } else if (arg == "forfeit") {
-        validateForfeit(players);
         
     } else if (arg == "pass") {
         
@@ -133,10 +132,3 @@ bool Validator::validateSave(string filename) {
     return true;
 }
 
-bool Validator::validateForfeit(vector<Player*> players) {
-    
-    if(players.size() <= 1) {
-        throw CustomException("You cannot forfeit. You are the only remaining player. Try 'quit'.");
-    }
-    return true;
-}

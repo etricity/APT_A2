@@ -22,11 +22,10 @@ public:
      Parameters are all objects neccessary to validate any command the user may attempt to use.
      Passing all parameters at once allows for less validation methods
      */
-    bool validateCommand(string userInput, Player* currentPlayer, Board* board, vector<Player*> players, LinkedList* bag, vector<PosPtr> boardPositions);
+    bool validateCommand(string userInput, Player* currentPlayer, Board* board, LinkedList* bag, vector<PosPtr> boardPositions);
     bool validateHandTile(string tileString, Player* currentPlayer);
     bool validationPosition(string positionString, Board* board);
     bool validateSave(string userInput);
-    bool validateForfeit(vector<Player*> players);
     
     bool valid;
 };
