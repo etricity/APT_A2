@@ -18,7 +18,7 @@ int LinkedList::size(){
 
 //Adds a node to the end of the list
 void LinkedList::add_back(Node* node){
-    
+
     if(head == nullptr)
     {
         head = node;
@@ -50,23 +50,23 @@ void LinkedList::remove_front(){
  *   If duplicate nodes exist, will remove the first found node
  */
 Node* LinkedList::remove(char colour, int shape){
-    
+
     Node* current = head;
     Node* previous = nullptr;
-    
+
     //IF head is to be removed
     if(colour == current->tile->getColour() && shape == current->tile->getShape()){
         remove_front();
     } else {
-        
+
         while(current != nullptr && (colour != current->tile->getColour() || shape != current->tile->getShape())) {
             previous = current;
             current = current->next;
         }
-        
+
         //IF node is found
         if(current != nullptr) {
-            
+
             //IF node to remove is tail
             if(current == tail) {
                 previous->next = current->next;
@@ -75,11 +75,12 @@ Node* LinkedList::remove(char colour, int shape){
             } else {
                 previous->next = current->next;
             }
+            delete current;
             numNodes--;
         }
-        
+
     }
-    
+
     return current;
 }
 
@@ -89,7 +90,7 @@ Node* LinkedList::getHead() {
 
 bool LinkedList::contains(char colour, int shape) {
     bool found = false;
-    
+
     Node * temp = head;
     int i = 0;
     while(!found && i < size()) {
@@ -100,11 +101,11 @@ bool LinkedList::contains(char colour, int shape) {
         i++;
     }
     return found;
-    
+
 }
 
 Node* LinkedList::getNode(char colour, int shape){
-    
+
     Node* current = head;
     //Finds the first tile in hand that is to be removed
     while(colour != current->tile->getColour() || shape != current->tile->getShape()){
@@ -117,11 +118,11 @@ Node* LinkedList::getNode(char colour, int shape){
 //Test purposes only (delete for final submission)
 string LinkedList::toString(){
     std::ostringstream oss;
-    
+
     Node* temp = head;
     for(int i = 0; i < numNodes; i++){
         oss << temp->tile->getColour() << temp->tile->getShape();
-        
+
         if(temp->next != nullptr) {
             oss << ", ";
         }
@@ -132,7 +133,7 @@ string LinkedList::toString(){
     return listString;
 }
 
-//Deallocated all memmory for all nodes in the list
+//Deallocated all memory for all nodes in the list
 void LinkedList::clear(){
     Node* current = head;
     Node* next = nullptr;
