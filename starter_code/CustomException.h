@@ -6,6 +6,10 @@
 #include <string>
 using std::string;
 
+/*
+ * Simple custom exception to allow custom error messages to be presented to the user
+ */
+
 class CustomException : public std::exception {
 public:
     CustomException(string message);

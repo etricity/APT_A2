@@ -16,11 +16,6 @@ Board::Board(int xSize, int ySize){
     initBoard();
 }
 
-//destructor
-//Board::~Board(){
-//
-//}
-
 //initialise the board
 void Board::initBoard(){
     
@@ -129,12 +124,6 @@ void Board:: readRow(string row){
     //find row's y coordinate by reading the first character
     int yCoordInt;
     string yCoordString(1, row.at(0));
-    //moved this code into yCoordToInt function to avoid duplication
-    //    for(int i = 0;i<alphabet.size();i++){
-    //        if(alphabet[i]==yCoordString){
-    //            yCoordInt = i;
-    //        }
-    //    }
     yCoordInt = yCoordToInt(yCoordString);
     
     
@@ -153,12 +142,6 @@ void Board:: readRow(string row){
 //check if a board position is empty ("   "), and can have a tile placed
 bool Board::isBoardPositionValid(char yCoord, int xCoord){
     string yCoordString(1, yCoord);
-    //moved this code into yCoordToInt function to avoid duplication
-    //    for(int i = 0;i<alphabet.size();i++){
-    //        if(alphabet[i]==yCoordString){
-    //            yCoordInt = i;
-    //        }
-    //    }
     int yCoordInt = yCoordToInt(yCoordString);
     if(board[yCoordInt+2][xCoord+1]=="   "){
         return true;
